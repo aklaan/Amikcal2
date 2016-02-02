@@ -1,0 +1,88 @@
+package com.rdupuis.gamingtools.animations;
+
+import com.rdupuis.gamingtools.components.AbstractGameObject;
+
+import android.os.SystemClock;
+
+public abstract class Animation implements Cloneable {
+
+    float startTime;
+    float endTime;
+    private float speed;
+
+    public static enum playingMode {
+        NONE, ONCE, REPEAT_N, LOOP
+    }
+
+    public static enum AnimationStatus {
+        PLAYING, STOPPED
+    }
+
+    private AbstractGameObject animatedGameObject;
+    private AnimationStatus status;
+
+
+    /****************************************************************
+     * getters / setters
+     *********************************************************/
+
+    public AbstractGameObject getAnimatedGameObject() {
+        return this.animatedGameObject;
+
+    }
+
+    public void setAnimatedGameObject(AbstractGameObject gameObject) {
+        this.animatedGameObject = gameObject;
+
+    }
+
+    public float getSpeed() {
+
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+
+        this.speed = speed;
+    }
+
+    public AnimationStatus getStatus() {
+        return this.status;
+
+    }
+
+    public void setStatus(AnimationStatus status) {
+        this.status = status;
+
+    }
+
+    //constructeur
+    public Animation(AbstractGameObject animatedGameObject) {
+        this.animatedGameObject = animatedGameObject;
+
+    }
+
+    public void start() {
+        if (this.status != AnimationStatus.PLAYING) {
+            startTime = SystemClock.elapsedRealtime();
+            this.status = AnimationStatus.PLAYING;
+        }
+    }
+
+    public void stop() {
+        this.status = AnimationStatus.STOPPED;
+        endTime = SystemClock.elapsedRealtime();
+    }
+
+    public void play() {
+
+    }
+
+
+    public Animation clone() throws CloneNotSupportedException {
+        return (Animation) super.clone();
+
+    }
+
+
+}

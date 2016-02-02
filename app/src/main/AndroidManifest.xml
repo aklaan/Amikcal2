@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rdupuis.amikcal2"
+    android:installLocation="auto"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="22" />
+
+    <uses-feature android:glEsVersion="0x00020000" >
+    </uses-feature>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_amikcal"
+        android:label="@string/app_name"
+      android:theme="@android:style/Theme.Holo.Light" >
+
+        <activity
+            android:name="MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="standard" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+ 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="Act_Main" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.commons.MultipleItemsActivityList" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.commons.numericpad.Act_NumericPad" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.commons.numericpad.Frag_NumericPad" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.commons.Act_Techinfo" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.commons.Act_Calendar" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.Act_UserActivityList" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.Act_UserActivity_Editor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.day.Act_Day" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.Act_UserActivity_Component_List" >
+        </activity>                                            
+        <activity android:name="com.rdupuis.amikcal2.components.food.Act_Component_Food_Editor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.Act_UserActivityComponentSlider">
+         </activity>
+        <activity android:name="com.rdupuis.amikcal2.unity.Act_UnitOfMeasureList" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.unity.Act_UnitOfMeasureEditor" >
+        </activity>
+        
+        
+        <activity android:name="com.rdupuis.amikcal2.energy.Act_Food_Editor" >
+        </activity>
+        
+        <activity android:name="com.rdupuis.amikcal2.energy.Act_EnergyList" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.energy.Act_Energy_Food_List" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.opengl.testOpenGl2es" >
+        </activity>
+
+        <provider
+            android:name="com.rdupuis.amikcal2.data.ContentProviderObj"
+            android:authorities="com.rdupuis.amikcal2.AmikcalContentProvider" >
+            <data android:mimeType="vnd.android.cursor.item/vnd.rdupuis.amikcal2.AmikcalContentProvider" />
+        </provider>
+
+        <activity android:name="com.rdupuis.amikcal2.useractivity.lunch.Act_UserActivity_Lunch_Component_List"></activity>
+        <activity android:name="com.rdupuis.amikcal2.equivalence.Act_EquivalenceEditor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.equivalence.Act_EquivalenceList" >
+        </activity>
+        <activity
+            android:name="com.rdupuis.amikcal2.commons.Generic_FragmentsTimeSlider"
+            android:theme="@style/MyTheme" >
+        </activity>
+        <activity
+            android:name="com.rdupuis.amikcal2.useractivity.UserActivities_FragmentsSlider"
+            android:theme="@style/MyTheme" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.lunch.Act_UserActivity_Lunch_Editor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.move.Act_UserActivity_Move_Editor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.weight.Act_UserActivity_Weight_Editor" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.useractivity.Act_UserActivity_ChooseNew" >
+        </activity>
+    </application>
+
+</manifest>

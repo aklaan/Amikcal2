@@ -1,0 +1,15 @@
+include ':app', ':GamingTools'
+
+//def apiLibDir = file('../GamingTools')
+//def rooProjectDescriptor = settings.rootProject
+//settings.createProjectDescriptor(rooProjectDescriptor,'android-api-lib',apiLibDir)
+//settings.include(':gamingtools',"C:\\Users\\rodol\\Documents\\GitHub\\GamingTools")
+
+
+println rootProject.name
+
+//include':android-api-lib'
+println settingsDir
+//project(':gamingTools').projectDir = new File(settingsDir,'../GamingTools')
+//println project(':gamingTools').path
+//project(':gamingTools').buildFileName= 'build.gradle'
