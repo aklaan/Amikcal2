@@ -62,19 +62,12 @@ public class ProgramShaderManager {
         this.gameObjectShaderList = gameObjectShaderList;
     }
 
-    public Scene getScene() {
-        return mScene;
-    }
-
-    public void setScene(Scene mScene) {
-        this.mScene = mScene;
-    }
 
     /***
      * Constructeur
      */
-    public ProgramShaderManager(Scene scene) {
-        this.setScene(scene);
+    public ProgramShaderManager() {
+
         this.mCurrentActiveShader = null;
         catalogShader = new HashMap<String, Integer>();
         shaderList = new ArrayList<ProgramShader>();
@@ -141,12 +134,11 @@ public class ProgramShaderManager {
     }
 
     /**
-     * effectuer le rendu de la liste des objets
-     *
-     * @param goList
+     * effectuer le rendu de la scene
      */
-    public void render(ArrayList<AbstractGameObject> goList) {
-        for (AbstractGameObject gameObject : goList) {
+    public void renderScene(Scene scene) {
+
+        for (AbstractGameObject gameObject : scene.getGOManager().GOList()) {
 
             //Dessiner les objets visibles
             if (gameObject.getVisibility()) {
@@ -164,14 +156,13 @@ public class ProgramShaderManager {
 
                     for (Shape shape : cgo.getShapeList()) {
 
-                        this.getCurrentActiveShader().draw(shape, this.getScene().getProjectionView());
+                        this.render(shape, scene.getProjectionView());
                     }
-
 
                 } else {
                     // on demande su shader de rendre l'objet
-                    Shape go = (Shape) gameObject;
-                    this.getCurrentActiveShader().draw(go, this.getScene().getProjectionView());
+                    Shape shape = (Shape) gameObject;
+                    this.render(shape, scene.getProjectionView());
                 }
 
 
@@ -179,5 +170,17 @@ public class ProgramShaderManager {
         }
     }
 
+
+    private void render(Shape shape, float[] projectionView) {
+
+        //Appel au shader de l'objet s'il en requiert un en particulier.
+        //sinon on utilise le shader par defaut.
+        if (this.getGameObjectShaderList().get(shape) != null) {
+            this.use(this.getGameObjectShaderList().get(shape));
+        } else this.use(this.getDefaultShader());
+
+        this.getCurrentActiveShader().draw(shape, projectionView);
+
+    }
 
 }

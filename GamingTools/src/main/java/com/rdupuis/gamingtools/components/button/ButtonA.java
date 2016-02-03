@@ -17,6 +17,7 @@ public class ButtonA extends CompositeShape implements Clikable {
         UP, DOWN
     }
 
+    private final String BTN__A_TAG = "BTN_A";
     private final int RECT_A_INDX = 0;
     private final int RECT_B_INDX = 1;
     public Texture textureUp;
@@ -40,10 +41,15 @@ public class ButtonA extends CompositeShape implements Clikable {
 
         //définition du premier rectangle : il s'agit du bouton sur lequel on appuie
         Rectangle2D rectangle2D_A = new Rectangle2D(DrawingMode.FILL);
-        rectangle2D_A.setWidth(10);
-        rectangle2D_A.setHeight(10);
-        rectangle2D_A.enableColision();
         rectangle2D_A.textureEnabled = true;
+     //   rectangle2D_A.setTexture(this.textureUp);
+
+        //il s'agit de la taille initiale. au final, elle va être propotionelle au
+        //CompositeShape.
+        rectangle2D_A.setWidth(.5f);
+        rectangle2D_A.setHeight(.5f);
+        rectangle2D_A.enableColision();
+        rectangle2D_A.setTagName(BTN__A_TAG + ":A");
 
         //Définition du second rectangle : dans ce rectangle on va afficher un cercle
         // qui va venir rétrécir au fur et à mesure que l'on laisse le doigt appuyé
@@ -51,10 +57,12 @@ public class ButtonA extends CompositeShape implements Clikable {
         Rectangle2D rectangle2D_B = new Rectangle2D(DrawingMode.FILL);
         rectangle2D_B.textureEnabled = true;
         rectangle2D_B.setTexture(this.textureBack);
-        rectangle2D_B.setWidth(20);
-        rectangle2D_B.setHeight(20);
         rectangle2D_B.setVisibility(false);
+        rectangle2D_B.setWidth(1);
+        rectangle2D_B.setHeight(1);
         rectangle2D_B.setAlpha(0);
+        rectangle2D_B.setTagName(BTN__A_TAG + ":B");
+        //on ajoute les 2 boutons dans la liste des composants.
         this.getShapeList().add(RECT_A_INDX, rectangle2D_A);
         this.getShapeList().add(RECT_B_INDX, rectangle2D_B);
 
@@ -163,8 +171,8 @@ public class ButtonA extends CompositeShape implements Clikable {
         rect_b.setVisibility(false);
         rect_b.setAlpha(0);
         //
-        rect_b.setHeight(this.getHeight() + 200);
-        rect_b.setWidth(this.getWidth() + 200);
+        rect_b.setHeight(this.getHeight() );
+        rect_b.setWidth(this.getWidth() );
 
 
     }

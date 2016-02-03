@@ -143,7 +143,7 @@ public class Scene implements GLSurfaceView.Renderer {
         this.mViewMode = VIEW_MODE.ORTHO;
 
         setTexManager(new TextureManager(activity));
-        setPSManager(new ProgramShaderManager(this));
+        setPSManager(new ProgramShaderManager());
         setAnimationManager(new AnimationManager());
         setGOManager(new GameObjectManager(this));
         setColliderManager(new ColliderManager());
@@ -333,8 +333,8 @@ public class Scene implements GLSurfaceView.Renderer {
 
 
         /**
-         * Rendu des objets à dessiner*/
-        this.getPSManager().render(this.getGOManager().GOList());
+         * Rendu de la scène*/
+        this.getPSManager().renderScene(this);
 
         /****************************************************************************
          * Pour une Animation fluide, 60 FPS sont sufisants

@@ -53,7 +53,6 @@ public class GameObject extends AbstractGameObject {
     public float getHeight() {
         return height;
     }
-
     public void setHeight(float height) {
         this.height = height;
     }
@@ -63,30 +62,28 @@ public class GameObject extends AbstractGameObject {
     }
 
     public void setWidth(float width) {
+
         this.width = width;
     }
 
+    public void setScene(Scene mScene) {
+        this.mScene = mScene;
+    }
     public Scene getScene() {
         return this.mScene;
     }
 
-    @Override
-    public void updateModelView() {
-
-    }
 
     public String getTagName() {
         return mTagName;
     }
-
-    public void setTagName(int tagid) {
-        mTagName = String.valueOf(tagid);
+    public void setTagName(String tagid) {
+        mTagName = tagid;
     }
 
     public Boolean getVisibility() {
         return mVisibility;
     }
-
     public void setVisibility(Boolean mVisibility) {
         this.mVisibility = mVisibility;
     }
@@ -115,10 +112,6 @@ public class GameObject extends AbstractGameObject {
         return this.getAmbiantColor().getAlpha();
     }
 
-    public void setTagName(String tagid) {
-        mTagName = tagid;
-    }
-
     public void setCoord(float x, float y) {
         this.X = x;
         this.Y = y;
@@ -135,38 +128,17 @@ public class GameObject extends AbstractGameObject {
         this.Z = z;
     }
 
-    public float getX() {
-        return X;
-    }
+    public float getX() { return X; }
+    public void setX(float x) { this.X = x; }
 
-    public void setX(float x) {
-        this.X = x;
-    }
-
+    public float getY() {return Y; }
     public void setY(float y) {
         this.Y = y;
     }
 
-    public void setZ(float z) {
-        this.Z = z;
-    }
 
-
-    /**
-     * @return
-     */
-    public float getY() {
-        return Y;
-
-    }
-
-    /**
-     * @return
-     */
-    public float getZ() {
-        return Z;
-
-    }
+    public void setZ(float z) { this.Z = z; }
+    public float getZ() {return Z; }
 
     /**
      * @return
@@ -185,9 +157,12 @@ public class GameObject extends AbstractGameObject {
 
     }
 
-    public void setScene(Scene mScene) {
-        this.mScene = mScene;
+
+    @Override
+    public void updateModelView() {
+
     }
+
 
     /**
      * Activer la gestion des colisions
@@ -225,7 +200,6 @@ public class GameObject extends AbstractGameObject {
     public Shape clone() throws CloneNotSupportedException {
         Shape gameobject = (Shape) super.clone();
 
-        gameobject.mCollideWithList = new ArrayList<Shape>();
         gameobject.mShapeToListenList = new ArrayList<Shape>();
 
 

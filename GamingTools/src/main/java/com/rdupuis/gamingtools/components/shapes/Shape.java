@@ -19,7 +19,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 
-public class Shape extends  GameObject implements Cloneable {
+public class Shape extends GameObject implements Cloneable {
 
     //Id du buffer Gl où se trouvent les coordonnees de vertex
     private int glVBoId;
@@ -46,15 +46,7 @@ public class Shape extends  GameObject implements Cloneable {
     }
 
 
-    //top pour activer/désactiver le rendu de l'objet
-    public Boolean mVisibility;
 
-    //scène auquel appartient l'objet
-    private Scene mScene;
-
-
-    //Couleur ambiante de l'objet R,G,B,A
-    private ColorRGBA ambiantColor = new ColorRGBA();
 
     // top permettant de savoir si l'objet est statique à l'écran ou s'il
     // a la possibilité d'être en mouvement. ceci va servir
@@ -64,20 +56,6 @@ public class Shape extends  GameObject implements Cloneable {
     //Top pour activer/désactiver la gestion des colissions
     public Boolean canCollide = false;
 
-    // coordonnées du centre de l'objet
-    public float X = 0;
-    public float Y = 0;
-    public float Z = 0;
-
-    //Taille de l'objet
-    private float width;
-
-
-    private float height;
-
-    // tableau des objets avec lesquel le gameobject rentre en collision
-    public ArrayList<Shape> mCollideWithList;
-
     //liste des objets à écouter
     public ArrayList<Shape> mShapeToListenList;
 
@@ -85,18 +63,14 @@ public class Shape extends  GameObject implements Cloneable {
 
     public int drawMode = GLES20.GL_TRIANGLES;
 
-    public float angleRADX = 0.0f;
-    public float angleRADY = 0.0f;
-    public float angleRADZ = 0.0f;
-
-    // public static final int FLOAT_SIZE = 4;
+        // public static final int FLOAT_SIZE = 4;
     // on indique qu'il faut 4 byte pour repésenter un float
     // 00000000 00000000 00000000 00000000
 
     //plutôt que de l'écrire en dur 4, on le calcul.
     //comme ça si jamais le système n'utilise pas 4 bytes on
     //reste bon.
-    public static final int FLOAT_SIZE = Float.SIZE / Byte.SIZE;
+   // public static final int FLOAT_SIZE = Float.SIZE / Byte.SIZE;
 
     // un byte n'est pas obligatoirement égal à 8 bit
     // cela dépend du matériel. en général il est très souvant egal à
@@ -105,7 +79,7 @@ public class Shape extends  GameObject implements Cloneable {
     // de parler en byte et non en octet pour être plus précis.
 
     //    public static final int SHORT_SIZE = 2;
-    public static final int SHORT_SIZE = Short.SIZE / Byte.SIZE;
+    //public static final int SHORT_SIZE = Short.SIZE / Byte.SIZE;
 
     // ici on indique qu'un short est codé sur 2 byte
     // soit généralement 2 octets
@@ -168,124 +142,11 @@ public class Shape extends  GameObject implements Cloneable {
         this.glVBiId = glVBiId;
     }
 
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public Scene getScene() {
-        return this.mScene;
-    }
-
-    public String getTagName() {
-        return mTagName;
-    }
-
-    public void setTagName(int tagid) {
-        mTagName = String.valueOf(tagid);
-    }
-
-    public Boolean getVisibility() {
-        return mVisibility;
-    }
-
-    public void setVisibility(Boolean mVisibility) {
-        this.mVisibility = mVisibility;
-    }
-
-    @Override
-    public ColorRGBA getAmbiantColor() {
-        return ambiantColor;
-    }
-
-    public float[] getRGBA() {
-        float[] result = new float[4];
-        result[0] = this.getAmbiantColor().getRed();
-        result[1] = this.getAmbiantColor().getGreen();
-        result[2] = this.getAmbiantColor().getBlue();
-        result[3] = this.getAmbiantColor().getAlpha();
-
-
-    return result;
-}
-
-
-    public void setAmbiantColor(ColorRGBA ambiantColor) {
-        this.ambiantColor = ambiantColor;
-    }
-
 
     /**
      * @param
      */
 
-    public float getAlpha() {
-        return this.getAmbiantColor().getAlpha();
-    }
-
-    public void setTagName(String tagid) {
-        mTagName = tagid;
-    }
-
-    public void setCoord(float x, float y) {
-        this.X = x;
-        this.Y = y;
-    }
-
-    /**
-     * @param x
-     * @param y
-     * @param z
-     */
-    public void setCoord(float x, float y, float z) {
-        this.X = x;
-        this.Y = y;
-        this.Z = z;
-    }
-
-    public float getX() {
-        return X;
-    }
-
-    public void setX(float x) {
-        this.X = x;
-    }
-
-    public void setY(float y) {
-        this.Y = y;
-    }
-
-    public void setZ(float z) {
-        this.Z = z;
-    }
-
-
-    /**
-     * @return
-     */
-    public float getY() {
-        return Y;
-
-    }
-
-    /**
-     * @return
-     */
-    public float getZ() {
-        return Z;
-
-    }
 
     /**
      * @return
@@ -299,13 +160,9 @@ public class Shape extends  GameObject implements Cloneable {
      *******************************************************************/
     public Shape() {
 
-        //Initalisation des Valeurs par défaut :
-        //l'Alpha ambiant est à 100%
-        this.setAlpha(1);
-
         //taille par défaut
-        this.width = 1;
-        this.height = 1;
+        this.setWidth(1);
+        this.setHeight(1);
 
         //pas de rendu des texture par défaut
         this.textureEnabled = false;
@@ -315,10 +172,6 @@ public class Shape extends  GameObject implements Cloneable {
 
         //visible par défaut
         setVisibility(true);
-
-
-        //TODO : cette liste doit être géré par le manager et non dans l'objet
-        this.mCollideWithList = new ArrayList<Shape>();
 
         this.mShapeToListenList = new ArrayList<Shape>();
 
@@ -338,9 +191,7 @@ public class Shape extends  GameObject implements Cloneable {
         this.mTexture = mTexture;
     }
 
-    public void setScene(Scene mScene) {
-        this.mScene = mScene;
-    }
+
 
 
     /**
@@ -703,17 +554,6 @@ public class Shape extends  GameObject implements Cloneable {
 
     }
 
-    /**
-     * Retourne la liste des objets avec lesquels le Shape est en colission
-     *
-     * @param gameobject
-     * @return
-     */
-    public boolean isCollideWith(Shape gameobject) {
-
-        return this.mCollideWithList.contains(gameobject);
-
-    }
 
     /**
      * @return
@@ -722,7 +562,7 @@ public class Shape extends  GameObject implements Cloneable {
     public Shape clone() throws CloneNotSupportedException {
         Shape gameobject = (Shape) super.clone();
 
-        gameobject.mCollideWithList = new ArrayList<Shape>();
+
         gameobject.mShapeToListenList = new ArrayList<Shape>();
 
 

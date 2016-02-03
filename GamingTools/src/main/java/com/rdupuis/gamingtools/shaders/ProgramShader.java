@@ -14,14 +14,14 @@ import android.util.Log;
 public class ProgramShader extends AbstractProgramShader {
 
     // déclaration des attributs génériques au shader
-    public final String VSH_ATTRIB_VERTEX_COORD = "aVertexPosition";
-    public final String VSH_ATTRIB_VERTEX_TEXTURE_COORD = "aVertexTexCoord";
-    public final String VSH_ATTRIB_VERTEX_COLOR = "aVertexColor";
+    public static final String VSH_ATTRIB_VERTEX_COORD = "aVertexPosition";
+    public static final String VSH_ATTRIB_VERTEX_TEXTURE_COORD = "aVertexTexCoord";
+    public static final String VSH_ATTRIB_VERTEX_COLOR = "aVertexColor";
 
     // déclaration des uniforms génériques au shaders
-    public final String VSH_UNIFORM_MVP = "uMvp";
-    public final String FSH_UNIFORM_TEXTURE = "uTex0";
-    public final String FSH_UNIFORM_AMBIANT_COLOR_RGBA = "uAmbiantColorRGBA";
+    public static final String VSH_UNIFORM_MVP = "uMvp";
+    public static final String FSH_UNIFORM_TEXTURE = "uTex0";
+    public static final String FSH_UNIFORM_AMBIANT_COLOR_RGBA = "uAmbiantColorRGBA";
 
 
     public String mName;
@@ -72,24 +72,24 @@ public class ProgramShader extends AbstractProgramShader {
     public void initLocations() {
         // on récupère l'index de la zone "coordonée de vertex dans le program Shader
         this.attrib_vertex_coord_location = GLES20.glGetAttribLocation(
-                mGLSLProgram_location, this.VSH_ATTRIB_VERTEX_COORD);
+                mGLSLProgram_location, ProgramShader.VSH_ATTRIB_VERTEX_COORD);
 
         this.attrib_vertex_color_location = GLES20.glGetAttribLocation(
-                mGLSLProgram_location, this.VSH_ATTRIB_VERTEX_COLOR);
+                mGLSLProgram_location, ProgramShader.VSH_ATTRIB_VERTEX_COLOR);
 
         this.attrib_vertex_texture_coord_location = GLES20.glGetAttribLocation(
-                this.mGLSLProgram_location, this.VSH_ATTRIB_VERTEX_TEXTURE_COORD);
+                this.mGLSLProgram_location, ProgramShader.VSH_ATTRIB_VERTEX_TEXTURE_COORD);
 
         // les Uniforms
 
         this.uniform_mvp_location = GLES20.glGetUniformLocation(
-                this.mGLSLProgram_location, this.VSH_UNIFORM_MVP);
+                this.mGLSLProgram_location, ProgramShader.VSH_UNIFORM_MVP);
 
         this.uniform_texture_location = GLES20.glGetUniformLocation(
-                this.mGLSLProgram_location, this.FSH_UNIFORM_TEXTURE);
+                this.mGLSLProgram_location, ProgramShader.FSH_UNIFORM_TEXTURE);
 
         this.uniform_ambiantColorRGBA_location = GLES20.glGetUniformLocation(
-                this.mGLSLProgram_location, this.FSH_UNIFORM_AMBIANT_COLOR_RGBA);
+                this.mGLSLProgram_location, ProgramShader.FSH_UNIFORM_AMBIANT_COLOR_RGBA);
     }
 
     @Override
@@ -331,7 +331,7 @@ public class ProgramShader extends AbstractProgramShader {
                 GLES20.GL_FLOAT, false, Vertex.stride * Vertex.FLOAT_SIZE, (Vertex.Vertex_COORD_SIZE + Vertex.Vertex_TEXT_SIZE) * Vertex.FLOAT_SIZE);
 
         //--------------------------------------------
-        this.enableAttribs();
+       this.enableAttribs();
 
         //Calcul de la matrice model-view-projection
         float[] mMvp = new float[16];

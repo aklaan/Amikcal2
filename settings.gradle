@@ -1,4 +1,4 @@
-include ':app', ':GamingTools'
+include ':amikcal', ':GamingTools'
 
 //def apiLibDir = file('../GamingTools')
 //def rooProjectDescriptor = settings.rootProject
