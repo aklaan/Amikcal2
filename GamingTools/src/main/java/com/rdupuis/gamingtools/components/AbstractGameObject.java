@@ -38,13 +38,16 @@ public abstract class AbstractGameObject {
     public abstract ColorRGBA getAmbiantColor();
     //public float getAngleRADZ();
 
-public abstract void setX(float x);
-public abstract float getX();
+    public abstract void setX(float x);
+
+    public abstract float getX();
 
     public abstract void setY(float y);
+
     public abstract float getY();
 
     public abstract void setZ(float z);
+
     public abstract float getZ();
 
 }

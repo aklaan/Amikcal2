@@ -18,14 +18,14 @@ public class ColliderManager {
 
     //Liste des objets en collision
     //cette liste est réévaluée à chaque Frame
-    private HashMap<Shape, Shape> mCollisionList;
+    private HashMap<Collider, Collider> mCollisionList;
 
     /**
      * Constructeur
      */
     public ColliderManager() {
         mCollisionBoxList = new ArrayList<CollisionBox>();
-        mCollisionList = new HashMap<Shape, Shape>();
+        mCollisionList = new HashMap<Collider, Collider>();
     }
 
     /**
@@ -39,36 +39,10 @@ public class ColliderManager {
         mCollisionBoxList.clear();
 
         //on crée une boite de collision pour chaque objet qui en necessitent une
-        for (AbstractGameObject gameObject : gom.GOList()) {
-
-            //TODO : pour le moment je ne traite que les objets "classiques"
-            if (Shape.class.isInstance(gameObject)) {
-
-                Shape go = (Shape) gameObject;
-                if (go.canCollide) {
-                    //gameObject, default Offset X, default Offset Y
-                    CollisionBox box = new CollisionBox(go);
-                    this.mCollisionBoxList.add(box);
-                }
-            }
-
-            //TODO:si je traite un objet composé
-            if (CompositeShape.class.isInstance(gameObject)) {
-
-                CompositeShape co = (CompositeShape) gameObject;
-
-                for (Shape shape : co.getShapeList()) {
-
-                    if (shape.canCollide) {
-                        //gameObject, default Offset X, default Offset Y
-                        CollisionBox box = new CollisionBox(shape);
-                        this.mCollisionBoxList.add(box);
-                    }
-                }
-
-            }
-
-
+        for (Collider collider : gom.getActiveColliderList()) {
+            //gameObject, default Offset X, default Offset Y
+            CollisionBox box = new CollisionBox(collider);
+            this.mCollisionBoxList.add(box);
         }
     }
 
@@ -94,13 +68,13 @@ public class ColliderManager {
         for (CollisionBox box1 : this.mCollisionBoxList) {
             //Si la Box existe mais que l'on ne souhaites plus tester les collisions
             //on ne traitera pas cet objet
-            if (box1.getShape().canCollide) {
+            if (box1.getCollider().getCollisionStatus()) {
                 for (CollisionBox box2 : this.mCollisionBoxList) {
-                    if (box2.getShape().canCollide) {
+                    if (box2.getCollider().getCollisionStatus()) {
                         //on évite que la boite se compare à elle-même
                         if (box1 != box2) {
                             if (SAT.isColide(box1, box2)) {
-                                this.mCollisionList.put(box1.getShape(), box2.getShape());
+                                this.mCollisionList.put(box1.getCollider(), box2.getCollider());
                             }
 
                         }

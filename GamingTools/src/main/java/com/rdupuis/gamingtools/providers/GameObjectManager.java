@@ -4,6 +4,8 @@ import android.opengl.GLES20;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.CompositeShape;
+import com.rdupuis.gamingtools.components.GameObject;
+import com.rdupuis.gamingtools.components.physics.Collider;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
@@ -21,9 +23,9 @@ import java.util.ArrayList;
 public class GameObjectManager {
 
     private Scene mScene;
-    private ArrayList<AbstractGameObject> mGameObjectList;
-    public int[] vbo;
-    public int[] vboi;
+    private ArrayList<GameObject> mGameObjectList;
+    public int[] vbo;  //tableau des localisation vertex buffer
+    public int[] vboi; //tableau des lovasisation d'index buffer
 
     /********************************************
      * GETTER & SETTER
@@ -42,14 +44,34 @@ public class GameObjectManager {
         this.setScene(scene);
 
         //initialisation d'une liste d'objets vide
-        this.mGameObjectList = new ArrayList<AbstractGameObject>();
+        this.mGameObjectList = new ArrayList<GameObject>();
     }
 
-    public ArrayList<AbstractGameObject> GOList() {
+    public ArrayList<GameObject> GOList() {
         return mGameObjectList;
     }
 
-    public void add(AbstractGameObject gameObject) {
+
+
+
+    public ArrayList<Collider> getActiveColliderList(){
+        ArrayList<Collider> colliderList = new ArrayList<Collider>();
+        for (GameObject gameObject:this.GOList()){
+            // si le gameObject est un collider
+
+            if (gameObject instanceof Collider){
+                //on fait un cast
+                Collider collider = (Collider) gameObject;
+            if (collider.getCollisionStatus() == true){
+                    colliderList.add(collider);
+                }
+            }
+        }
+    return colliderList;
+    }
+
+
+    public void add(GameObject gameObject) {
         this.mGameObjectList.add(gameObject);
     }
 

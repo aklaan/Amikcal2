@@ -25,7 +25,7 @@ public class CollisionBox {
     //qu'un ID car il est fort probable que JAVA utilise un pointeur vers l'objet
     //si on utilise un id, on va devoir faire un calcul pour retrouver l'objet dans
     // la liste
-    private Shape mShape;
+    private Collider mCollider;
     private ArrayList<Vertex> mInnerVertices;
     private Boolean visibility;
 
@@ -66,43 +66,43 @@ public class CollisionBox {
      */
 
 
-    public Shape getShape() {
-        return mShape;
+    public Collider getCollider() {
+        return mCollider;
     }
 
-    public void setShape(Shape shape) {
-        this.mShape = shape;
+    public void setCollider(Collider collider) {
+        this.mCollider = collider;
     }
 
     /**
      * Constructor 1 : avec offset
      */
-    public CollisionBox(Shape shape, float offsetX, float offsetY) {
-        this.commonInitialization(shape);
+    public CollisionBox(Collider collider, float offsetX, float offsetY) {
+        this.commonInitialization(collider);
         this.initInnerVertices(offsetX, offsetX);
     }
 
     /**
      * Contructor 2 : avec offset par defaut
      *
-     * @param shape
+     * @param collider
      */
-    public CollisionBox(Shape shape) {
+    public CollisionBox(Collider collider) {
         this.mInnerVertices = new ArrayList<Vertex>();
-        this.commonInitialization(shape);
+        this.commonInitialization(collider);
         this.initInnerVertices(defaultOffset, defaultOffset);
     }
 
 
     /**
-     * @param shape
+     * @param collider
      */
-    private void commonInitialization(Shape shape) {
+    private void commonInitialization(Collider collider) {
         //par défaut la box n'est pas visible
         this.setVisibility(false);
 
         //On mémorise la référence du shape "parent"
-        this.setShape(shape);
+        this.setCollider(collider);
 
     }
 
@@ -122,15 +122,15 @@ public class CollisionBox {
 
         // pour chaque vertex composant la forme, on va en déterminer les
         // limites pour fabriquer une boite de colision
-        for (int i = 0; i < this.getShape().getVertices().size(); i++) {
+        for (int i = 0; i < this.getCollider().getVertices().size(); i++) {
 
             // lecture du X
-            xread = this.getShape().getVertices().get(i).x;
+            xread = this.getCollider().getVertices().get(i).x;
             xmin = (xread < xmin) ? xread : xmin;
             xmax = (xread > xmax) ? xread : xmax;
 
             // lecture du Y
-            yread = this.getShape().getVertices().get(i).y;
+            yread = this.getCollider().getVertices().get(i).y;
             ymin = (yread < ymin) ? yread : ymin;
             ymax = (yread > ymax) ? yread : ymax;
 
@@ -160,7 +160,7 @@ public class CollisionBox {
 
         // on redéfinit les coordonées des vertices
         // pour avoir les coordonnées transformées
-        this.mWorldVertices = Tools.applyModelView(this.mInnerVertices, this.getShape().mModelView);
+        this.mWorldVertices = Tools.applyModelView(this.mInnerVertices, this.getCollider().getModelView());
 
 
     }

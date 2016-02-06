@@ -10,6 +10,7 @@ import com.rdupuis.gamingtools.components.ColorRGBA;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
+import com.rdupuis.gamingtools.components.physics.Collider;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 
@@ -19,7 +20,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 
-public class Shape extends GameObject implements Cloneable {
+public class Shape extends GameObject implements Cloneable, Collider {
 
     //Id du buffer Gl où se trouvent les coordonnees de vertex
     private int glVBoId;
@@ -142,6 +143,13 @@ public class Shape extends GameObject implements Cloneable {
         this.glVBiId = glVBiId;
     }
 
+    public float[] getModelView(){
+        return this.mModelView;
+    }
+
+    public boolean getCollisionStatus(){
+        return this.canCollide;
+    }
 
     /**
      * @param
@@ -216,7 +224,7 @@ public class Shape extends GameObject implements Cloneable {
      * @param index
      * @param vertex
      */
-    public void putUVIntoFbTextCoord(int index, Vertex vertex) {
+    public void putUVIntoFbTextCood(int index, Vertex vertex) {
         //on se place au debut du buffer
         mTextCoord.rewind();
         //on avance dans le buffer à l'endroit où on souhaite écrire
@@ -262,23 +270,9 @@ public class Shape extends GameObject implements Cloneable {
     }
 */
 
-    /**
-     * @return
-     */
-    public FloatBuffer getFbTextCood() {
-
-        for (int i = 0; i < this.getNbvertex(); i++) {
-            this.putUVIntoFbTextCoord(i, this.getVertices().get(i));
-        }
-
-        return mTextCoord;
-    }
 
 
-    // getter TextCoord
-    public FloatBuffer getTextCoord() {
-        return mTextCoord;
-    }
+
 
     // getter indices
     public ShortBuffer getIndices() {
@@ -624,5 +618,8 @@ public class Shape extends GameObject implements Cloneable {
         Matrix.scaleM(this.mModelView, 0, this.getWidth(), this.getHeight(), 0.f);
 
     }
+
+
+
 
 }

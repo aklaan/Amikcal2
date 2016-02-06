@@ -256,17 +256,6 @@ public class ProgramShader extends AbstractProgramShader {
     }
 
 
-    /**
-     * Pour dessiner les objets composé, il faut dessiner les objets le composant
-     * @param compositeShape
-     * @param projectionMatrix
-     */
-    public void draw(CompositeShape compositeShape, float[] projectionMatrix){
-
-        for (Shape shape: compositeShape.getShapeList()){
-            this.draw(shape, projectionMatrix);
-        }
-    }
 
 
 
@@ -342,7 +331,8 @@ public class ProgramShader extends AbstractProgramShader {
         GLES20.glUniformMatrix4fv(this.uniform_mvp_location, 1, false, mMvp, 0);
 
         //on alimente la donnée de couleur ambiante
-   //     GLES20.glUniformMatrix4fv(this.uniform_ambiantColorRGBA_location,1,false, shape.getRGBA(),0);
+        // la zone "compteur"  de la fonction est à 1 car on va lire seulement 1 groupe de 4 float
+        GLES20.glUniform4fv(this.uniform_ambiantColorRGBA_location, 1,shape.getAmbiantColor().getColorBuffer());
 
         //je me place sur le buffer des index
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, shape.getGlVBiId());

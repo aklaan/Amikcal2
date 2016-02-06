@@ -60,7 +60,6 @@ public class GameObject extends AbstractGameObject {
     public float getWidth() {
         return width;
     }
-
     public void setWidth(float width) {
 
         this.width = width;
@@ -146,6 +145,7 @@ public class GameObject extends AbstractGameObject {
     public ArrayList<Shape> getGameObjectToListenList() {
         return this.mShapeToListenList;
     }
+
 
     /********************************************************************
      * Constructeur

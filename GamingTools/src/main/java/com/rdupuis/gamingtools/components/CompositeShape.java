@@ -16,7 +16,7 @@ public class CompositeShape extends GameObject {
     @Override
     public void setX(float x) {
         //calcul du déplacement à éffectuer en X
-        float offsetX = x- this.getX();
+        float offsetX = x - this.getX();
         //on applique le même déplacement à tous les composants
         this.updateX(offsetX);
         //on mémorise la nouvelle valeur de X
@@ -25,7 +25,7 @@ public class CompositeShape extends GameObject {
 
     @Override
     public void setY(float y) {
-        float offsetY = y-this.getY();
+        float offsetY = y - this.getY();
         this.updateY(offsetY);
         super.setY(y);
     }
@@ -63,7 +63,7 @@ public class CompositeShape extends GameObject {
 
     @Override
     public void setWidth(float width) {
-        float ratio = width/this.getWidth() ;
+        float ratio = width / this.getWidth();
         //on applique le ratio a tous les enfants
         this.updateWidth(ratio);
         //on mémorise la nouvelle valeur
@@ -134,13 +134,21 @@ public class CompositeShape extends GameObject {
         }
     }
 
+    @Override
+    public void setScene(Scene scene) {
+        //TODO pur chaque objet on applique le ratio necessaire
+        for (Shape shape : this.getShapeList()) {
+            shape.setScene(scene);
+        }
+        super.setScene(scene);
+    }
+
 
     public void updateModelView() {
         for (Shape shape : this.getShapeList()) {
             shape.updateModelView();
         }
     }
-
 
 
     public void updateRGB(ColorRGBA color) {

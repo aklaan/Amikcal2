@@ -18,17 +18,17 @@ public class ProgramShader_simple extends ProgramShader {
                 + " #endif \n"
                 + " uniform sampler2D " + ProgramShader.FSH_UNIFORM_TEXTURE + ";"
 
-                //   + " uniform float " + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA + ";"
+                + " uniform vec4 " + ProgramShader.FSH_UNIFORM_AMBIANT_COLOR_RGBA + ";"
                 + " varying vec2 vTextureCoord; "
                 + " varying vec4 vVertexColor;"
                 + " void main() {"
 
                 //+ "gl_FragColor =  vec4(1.,0.,1.,1.0);"
 
-                     + "gl_FragColor = texture2D(" + FSH_UNIFORM_TEXTURE + ", vTextureCoord); "
+                     + "gl_FragColor = texture2D(" + ProgramShader.FSH_UNIFORM_TEXTURE + ", vTextureCoord) "
 
-                //       + " * " +this.FSH_UNIFORM_AMBIANT_COLOR_RGBA
-                //       + "* vVertexColor; "
+                       + " * " +this.FSH_UNIFORM_AMBIANT_COLOR_RGBA
+                       + " * vVertexColor; "
 
                 + "}";
 
@@ -52,7 +52,7 @@ public class ProgramShader_simple extends ProgramShader {
                 // ex: precision highp float;
 
                 "uniform mat4 " + ProgramShader.VSH_UNIFORM_MVP + ";"
-                        //+ "uniform vec4 " + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA + ";"
+                        + "uniform vec4 " + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA + ";"
                         + "attribute vec3 " + ProgramShader.VSH_ATTRIB_VERTEX_COORD + ";"
                         + "attribute vec2 " + ProgramShader.VSH_ATTRIB_VERTEX_TEXTURE_COORD + ";"
                         + "attribute vec4 " + ProgramShader.VSH_ATTRIB_VERTEX_COLOR + ";"
@@ -65,7 +65,7 @@ public class ProgramShader_simple extends ProgramShader {
                         + " vVertexColor = " + ProgramShader.VSH_ATTRIB_VERTEX_COLOR + ";"
                         + " vTextureCoord =  " + ProgramShader.VSH_ATTRIB_VERTEX_TEXTURE_COORD + ";"
 
-                        //le gl_pointSize n'est tutile que si GL_xxxxxx est activé
+                        //le gl_pointSize n'est utile que si GL_xxxxxx est activé
                         + "gl_PointSize = 10.;"
 
                         // cette commande doit toujours être la dernière du vertex shader.

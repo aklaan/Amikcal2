@@ -30,6 +30,27 @@ public class Button extends Rectangle2D implements Clikable {
 
     private final ArrayList<GLButtonListener> eventListenerList = new ArrayList<GLButtonListener>();
 
+
+
+
+    public Button(float x, float y, float witdth, float height) {
+        super(DrawingMode.FILL);
+        this.originalHeight = height;
+        this.originalWidth = witdth;
+        this.status = ButtonStatus.UP;
+        this.setCoord(x, y);
+        this.setHeight(height);
+        this.setWidth(witdth);
+
+        this.listening = false;
+
+        this.enableColision();
+        this.isStatic = false;
+        this.textureEnabled = false;
+    }
+
+
+
     public Button(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown) {
         super(DrawingMode.FILL);
         this.originalHeight = height;

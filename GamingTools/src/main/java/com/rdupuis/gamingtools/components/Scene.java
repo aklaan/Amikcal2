@@ -201,7 +201,7 @@ public class Scene implements GLSurfaceView.Renderer {
         // on défini la couleur de base pour initialiser le BUFFER de rendu
         // a chaque Frame, lorsque l'on fera un appel GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         // on va remplir le back buffer avec la couleur pré-définie ici
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
 
         // Activattion de la gestion de l'Alpha
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -384,7 +384,7 @@ public class Scene implements GLSurfaceView.Renderer {
      *
      * @param gameobject
      */
-    public void addToScene(AbstractGameObject gameobject) {
+    public void addToScene(GameObject gameobject) {
         gameobject.setScene(this);
         this.getGOManager().add(gameobject);
 

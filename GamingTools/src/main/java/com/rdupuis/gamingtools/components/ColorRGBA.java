@@ -1,5 +1,11 @@
 package com.rdupuis.gamingtools.components;
 
+import com.rdupuis.gamingtools.utils.CONST;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 /**
  * Created by rodol on 29/01/2016.
  */
@@ -53,5 +59,23 @@ public class ColorRGBA {
 
         return colorValue;
     }
+
+
+    public FloatBuffer getColorBuffer() {
+
+        FloatBuffer result = ByteBuffer.allocateDirect(4 * CONST.FLOAT_SIZE)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+
+        result.rewind();
+        //on écrit les coordonées de texture
+        result.put(getRed()).put(getGreen()).put(getBlue()).put(getAlpha());
+        // on se repositionne en 0 , prêt pour la lecture
+        result.rewind();
+
+
+        return result;
+    }
+
+
 
 }

@@ -11,6 +11,7 @@ import com.rdupuis.gamingtools.components.button.ButtonA;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
+import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
@@ -47,6 +48,11 @@ public class Scene01 extends Scene {
 
         initButtonQty();
         initButtonOk();
+
+        Keyboard keyboard = new Keyboard(100, 200, 400, 400);
+
+        this.addToScene(keyboard);
+
     }
 
 
@@ -59,7 +65,7 @@ public class Scene01 extends Scene {
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
 
-        ButtonA button = new ButtonA(400, 400, 200, 200,
+        ButtonA button = new ButtonA(400, 400, 400, 400,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));
@@ -142,7 +148,7 @@ public class Scene01 extends Scene {
         //BUTTON
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
-        ButtonA button = new ButtonA(350, 150, 100, 100,
+        ButtonA button = new ButtonA(350, 150, 400, 300,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));

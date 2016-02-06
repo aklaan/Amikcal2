@@ -92,9 +92,6 @@ public class ButtonA extends CompositeShape implements Clikable {
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
             Shape rect_A = this.getShapeList().get(RECT_A_INDX);
 
-
-
-
             if (this.getScene().getColliderManager().isCollide(rect_A, uf)) {
                 //        Log.e("button", "set texture down");
                 this.getShapeList().get(RECT_A_INDX).setTexture(this.textureDown);
