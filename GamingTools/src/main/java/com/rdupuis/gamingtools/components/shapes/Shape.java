@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.ColorRGBA;
+import com.rdupuis.gamingtools.components.Composite;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
@@ -20,7 +21,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 
-public class Shape extends GameObject implements Cloneable, Collider {
+public class Shape extends GameObject implements Cloneable, Collider{
 
     //Id du buffer Gl où se trouvent les coordonnees de vertex
     private int glVBoId;
@@ -185,6 +186,8 @@ public class Shape extends GameObject implements Cloneable, Collider {
 
 
     }
+
+
 
     public ArrayList<Vertex> getVertices() {
         ArrayList<Vertex> result = new ArrayList<Vertex>();

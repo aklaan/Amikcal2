@@ -9,9 +9,20 @@ import java.util.ArrayList;
 /**
  * Created by rodol on 14/12/2015.
  */
-public class CompositeShape extends GameObject {
+public class CompositeShape extends GameObject  {
 
     private ArrayList<Shape> mShapeList;
+
+    @Override
+    public ArrayList<Composite> getComponent() {
+
+        ArrayList<Composite> result = new ArrayList<Composite>();
+
+        for (Composite component : this.getShapeList()) {
+            result.addAll(component.getComponent());
+        }
+        return result;
+    }
 
     @Override
     public void setX(float x) {

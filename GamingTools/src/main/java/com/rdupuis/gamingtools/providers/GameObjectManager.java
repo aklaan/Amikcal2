@@ -3,6 +3,7 @@ package com.rdupuis.gamingtools.providers;
 import android.opengl.GLES20;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
+import com.rdupuis.gamingtools.components.Composite;
 import com.rdupuis.gamingtools.components.CompositeShape;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.physics.Collider;
@@ -52,22 +53,25 @@ public class GameObjectManager {
     }
 
 
-
-
-    public ArrayList<Collider> getActiveColliderList(){
+    public ArrayList<Collider> getActiveColliderList() {
         ArrayList<Collider> colliderList = new ArrayList<Collider>();
-        for (GameObject gameObject:this.GOList()){
-            // si le gameObject est un collider
 
-            if (gameObject instanceof Collider){
-                //on fait un cast
-                Collider collider = (Collider) gameObject;
-            if (collider.getCollisionStatus() == true){
-                    colliderList.add(collider);
+        //pour chaque gameObject de la scene
+        for (GameObject gameObject : this.GOList()) {
+
+            // pour chaque composant du gameObject
+            for (Composite component : gameObject.getComponent()) {
+
+                if (component instanceof Collider) {
+                    //on fait un cast
+                    Collider collider = (Collider) gameObject;
+                    if (collider.getCollisionStatus() == true) {
+                        colliderList.add(collider);
+                    }
                 }
             }
         }
-    return colliderList;
+        return colliderList;
     }
 
 
@@ -222,7 +226,6 @@ public class GameObjectManager {
     }
 
 
-
     private int countObjects() {
 
         int count = 0;
@@ -242,8 +245,9 @@ public class GameObjectManager {
                 }
             }
         }
-    return count;
+        return count;
     }
+
     /**
      *
      */

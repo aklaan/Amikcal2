@@ -5,7 +5,7 @@ import com.rdupuis.gamingtools.components.shapes.Shape;
 import java.util.ArrayList;
 
 
-public class GameObject extends AbstractGameObject {
+public class GameObject extends AbstractGameObject implements Composite{
 
     //Tag de l'objet
     private String mTagName;
@@ -161,6 +161,14 @@ public class GameObject extends AbstractGameObject {
     @Override
     public void updateModelView() {
 
+    }
+
+
+
+    public ArrayList<Composite> getComponent(){
+        ArrayList<Composite> result = new ArrayList<Composite>();
+        result.add(this);
+        return result;
     }
 
 
