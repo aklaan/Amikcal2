@@ -42,8 +42,10 @@ public class ColliderManager {
             //gameObject, default Offset X, default Offset Y
             if (composite instanceof Collidable) {
                 Collidable collidable = (Collidable) composite;
-                CollisionBox box = new CollisionBox(collidable);
-                this.mCollisionBoxList.add(box);
+                if (collidable.isCollisionEnabled()) {
+                    CollisionBox box = new CollisionBox(collidable);
+                    this.mCollisionBoxList.add(box);
+                }
             }
 
         }

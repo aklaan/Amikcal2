@@ -153,7 +153,7 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
     }
 
 
-    public boolean canCollide() {
+    public boolean isCollisionEnabled() {
         return (this.canCollide == true);
     }
 

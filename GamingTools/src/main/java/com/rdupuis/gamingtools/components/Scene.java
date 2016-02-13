@@ -322,7 +322,7 @@ public class Scene implements GLSurfaceView.Renderer {
          * pour éviter le problème, on ne chek pas les colissions sur la première Frame
          */
         //on check les colissions toustes les 4 frames pour économiser de la CPU
-        if (frameCounter > 4 ) {
+        if (frameCounter > 0 ) {
             this.getColliderManager().updateCollisionsList();
             frameCounter = 0;
         }

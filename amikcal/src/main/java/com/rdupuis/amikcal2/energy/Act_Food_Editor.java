@@ -1,6 +1,7 @@
 package com.rdupuis.amikcal2.energy;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -70,11 +71,11 @@ public class Act_Food_Editor extends OpenGLActivity {
         //définition de la scène à rendre
         mGLSurfaceView.setRenderer(new Scene01(this));
 
-        //   EditText editbox = new EditText(this);
+           EditText editbox = new EditText(this);
 
-        //    editbox.setText("hello les amis");
+            editbox.setText("hello les amis");
 
-        //    editbox.setTextColor(Color.WHITE);
+            editbox.setTextColor(Color.WHITE);
 
         //     addContentView(editbox, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 

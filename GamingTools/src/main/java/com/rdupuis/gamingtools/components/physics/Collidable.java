@@ -13,6 +13,8 @@ public interface Collidable {
 
     float[] getModelView();
 
+    boolean isCollisionEnabled();
+
     boolean isCollisionCheckingEnabled();
 
     void disableCollisionChecking();
