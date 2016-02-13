@@ -5,7 +5,7 @@ import com.rdupuis.gamingtools.components.shapes.Shape;
 import java.util.ArrayList;
 
 
-public class GameObject extends AbstractGameObject implements Composite{
+public class GameObject extends AbstractGameObject implements Composite {
 
     //Tag de l'objet
     private String mTagName;
@@ -19,13 +19,7 @@ public class GameObject extends AbstractGameObject implements Composite{
     //Couleur ambiante de l'objet R,G,B,A
     private ColorRGBA ambiantColor = new ColorRGBA();
 
-    // top permettant de savoir si l'objet est statique à l'écran ou s'il
-    // a la possibilité d'être en mouvement. ceci va servir
-    // pour le calcul des collisions
-    public Boolean isStatic = true;
 
-    //Top pour activer/désactiver la gestion des colissions
-    public Boolean canCollide = false;
 
     // coordonnées du centre de l'objet
     public float X = 0;
@@ -165,27 +159,7 @@ public class GameObject extends AbstractGameObject implements Composite{
 
 
 
-    public ArrayList<Composite> getComponent(){
-        ArrayList<Composite> result = new ArrayList<Composite>();
-        result.add(this);
-        return result;
-    }
 
-
-    /**
-     * Activer la gestion des colisions
-     */
-    public void enableColision() {
-        this.canCollide = true;
-    }
-
-    /**
-     * désactiver la gestion des colisions
-     */
-    public void disableColision() {
-        this.canCollide = false;
-
-    }
 
     /**
      * getter & setter
@@ -198,6 +172,12 @@ public class GameObject extends AbstractGameObject implements Composite{
 
     }
 
+
+    public ArrayList<Composite> getComponent(){
+        ArrayList<Composite> result = new ArrayList<Composite>();
+        result.add(this);
+        return result;
+    }
 
 
 

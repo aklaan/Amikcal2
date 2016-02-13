@@ -1,5 +1,7 @@
 package com.rdupuis.gamingtools.components;
 
+import com.rdupuis.gamingtools.components.shapes.Shape;
+
 import java.util.ArrayList;
 
 /**

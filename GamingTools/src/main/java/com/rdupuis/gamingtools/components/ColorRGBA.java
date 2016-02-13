@@ -21,7 +21,7 @@ public class ColorRGBA {
         this.red = checkValue(colorValue);
     }
 
-    public float getRed(){
+    public float getRed() {
         return this.red;
     }
 
@@ -30,7 +30,7 @@ public class ColorRGBA {
         this.green = checkValue(colorValue);
     }
 
-    public float getGreen(){
+    public float getGreen() {
         return this.green;
     }
 
@@ -39,7 +39,7 @@ public class ColorRGBA {
         this.blue = checkValue(colorValue);
     }
 
-    public float getBlue(){
+    public float getBlue() {
         return this.blue;
     }
 
@@ -48,10 +48,26 @@ public class ColorRGBA {
         this.alpha = checkValue(alphaValue);
     }
 
-    public float getAlpha(){
+    public float getAlpha() {
         return this.alpha;
     }
 
+    //Par défaut on retourne blanc.
+    public ColorRGBA(){
+        this.setRed(1f);
+        this.setGreen(1f);
+
+        this.setBlue(1f);
+        this.setAlpha(1f);
+    }
+
+    public ColorRGBA(float r, float g, float b, float a) {
+        this.setRed(r);
+        this.setGreen(g);
+
+        this.setBlue(b);
+        this.setAlpha(a);
+    }
 
     private float checkValue(float colorValue) {
         colorValue = (colorValue > 1) ? 1f : colorValue;
@@ -75,7 +91,6 @@ public class ColorRGBA {
 
         return result;
     }
-
 
 
 }

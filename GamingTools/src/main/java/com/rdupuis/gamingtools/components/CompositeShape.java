@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by rodol on 14/12/2015.
  */
-public class CompositeShape extends GameObject  {
+public class CompositeShape extends GameObject implements Composite  {
 
     private ArrayList<Shape> mShapeList;
 

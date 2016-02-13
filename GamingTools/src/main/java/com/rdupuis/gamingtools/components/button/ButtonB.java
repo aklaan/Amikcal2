@@ -41,8 +41,8 @@ public class ButtonB extends Rectangle2D implements Clikable {
         this.listening = false;
         this.textureUp = textureUp;
         this.textureDown = textureDown;
-        this.enableColision();
-        this.isStatic = false;
+        this.enableCollisions();
+
         this.textureEnabled = true;
         this.setVisibility(false);
         this.setAlpha(0.f);
@@ -60,7 +60,7 @@ public class ButtonB extends Rectangle2D implements Clikable {
 
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
 
-            if (this.getScene().getColliderManager().isCollide(this, uf)) {
+            if (this.getScene().getColliderManager().isCollide(uf,this)) {
                 //        Log.e("button", "set texture down");
                 this.setTexture(this.textureDown);
                 this.status = ButtonStatus.DOWN;

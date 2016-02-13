@@ -5,13 +5,11 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 
-import com.rdupuis.gamingtools.components.AbstractGameObject;
-import com.rdupuis.gamingtools.components.ColorRGBA;
 import com.rdupuis.gamingtools.components.Composite;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
-import com.rdupuis.gamingtools.components.physics.Collider;
+import com.rdupuis.gamingtools.components.physics.Collidable;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 
@@ -21,7 +19,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 
-public class Shape extends GameObject implements Cloneable, Collider{
+public class Shape extends GameObject implements Cloneable, Collidable, Composite {
 
     //Id du buffer Gl où se trouvent les coordonnees de vertex
     private int glVBoId;
@@ -48,15 +46,13 @@ public class Shape extends GameObject implements Cloneable, Collider{
     }
 
 
-
-
-    // top permettant de savoir si l'objet est statique à l'écran ou s'il
-    // a la possibilité d'être en mouvement. ceci va servir
-    // pour le calcul des collisions
-    public Boolean isStatic = true;
-
     //Top pour activer/désactiver la gestion des colissions
+    //ce flag sert à créer les BOX
     public Boolean canCollide = false;
+
+    //ce falg sert à savoir si on doit calculer les collisions
+    //avec les autres objets de la scène
+    public Boolean collisonCheckingStatus = false;
 
     //liste des objets à écouter
     public ArrayList<Shape> mShapeToListenList;
@@ -65,14 +61,14 @@ public class Shape extends GameObject implements Cloneable, Collider{
 
     public int drawMode = GLES20.GL_TRIANGLES;
 
-        // public static final int FLOAT_SIZE = 4;
+    // public static final int FLOAT_SIZE = 4;
     // on indique qu'il faut 4 byte pour repésenter un float
     // 00000000 00000000 00000000 00000000
 
     //plutôt que de l'écrire en dur 4, on le calcul.
     //comme ça si jamais le système n'utilise pas 4 bytes on
     //reste bon.
-   // public static final int FLOAT_SIZE = Float.SIZE / Byte.SIZE;
+    // public static final int FLOAT_SIZE = Float.SIZE / Byte.SIZE;
 
     // un byte n'est pas obligatoirement égal à 8 bit
     // cela dépend du matériel. en général il est très souvant egal à
@@ -144,13 +140,35 @@ public class Shape extends GameObject implements Cloneable, Collider{
         this.glVBiId = glVBiId;
     }
 
-    public float[] getModelView(){
+    public float[] getModelView() {
         return this.mModelView;
     }
 
-    public boolean getCollisionStatus(){
-        return this.canCollide;
+    public void enableCollisions() {
+        this.canCollide = true;
     }
+
+    public void disableCollisions() {
+        this.canCollide = false;
+    }
+
+
+    public boolean canCollide() {
+        return (this.canCollide == true);
+    }
+
+    public boolean isCollisionCheckingEnabled() {
+        return (this.collisonCheckingStatus == true);
+    }
+
+    public void disableCollisionChecking() {
+        this.collisonCheckingStatus = false;
+    }
+
+    public void enableCollisionChecking() {
+        this.collisonCheckingStatus = true;
+    }
+
 
     /**
      * @param
@@ -188,7 +206,6 @@ public class Shape extends GameObject implements Cloneable, Collider{
     }
 
 
-
     public ArrayList<Vertex> getVertices() {
         ArrayList<Vertex> result = new ArrayList<Vertex>();
         return result;
@@ -200,24 +217,6 @@ public class Shape extends GameObject implements Cloneable, Collider{
 
     public void setTexture(Texture mTexture) {
         this.mTexture = mTexture;
-    }
-
-
-
-
-    /**
-     * Activer la gestion des colisions
-     */
-    public void enableColision() {
-        this.canCollide = true;
-    }
-
-    /**
-     * désactiver la gestion des colisions
-     */
-    public void disableColision() {
-        this.canCollide = false;
-
     }
 
 
@@ -272,9 +271,6 @@ public class Shape extends GameObject implements Cloneable, Collider{
         return mFbVertices;
     }
 */
-
-
-
 
 
     // getter indices
@@ -621,8 +617,6 @@ public class Shape extends GameObject implements Cloneable, Collider{
         Matrix.scaleM(this.mModelView, 0, this.getWidth(), this.getHeight(), 0.f);
 
     }
-
-
 
 
 }

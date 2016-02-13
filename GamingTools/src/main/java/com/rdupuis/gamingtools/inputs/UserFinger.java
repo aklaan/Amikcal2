@@ -17,11 +17,12 @@ public class UserFinger extends Rectangle2D {
 
     public UserFinger() {
         super(DrawingMode.EMPTY);
-        this.setHeight(50);
-        this.setWidth(50);
-        this.enableColision();
+        this.setHeight(20);
+        this.setWidth(20);
+        this.enableCollisions();
+        this.enableCollisionChecking();
         this.setTagName(USER_FINGER_TAG);
-        this.isStatic = false;
+
         // on fait exprès de définir le premier point loin de l'écran
         //pour éviter les colision au premier cycle
         this.X = 10000;
@@ -30,19 +31,18 @@ public class UserFinger extends Rectangle2D {
 
     @Override
     public void update() {
-         //   Log.e("userFinger","on Update");
+        //   Log.e("userFinger","on Update");
 
         //on réinitialise les coordonées
         this.setCoord(0f, 0f);
         //on désactive la gestion des colisions
-        this.disableColision();
+        this.disableCollisionChecking();
 
         // si l'utilisateur touche l'écran
         if (this.getScene().getActivity().mGLSurfaceView.touched) {
 
             int toto = this.getScene().getHeightDevice();
             float yy = this.getScene().getActivity().mGLSurfaceView.touchY;
-
 
 
             /**
@@ -71,25 +71,25 @@ public class UserFinger extends Rectangle2D {
             float offset = this.getScene().getHeightDevice() - this.getScene().getActivity().mGLSurfaceView.getHeight();
 
             //on calcule la coordonne Y ajustée
-            float adjustedY  = this.getScene().getActivity().mGLSurfaceView.touchY + offset;
+            float adjustedY = this.getScene().getActivity().mGLSurfaceView.touchY + offset;
 
             //on calcule la coordonne Y Opengl
-            float openGL_Y  = this.getScene().getHeightDevice() - adjustedY;
+            float openGL_Y = this.getScene().getHeightDevice() - adjustedY;
 
             // on met à jour les coordonées
             this.setCoord(
-                    this.getScene().getActivity().mGLSurfaceView.touchX,openGL_Y);
+                    this.getScene().getActivity().mGLSurfaceView.touchX, openGL_Y);
 
             //this.histoX = this.getScene().getActivity().mGLSurfaceView.histoX;
             //this.histoY = this.getScene().getActivity().mGLSurfaceView.histoY;
 
             // on active les colissions pour cette frame
-            this.enableColision();
+            this.enableCollisionChecking();
             //  Log.e("userfinger", "colision enabled");
             //getWorldCoord();
 
 
-           // Log.i("UserFinger", String.valueOf(this.X) + "/" + String.valueOf(this.Y));
+            // Log.i("UserFinger", String.valueOf(this.X) + "/" + String.valueOf(this.Y));
             /**
              * Log.i("UserFinger World", String.valueOf(this.worldX) + "/" +
              * String.valueOf(this.worldY)); Log.i("--",

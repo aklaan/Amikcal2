@@ -16,6 +16,7 @@ import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 import com.rdupuis.gamingtools.shaders.ProgramShader_forLines;
+import com.rdupuis.gamingtools.shaders.ProgramShader_noTexture;
 import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
 
 
@@ -44,7 +45,7 @@ public class Scene01 extends Scene {
         background.setWidth((float) this.getWidth());
 
         background.setTagName(TAG_BACKGROUND);
-        background.disableColision();
+        background.disableCollisions();
 
         initButtonQty();
         initButtonOk();
@@ -65,15 +66,13 @@ public class Scene01 extends Scene {
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
 
-        ButtonA button = new ButtonA(400, 400, 400, 400,
+        ButtonA button = new ButtonA(150, 600, 200, 200,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));
         button.setTagName(TAG_BUTTON);
 
         button.getAmbiantColor().setGreen(0.f);
-
-        this.addToScene(button);
 
         GLButtonListener toto = new GLButtonListener() {
             @Override
@@ -148,12 +147,11 @@ public class Scene01 extends Scene {
         //BUTTON
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
-        ButtonA button = new ButtonA(350, 150, 400, 300,
+        ButtonA button = new ButtonA(300, 600, 300, 100,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));
         button.setTagName(TAG_BUTTON);
-        this.addToScene(button);
 
         GLButtonListener toto = new GLButtonListener() {
             @Override
@@ -201,10 +199,11 @@ public class Scene01 extends Scene {
         this.getPSManager().shaderList.clear();
         ProgramShader ps = new ProgramShader_simple();
         this.getPSManager().add(ps);
-        this.getPSManager().add(new ProgramShader_forLines());
+        ProgramShader notext = new ProgramShader_noTexture();
+        this.getPSManager().add(notext);
 
         //on défini le simple comme shader par defaut.
-        this.getPSManager().setDefaultSader(ps);
+        this.getPSManager().setDefaultSader(notext);
 
 
     }

@@ -43,7 +43,7 @@ public class Scene implements GLSurfaceView.Renderer {
     public float[] mProjectionORTH = new float[16];
 
     // public ShaderProvider mShaderProvider;
-    private boolean firstFrame;
+    private int frameCounter;
     public Camera mCamera;
 
     /**
@@ -150,7 +150,7 @@ public class Scene implements GLSurfaceView.Renderer {
 
         this.mCamera = new Camera();
         this.mCamera.centerZ = 100;
-        this.firstFrame = true;
+        this.frameCounter = 0;
 
         this.preLoading();
 
@@ -196,7 +196,7 @@ public class Scene implements GLSurfaceView.Renderer {
         this.getGOManager().initializeGLContext();
 
         //on initialise les boites de colision
-        this.getColliderManager().initBoxes(this.getGOManager());
+        this.getColliderManager().initBoxes(this.getGOManager().getComponent());
 
         // on défini la couleur de base pour initialiser le BUFFER de rendu
         // a chaque Frame, lorsque l'on fera un appel GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -309,7 +309,9 @@ public class Scene implements GLSurfaceView.Renderer {
         //si on ne touche plus l'écran, on désactive la colision du touché
         if (this.getActivity().getSurfaceView().getScreenEvent() == MySurfaceView.ScreenEvent.UNKNOWN) {
             UserFinger uf = (UserFinger) this.getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
-            uf.disableColision();
+            uf.disableCollisionChecking();
+            //on met à jour les colissions
+            this.getColliderManager().updateCollisionsList();
         }
 
         /** on check les colissions entre tous les éléments de la scène
@@ -319,14 +321,16 @@ public class Scene implements GLSurfaceView.Renderer {
          * du coup tout le monde est en colision.
          * pour éviter le problème, on ne chek pas les colissions sur la première Frame
          */
-        if (!firstFrame) {
+        //on check les colissions toustes les 4 frames pour économiser de la CPU
+        if (frameCounter > 4 ) {
             this.getColliderManager().updateCollisionsList();
+            frameCounter = 0;
         }
-
+        frameCounter++;
 
         /** Mise à jour des objets*/
         this.getGOManager().update();
-      //  Log.i("scene", "update des GO");
+        //  Log.i("scene", "update des GO");
 
         /** jouer les animations si elles éxistent */
         this.animationManager.playAnimations();
@@ -355,7 +359,7 @@ public class Scene implements GLSurfaceView.Renderer {
          * Fin du Cycle de rendu
          * on passe firstFrame à faux pour qu'au pochain cycle, on prenne en compte les colisions
          */
-        firstFrame = false;
+//        firstFrame = false;
     }
 
     /**

@@ -25,7 +25,7 @@ public class CollisionBox {
     //qu'un ID car il est fort probable que JAVA utilise un pointeur vers l'objet
     //si on utilise un id, on va devoir faire un calcul pour retrouver l'objet dans
     // la liste
-    private Collider mCollider;
+    private Collidable mCollidable;
     private ArrayList<Vertex> mInnerVertices;
     private Boolean visibility;
 
@@ -66,43 +66,43 @@ public class CollisionBox {
      */
 
 
-    public Collider getCollider() {
-        return mCollider;
+    public Collidable getCollider() {
+        return mCollidable;
     }
 
-    public void setCollider(Collider collider) {
-        this.mCollider = collider;
+    public void setCollider(Collidable collidable) {
+        this.mCollidable = collidable;
     }
 
     /**
      * Constructor 1 : avec offset
      */
-    public CollisionBox(Collider collider, float offsetX, float offsetY) {
-        this.commonInitialization(collider);
+    public CollisionBox(Collidable collidable, float offsetX, float offsetY) {
+        this.commonInitialization(collidable);
         this.initInnerVertices(offsetX, offsetX);
     }
 
     /**
      * Contructor 2 : avec offset par defaut
      *
-     * @param collider
+     * @param collidable
      */
-    public CollisionBox(Collider collider) {
+    public CollisionBox(Collidable collidable) {
         this.mInnerVertices = new ArrayList<Vertex>();
-        this.commonInitialization(collider);
+        this.commonInitialization(collidable);
         this.initInnerVertices(defaultOffset, defaultOffset);
     }
 
 
     /**
-     * @param collider
+     * @param collidable
      */
-    private void commonInitialization(Collider collider) {
+    private void commonInitialization(Collidable collidable) {
         //par défaut la box n'est pas visible
         this.setVisibility(false);
 
         //On mémorise la référence du shape "parent"
-        this.setCollider(collider);
+        this.setCollider(collidable);
 
     }
 

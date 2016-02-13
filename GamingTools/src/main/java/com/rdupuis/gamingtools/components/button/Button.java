@@ -1,8 +1,10 @@
 package com.rdupuis.gamingtools.components.button;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 
+import com.rdupuis.gamingtools.components.ColorRGBA;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.texture.Texture;
@@ -19,6 +21,9 @@ public class Button extends Rectangle2D implements Clikable {
 
     public Texture textureUp;
     public Texture textureDown;
+    public ColorRGBA colorDown = new ColorRGBA(0f, 1f, 1f, 1f);
+    public ColorRGBA colorUp = new ColorRGBA(0f, 0f, 0f, 1f);
+
     public ButtonStatus status;
     private float lastTap;
     private float elapsedTime;
@@ -31,24 +36,22 @@ public class Button extends Rectangle2D implements Clikable {
     private final ArrayList<GLButtonListener> eventListenerList = new ArrayList<GLButtonListener>();
 
 
-
-
-    public Button(float x, float y, float witdth, float height) {
+    public Button(float x, float y, float width, float height) {
         super(DrawingMode.FILL);
         this.originalHeight = height;
-        this.originalWidth = witdth;
+        this.originalWidth = width;
         this.status = ButtonStatus.UP;
         this.setCoord(x, y);
         this.setHeight(height);
-        this.setWidth(witdth);
+        this.setWidth(width);
+
 
         this.listening = false;
 
-        this.enableColision();
-        this.isStatic = false;
+        this.enableCollisions();
+
         this.textureEnabled = false;
     }
-
 
 
     public Button(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown) {
@@ -59,12 +62,11 @@ public class Button extends Rectangle2D implements Clikable {
         this.setCoord(x, y);
         this.setHeight(height);
         this.setWidth(witdth);
-
         this.listening = false;
         this.textureUp = textureUp;
         this.textureDown = textureDown;
-        this.enableColision();
-        this.isStatic = false;
+        this.enableCollisions();
+
         this.textureEnabled = true;
     }
 
@@ -75,15 +77,18 @@ public class Button extends Rectangle2D implements Clikable {
     @Override
     public void update() {
         this.setTexture(this.textureUp);
+        this.setAmbiantColor(colorUp);
         //  Log.e("button", "on update");
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
 
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
 
-            if (this.getScene().getColliderManager().isCollide(this, uf)) {
-                //        Log.e("button", "set texture down");
+            if (this.getScene().getColliderManager().isCollide(uf, this)) {
+                Log.e("button", this.getTagName() + ": down");
                 this.setTexture(this.textureDown);
+                this.setAmbiantColor(colorDown);
                 this.status = ButtonStatus.DOWN;
+
 
                 // si je n'étais en train d'écouler, j'initialise le compteur delai
                 if (!this.listening) {
@@ -103,6 +108,7 @@ public class Button extends Rectangle2D implements Clikable {
 
             } else {
                 this.setTexture(textureUp);
+                this.setAmbiantColor(colorUp);
                 this.status = ButtonStatus.UP;
 
             }
@@ -116,8 +122,8 @@ public class Button extends Rectangle2D implements Clikable {
         //si on est en train d'écouter ce que fait l'utilisateur
         if (this.listening) {
 
-          //  this.setWidth(this.getWidth() + 2.f);
-          //  this.setHeight(this.getHeight() + 2.f);
+            //  this.setWidth(this.getWidth() + 2.f);
+            //  this.setHeight(this.getHeight() + 2.f);
             //si l'utilisateur a levé le doigt
             if (this.status == ButtonStatus.UP) {
                 //on a levé le doigt avant de délai d'un long click
@@ -142,7 +148,7 @@ public class Button extends Rectangle2D implements Clikable {
         }
     }
 
-    private void stopListening(){
+    private void stopListening() {
         this.listening = false;
         this.setWidth(this.originalWidth);
         this.setHeight(this.originalHeight);

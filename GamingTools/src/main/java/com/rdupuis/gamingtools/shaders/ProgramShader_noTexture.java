@@ -1,14 +1,14 @@
 package com.rdupuis.gamingtools.shaders;
 
-public class ProgramShader_simple extends ProgramShader {
+public class ProgramShader_noTexture extends ProgramShader {
 
-    public ProgramShader_simple() {
+    public ProgramShader_noTexture() {
         super();
     }
 
     @Override
     public void initCode() {
-        this.mName = "simple";
+        this.mName = "noTexture";
 
         this.fragmentShaderSource = "#ifdef GL_ES \n"
                 // pour les fragment shader, il n'existe pas de de précision par défaut
@@ -25,10 +25,10 @@ public class ProgramShader_simple extends ProgramShader {
 
                 //+ "gl_FragColor =  vec4(1.,0.,1.,1.0);"
 
-//                 + "gl_FragColor = " + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA
+                 + "gl_FragColor = " + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA
 
-                + "gl_FragColor = texture2D(" + ProgramShader.FSH_UNIFORM_TEXTURE
-                + ", vTextureCoord) "
+//                + "gl_FragColor = texture2D(" + ProgramShader.FSH_UNIFORM_TEXTURE
+  //              + ", vTextureCoord) "
                 + " * "
                 + this.FSH_UNIFORM_AMBIANT_COLOR_RGBA
                 + " * vVertexColor"

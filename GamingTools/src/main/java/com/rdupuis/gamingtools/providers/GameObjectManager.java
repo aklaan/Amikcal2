@@ -6,7 +6,7 @@ import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.Composite;
 import com.rdupuis.gamingtools.components.CompositeShape;
 import com.rdupuis.gamingtools.components.GameObject;
-import com.rdupuis.gamingtools.components.physics.Collider;
+import com.rdupuis.gamingtools.components.physics.Collidable;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
@@ -53,25 +53,16 @@ public class GameObjectManager {
     }
 
 
-    public ArrayList<Collider> getActiveColliderList() {
-        ArrayList<Collider> colliderList = new ArrayList<Collider>();
+    public ArrayList<Composite> getComponent() {
+        ArrayList<Composite> componentsList = new ArrayList<Composite>();
 
         //pour chaque gameObject de la scene
-        for (GameObject gameObject : this.GOList()) {
+        for (Composite gameObject : this.GOList()) {
 
-            // pour chaque composant du gameObject
-            for (Composite component : gameObject.getComponent()) {
-
-                if (component instanceof Collider) {
-                    //on fait un cast
-                    Collider collider = (Collider) gameObject;
-                    if (collider.getCollisionStatus() == true) {
-                        colliderList.add(collider);
-                    }
-                }
+            componentsList.addAll(gameObject.getComponent());
             }
-        }
-        return colliderList;
+
+        return componentsList;
     }
 
 

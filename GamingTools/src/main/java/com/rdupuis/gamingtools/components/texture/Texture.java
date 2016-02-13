@@ -62,6 +62,7 @@ public class Texture {
 
 
 	public Texture() {
+
 		this.alpha = 1;
 	}
 }

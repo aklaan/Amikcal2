@@ -269,9 +269,14 @@ public class ProgramShader extends AbstractProgramShader {
      */
 
     public void draw(Shape shape, float[] projectionMatrix) {
+
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
         //si l'objet possède une texte à utiliser  :
         if (shape.isTextureEnabled()) {
 
+            GLES20.glEnable(GLES20.GL_TEXTURE_2D);
             //on active l'unité de traitement des textures "0"
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
