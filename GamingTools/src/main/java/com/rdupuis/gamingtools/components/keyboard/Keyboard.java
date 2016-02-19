@@ -18,14 +18,9 @@ public class Keyboard extends GroupOfGameObject {
         int nbcases = 6;
         float spaceX = x;
         float spaceY = y;
-        float offset = 15.f;
-
-
-        float heightCase = height / nbcases;
+        float offset = 57.f;
 
         for (int i = 0; i < nbcases; i++) {
-
-            spaceY = y;
 
                 //Button(float x, float y, float witdth, float height)
                 ArrayList<Vector2D> txtCoord = Compute2DCoord(texUp,3,1,57,123);
@@ -34,8 +29,6 @@ public class Keyboard extends GroupOfGameObject {
                 button.textureEnabled = true;
                 button.setTagName("KeyB:A");
                 this.add(button);
-                spaceY += offset;
-
 
             spaceX += offset;
         }

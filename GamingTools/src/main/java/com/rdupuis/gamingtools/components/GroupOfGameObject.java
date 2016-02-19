@@ -15,12 +15,9 @@ public class GroupOfGameObject extends GameObject implements Composition  {
         this.mList.add(gameObject);
     }
 
-
     public void add(int index,GameObject gameObject){
         this.mList.add(index,gameObject);
     }
-
-
 
     @Override
     public ArrayList<Composition> getComponent() {

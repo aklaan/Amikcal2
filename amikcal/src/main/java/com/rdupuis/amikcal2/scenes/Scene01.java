@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.rdupuis.amikcal2.R;
 import com.rdupuis.gamingtools.animations.AnimationFadeOut;
+import com.rdupuis.gamingtools.animations.AnimationFadeOutMoveUp;
 import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.button.ButtonA;
@@ -27,7 +28,7 @@ import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
  */
 public class Scene01 extends Scene {
 
-    private final String TAG_BUG = "scene1:bug";
+    private final String TAG_KEYBORD = "scene1:keyboard";
     private final String TAG_BACKGROUND = "scene1:background";
     private final String TAG_BUTTON = "scene1:button";
 
@@ -52,8 +53,8 @@ public class Scene01 extends Scene {
         initButtonQty();
         initButtonOk();
         Texture keyUp = this.getTexManager().getTextureById(R.string.calibri);
-        Keyboard keyboard = new Keyboard(100, 200, 400, 400,keyUp,keyUp );
-
+        Keyboard keyboard = new Keyboard(100, 200, 400, 400, keyUp, keyUp);
+        keyboard.setTagName(TAG_KEYBORD);
         this.addToScene(keyboard);
 
     }
@@ -68,7 +69,7 @@ public class Scene01 extends Scene {
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
 
-        ButtonA button = new ButtonA(150, 600, 200, 200,
+        ButtonA button = new ButtonA(150, 600, 400, 400,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));
@@ -108,27 +109,9 @@ public class Scene01 extends Scene {
 
             @Override
             public void onLongClick() {
-                Log.e("debug", "long click");
-                GameObject bug = Scene01.this.getGOManager().getGameObjectByTag(TAG_BUG);
-                Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOut(bug));
-
-                //**    MainActivity toto = (MainActivity) Scene01.this.getActivity();
-
-                //**    toto.texte = "Long Click:" +
-                String.valueOf(Math.random());
-
-                //je crée un message vide juste pour focer l'utilisation du Handler
-                // qui est géré par la MainActivity.
-                //ceci me permet de pouvoir mettre à jour les éléments UI, autrement c'est impossible
-                //seul le thead Maiactivity peu modifier les UI dont il a la gerstion
-
-                /**
-                 *
-
-                 Message completeMessage =
-                 toto.mHandler.obtainMessage();
-                 completeMessage.sendToTarget();
-                 */
+                Log.e("Scene01", "Bouton QTY >> long click");
+                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBORD);
+                Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOut(keyb));
             }
 
         };
@@ -149,7 +132,7 @@ public class Scene01 extends Scene {
         //BUTTON
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
 
-        ButtonA button = new ButtonA(300, 600, 300, 100,
+        ButtonA button = new ButtonA(500, 600, 200, 200,
                 this.getTexManager().getTextureById(R.string.circle),
                 this.getTexManager().getTextureById(R.string.spaceship),
                 this.getTexManager().getTextureById(R.string.emptycircle));
@@ -186,6 +169,14 @@ public class Scene01 extends Scene {
             @Override
             public void onLongClick() {
                 Log.e("debug", "long click");
+
+                Log.e("Scene01", "Bouton QTY >> long click");
+                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBORD);
+                Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOutMoveUp(keyb));
+
+
+
+
             }
 
         };

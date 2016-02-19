@@ -190,7 +190,7 @@ public class GameObjectManager {
      * @return
      */
     public GameObject getGameObjectByTag(String tagName) {
-        GameObject result = new GameObject();
+        GameObject result = null;
         for (GameObject gameObject : this.getGameObjects()) {
             // Log.i("info : ", gameObject.getTagName());
 

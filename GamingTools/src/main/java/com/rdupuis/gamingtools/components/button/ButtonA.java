@@ -93,15 +93,14 @@ public class ButtonA extends GroupOfGameObject implements Clikable {
 
         //  Log.e("button", "on update");
 
-        /**
+
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
 
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
-            Shape rect_A = this.getShapeList().get(RECT_A_INDX);
 
-            if (this.getScene().getColliderManager().isCollide(uf,rect_A)) {
+            if (this.getScene().getColliderManager().isCollide(uf,rectangle2D_A)) {
                 //        Log.e("button", "set texture down");
-                this.getShapeList().get(RECT_A_INDX).setTexture(this.textureDown);
+                rectangle2D_A.setTexture(this.textureDown);
                 this.status = ButtonStatus.DOWN;
 
                 // si je n'étais en train d'écouler, j'initialise le compteur delai
@@ -121,7 +120,7 @@ public class ButtonA extends GroupOfGameObject implements Clikable {
 
 
             } else {
-                this.getShapeList().get(RECT_A_INDX).setTexture(textureUp);
+                rectangle2D_A.setTexture(textureUp);
                 this.status = ButtonStatus.UP;
 
             }
@@ -129,21 +128,21 @@ public class ButtonA extends GroupOfGameObject implements Clikable {
         //avec les nouvelle données, je check si on vient de faire un click
         this.checkClick();
 
-         */
+
          }
-/**
+
     private void checkClick() {
         //si on est en train d'écouter ce que fait l'utilisateur
         if (this.listening) {
 
-            Shape rect_b = this.getShapeList().get(RECT_B_INDX);
+
             //on rend le second rectangle visible
-            rect_b.setVisibility(true);
+            rectangle2D_B.setVisibility(true);
             //on augmente son alpha
-            rect_b.setAlpha(rect_b.getAlpha() + 0.1f);
+            rectangle2D_B.setAlpha(rectangle2D_B.getAlpha() + 0.1f);
             //on réduit progressivement sa taille
-            rect_b.setHeight((rect_b.getHeight() < 0) ? 0 : rect_b.getHeight() - 8.0f);
-            rect_b.setWidth((rect_b.getWidth() < 0) ? 0 : rect_b.getWidth() - 8.0f);
+            rectangle2D_B.setHeight((rectangle2D_B.getHeight() < 0) ? 0 : rectangle2D_B.getHeight() - 8.0f);
+            rectangle2D_B.setWidth((rectangle2D_B.getWidth() < 0) ? 0 : rectangle2D_B.getWidth() - 8.0f);
 
             //si l'utilisateur a levé le doigt
             if (this.status == ButtonStatus.UP) {
@@ -173,18 +172,18 @@ public class ButtonA extends GroupOfGameObject implements Clikable {
     private void stopListening() {
         this.listening = false;
 
-        Shape rect_b = this.getShapeList().get(RECT_B_INDX);
-        rect_b.setVisibility(false);
-        rect_b.setAlpha(0);
+
+        rectangle2D_B.setVisibility(false);
+        rectangle2D_B.setAlpha(0);
         //
-        rect_b.setHeight(this.getHeight());
-        rect_b.setWidth(this.getWidth());
+        rectangle2D_B.setHeight(this.getHeight());
+        rectangle2D_B.setWidth(this.getWidth());
 
 
     }
 
 
- */
+
 
     /**
      * pour tous les objets qui écoutent le onClick(), on leur passe
