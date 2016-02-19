@@ -1,10 +1,10 @@
 package com.rdupuis.gamingtools.animations;
 
-import com.rdupuis.gamingtools.components.AbstractGameObject;
+import com.rdupuis.gamingtools.components.GameObject;
 
 public class AnimationFadeOut extends Animation {
 
-    public AnimationFadeOut(AbstractGameObject animatedGameObject) {
+    public AnimationFadeOut(GameObject animatedGameObject) {
         super(animatedGameObject);
         start();
     }

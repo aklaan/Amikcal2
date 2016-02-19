@@ -1,7 +1,5 @@
 package com.rdupuis.gamingtools.components;
 
-import android.graphics.Shader;
-
 import com.rdupuis.gamingtools.components.shapes.Shape;
 
 import java.util.ArrayList;
@@ -9,19 +7,24 @@ import java.util.ArrayList;
 /**
  * Created by rodol on 14/12/2015.
  */
-public class CompositeShape extends GameObject implements Composite  {
+public class GroupOfGameObject extends GameObject implements Composition  {
 
-    private ArrayList<Shape> mShapeList;
+    private ArrayList<Composition> mList;
+
+    public void add(GameObject gameObject){
+        this.mList.add(gameObject);
+    }
+
+
+    public void add(int index,GameObject gameObject){
+        this.mList.add(index,gameObject);
+    }
+
+
 
     @Override
-    public ArrayList<Composite> getComponent() {
-
-        ArrayList<Composite> result = new ArrayList<Composite>();
-
-        for (Composite component : this.getShapeList()) {
-            result.addAll(component.getComponent());
-        }
-        return result;
+    public ArrayList<Composition> getComponent() {
+        return this.mList;
     }
 
     @Override
@@ -57,13 +60,18 @@ public class CompositeShape extends GameObject implements Composite  {
     /****************************************************************
      * Getter & setter
      ***************************************************************/
-    public ArrayList<Shape> getShapeList() {
-        return mShapeList;
+    public ArrayList<GameObject> getGameObjectsList() {
+        ArrayList<GameObject> result  = new ArrayList<GameObject>();
+        for (Composition composition : this.mList){
+            GameObject  gameObject = (GameObject) composition;
+        result.add(gameObject);
+        }
+        return result;
     }
 
-    public void setShapeList(ArrayList<Shape> shapeList) {
+    /**public void setShapeList(ArrayList<Component> shapeList) {
         this.mShapeList = shapeList;
-    }
+    }*/
 
     @Override
     public void setHeight(float height) {
@@ -85,8 +93,8 @@ public class CompositeShape extends GameObject implements Composite  {
     /******************************************************************
      * Constructeur
      ***************************************************************/
-    public CompositeShape() {
-        this.setShapeList(new ArrayList<Shape>());
+    public GroupOfGameObject() {
+        this.mList = new ArrayList<Composition>();
         this.setWidth(1);
         this.setHeight(1);
         this.setVisibility(true);
@@ -95,8 +103,8 @@ public class CompositeShape extends GameObject implements Composite  {
 
 
     public void update() {
-        for (Shape shape : this.getShapeList()) {
-            shape.update();
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            gameObject.update();
         }
     }
 
@@ -104,9 +112,9 @@ public class CompositeShape extends GameObject implements Composite  {
     public void updateX(float offsetX) {
         //TODO pur chaque objet sur X du même écart
 
-        for (Shape shape : this.getShapeList()) {
-            float newX = shape.getX() + offsetX;
-            shape.setX(newX);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float newX = gameObject.getX() + offsetX;
+            gameObject.setX(newX);
         }
     }
 
@@ -114,65 +122,65 @@ public class CompositeShape extends GameObject implements Composite  {
     public void updateY(float offsetY) {
         //TODO pur chaque objet on applique le ratio necessaire
 
-        for (Shape shape : this.getShapeList()) {
-            float newY = shape.getX() + offsetY;
-            shape.setY(newY);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float newY = gameObject.getY() + offsetY;
+            gameObject.setY(newY);
         }
     }
 
     public void updateWidth(float ratio) {
         //TODO pur chaque objet on applique le ratio necessaire
 
-        for (Shape shape : this.getShapeList()) {
-            float newWidth = shape.getWidth() * ratio;
-            shape.setWidth(newWidth);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float newWidth = gameObject.getWidth() * ratio;
+            gameObject.setWidth(newWidth);
         }
     }
 
     public void updateHeight(float ratio) {
         //TODO pur chaque objet on applique le ratio necessaire
-        for (Shape shape : this.getShapeList()) {
-            float newHeight = shape.getHeight() * ratio;
-            shape.setHeight(newHeight);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float newHeight = gameObject.getHeight() * ratio;
+            gameObject.setHeight(newHeight);
         }
     }
 
     public void updateAlpha(float ratio) {
         //TODO pur chaque objet on applique le ratio necessaire
-        for (Shape shape : this.getShapeList()) {
-            float newAlpha = shape.getAlpha() * ratio;
-            shape.setAlpha(newAlpha);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float newAlpha = gameObject.getAlpha() * ratio;
+            gameObject.setAlpha(newAlpha);
         }
     }
 
     @Override
     public void setScene(Scene scene) {
         //TODO pur chaque objet on applique le ratio necessaire
-        for (Shape shape : this.getShapeList()) {
-            shape.setScene(scene);
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            gameObject.setScene(scene);
         }
         super.setScene(scene);
     }
 
 
     public void updateModelView() {
-        for (Shape shape : this.getShapeList()) {
-            shape.updateModelView();
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            gameObject.updateModelView();
         }
     }
 
 
     public void updateRGB(ColorRGBA color) {
-        for (Shape shape : this.getShapeList()) {
+        for (GameObject gameObject : this.getGameObjectsList()) {
 
-            float newcolor = shape.getAmbiantColor().getRed() + this.getAmbiantColor().getRed();
-            shape.getAmbiantColor().setRed(newcolor);
+            float newcolor = gameObject.getAmbiantColor().getRed() + this.getAmbiantColor().getRed();
+            gameObject.getAmbiantColor().setRed(newcolor);
 
-            float newGreen = shape.getAmbiantColor().getGreen() + this.getAmbiantColor().getGreen();
-            shape.getAmbiantColor().setGreen(newGreen);
+            float newGreen = gameObject.getAmbiantColor().getGreen() + this.getAmbiantColor().getGreen();
+            gameObject.getAmbiantColor().setGreen(newGreen);
 
-            float newBlue = shape.getAmbiantColor().getBlue() + this.getAmbiantColor().getBlue();
-            shape.getAmbiantColor().setGreen(newBlue);
+            float newBlue = gameObject.getAmbiantColor().getBlue() + this.getAmbiantColor().getBlue();
+            gameObject.getAmbiantColor().setGreen(newBlue);
 
 
         }

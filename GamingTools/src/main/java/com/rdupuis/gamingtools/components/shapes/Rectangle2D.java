@@ -3,6 +3,7 @@ package com.rdupuis.gamingtools.components.shapes;
 import com.rdupuis.gamingtools.components.Vertex;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.utils.CONST;
+import com.rdupuis.gamingtools.utils.Vector2D;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -13,10 +14,16 @@ public class Rectangle2D extends Shape {
 
     static final int NB_RECTANGLE_VERTEX = 4;
     private DrawingMode mDrawingMode;
+    private ArrayList<Vertex> mVertices;
 
+    public Rectangle2D(){
+        super();
+    }
 
     public Rectangle2D(DrawingMode drawingMode) {
         super();
+        this.mVertices = new ArrayList<Vertex>();
+        this.initVertices();
 
         this.mDrawingMode = drawingMode;
         this.setNbvertex(NB_RECTANGLE_VERTEX);
@@ -24,20 +31,29 @@ public class Rectangle2D extends Shape {
     }
 
 
-    @Override
-    public ArrayList<Vertex> getVertices() {
-
-        ArrayList<Vertex> temp = new ArrayList<Vertex>();
-        // on ajoute les vertex (x,y,zu,v)
-        temp.add(new Vertex(-0.5f, 0.5f, 0f, 0f, 0f, 1f, 1f, 1f, 1f));
-        temp.add(new Vertex(-0.5f, -0.5f, 0f, 0f, 1f, 1f, 1f, 1f, 1f));
-        temp.add(new Vertex(0.5f, -0.5f, 0f, 1f, 1f, 1f, 1f, 1f, 1f));
-        temp.add(new Vertex(0.5f, 0.5f, 0, 1f, 0f, 1f, 1f, 1f, 1f));
-
-        return temp;
+    private void initVertices() {
+        mVertices.add(new Vertex(-0.5f, 0.5f, 0f, 0f, 0f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(-0.5f, -0.5f, 0f, 0f, 1f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(0.5f, -0.5f, 0f, 1f, 1f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(0.5f, 0.5f, 0, 1f, 0f, 1f, 1f, 1f, 1f));
 
     }
 
+    @Override
+    public ArrayList<Vertex> getVertices() {
+        return mVertices;
+
+    }
+
+
+    public void setTexCoord(Vector2D upLeft, Vector2D downLeft, Vector2D downRight, Vector2D upRight) {
+        mVertices.get(0).setUV(upLeft);
+        mVertices.get(1).setUV(downLeft);
+        mVertices.get(2).setUV(downRight);
+        mVertices.get(3).setUV(upRight);
+
+
+    }
 
     @Override
     public ShortBuffer getIndices() {

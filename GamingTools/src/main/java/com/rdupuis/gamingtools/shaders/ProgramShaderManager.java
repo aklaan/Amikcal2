@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
-import com.rdupuis.gamingtools.components.CompositeShape;
+import com.rdupuis.gamingtools.components.GroupOfGameObject;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Scene;
+import com.rdupuis.gamingtools.interfaces.Drawable;
 
 
 import android.opengl.GLES20;
@@ -138,49 +139,24 @@ public class ProgramShaderManager {
      */
     public void renderScene(Scene scene) {
 
-        for (AbstractGameObject gameObject : scene.getGOManager().GOList()) {
+        for (Drawable drawable : scene.getGOManager().getDrawable()) {
 
             //Dessiner les objets visibles
-            if (gameObject.getVisibility()) {
+            if (drawable.getVisibility()) {
 
                 //Appel au shader de l'objet s'il en requiert un en particulier.
                 //sinon on utilise le shader par defaut.
-                if (this.getGameObjectShaderList().get(gameObject) != null) {
-                    this.use(this.getGameObjectShaderList().get(gameObject));
+                if (this.getGameObjectShaderList().get(drawable) != null) {
+                    this.use(this.getGameObjectShaderList().get(drawable));
                 } else this.use(this.getDefaultShader());
 
-                //Si on doit dessiner un objet "Composé"
-                if (CompositeShape.class.isInstance(gameObject)) {
+                this.getCurrentActiveShader().draw(drawable, scene.getProjectionView());
 
-                    CompositeShape cgo = (CompositeShape) gameObject;
-
-                    for (Shape shape : cgo.getShapeList()) {
-
-                        this.render(shape, scene.getProjectionView());
-                    }
-
-                } else {
-                    // on demande su shader de rendre l'objet
-                    Shape shape = (Shape) gameObject;
-                    this.render(shape, scene.getProjectionView());
-                }
 
 
             }
         }
     }
 
-
-    private void render(Shape shape, float[] projectionView) {
-
-        //Appel au shader de l'objet s'il en requiert un en particulier.
-        //sinon on utilise le shader par defaut.
-        if (this.getGameObjectShaderList().get(shape) != null) {
-            this.use(this.getGameObjectShaderList().get(shape));
-        } else this.use(this.getDefaultShader());
-
-        this.getCurrentActiveShader().draw(shape, projectionView);
-
-    }
 
 }

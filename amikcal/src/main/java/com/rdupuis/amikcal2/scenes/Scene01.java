@@ -7,12 +7,14 @@ import android.util.Log;
 import com.rdupuis.amikcal2.R;
 import com.rdupuis.gamingtools.animations.AnimationFadeOut;
 import com.rdupuis.gamingtools.components.AbstractGameObject;
+import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.button.ButtonA;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
+import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 import com.rdupuis.gamingtools.shaders.ProgramShader_forLines;
@@ -49,8 +51,8 @@ public class Scene01 extends Scene {
 
         initButtonQty();
         initButtonOk();
-
-        Keyboard keyboard = new Keyboard(100, 200, 400, 400);
+        Texture keyUp = this.getTexManager().getTextureById(R.string.calibri);
+        Keyboard keyboard = new Keyboard(100, 200, 400, 400,keyUp,keyUp );
 
         this.addToScene(keyboard);
 
@@ -107,7 +109,7 @@ public class Scene01 extends Scene {
             @Override
             public void onLongClick() {
                 Log.e("debug", "long click");
-                AbstractGameObject bug = Scene01.this.getGOManager().getGameObjectByTag(TAG_BUG);
+                GameObject bug = Scene01.this.getGOManager().getGameObjectByTag(TAG_BUG);
                 Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOut(bug));
 
                 //**    MainActivity toto = (MainActivity) Scene01.this.getActivity();
@@ -203,7 +205,7 @@ public class Scene01 extends Scene {
         this.getPSManager().add(notext);
 
         //on défini le simple comme shader par defaut.
-        this.getPSManager().setDefaultSader(notext);
+        this.getPSManager().setDefaultSader(ps);
 
 
     }
@@ -216,6 +218,7 @@ public class Scene01 extends Scene {
         this.getTexManager().add(R.string.circle);
         this.getTexManager().add(R.string.spaceship);
         this.getTexManager().add(R.string.emptycircle);
+
     }
 
 

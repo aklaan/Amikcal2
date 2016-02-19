@@ -5,7 +5,7 @@ import com.rdupuis.gamingtools.components.shapes.Shape;
 import java.util.ArrayList;
 
 
-public class GameObject extends AbstractGameObject implements Composite {
+public class GameObject  implements Composition {
 
     //Tag de l'objet
     private String mTagName;
@@ -74,14 +74,14 @@ public class GameObject extends AbstractGameObject implements Composite {
         mTagName = tagid;
     }
 
-    public Boolean getVisibility() {
+    public boolean getVisibility() {
         return mVisibility;
     }
     public void setVisibility(Boolean mVisibility) {
         this.mVisibility = mVisibility;
     }
 
-    @Override
+
     public ColorRGBA getAmbiantColor() {
         return ambiantColor;
     }
@@ -152,7 +152,7 @@ public class GameObject extends AbstractGameObject implements Composite {
     }
 
 
-    @Override
+
     public void updateModelView() {
 
     }
@@ -167,14 +167,14 @@ public class GameObject extends AbstractGameObject implements Composite {
      * @return
      */
 
-    @Override
+
     public void update() {
 
     }
 
 
-    public ArrayList<Composite> getComponent(){
-        ArrayList<Composite> result = new ArrayList<Composite>();
+    public ArrayList<Composition> getComponent(){
+        ArrayList<Composition> result = new ArrayList<Composition>();
         result.add(this);
         return result;
     }

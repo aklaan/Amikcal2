@@ -22,7 +22,7 @@ public class Button extends Rectangle2D implements Clikable {
     public Texture textureUp;
     public Texture textureDown;
     public ColorRGBA colorDown = new ColorRGBA(0f, 1f, 1f, 1f);
-    public ColorRGBA colorUp = new ColorRGBA(0f, 0f, 0f, 1f);
+    public ColorRGBA colorUp = new ColorRGBA(0f, 1f, 0f, 1f);
 
     public ButtonStatus status;
     private float lastTap;

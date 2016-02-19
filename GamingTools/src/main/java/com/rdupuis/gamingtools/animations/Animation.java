@@ -1,6 +1,7 @@
 package com.rdupuis.gamingtools.animations;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
+import com.rdupuis.gamingtools.components.GameObject;
 
 import android.os.SystemClock;
 
@@ -18,7 +19,7 @@ public abstract class Animation implements Cloneable {
         PLAYING, STOPPED
     }
 
-    private AbstractGameObject animatedGameObject;
+    private GameObject animatedGameObject;
     private AnimationStatus status;
 
 
@@ -26,12 +27,12 @@ public abstract class Animation implements Cloneable {
      * getters / setters
      *********************************************************/
 
-    public AbstractGameObject getAnimatedGameObject() {
+    public GameObject getAnimatedGameObject() {
         return this.animatedGameObject;
 
     }
 
-    public void setAnimatedGameObject(AbstractGameObject gameObject) {
+    public void setAnimatedGameObject(GameObject gameObject) {
         this.animatedGameObject = gameObject;
 
     }
@@ -57,7 +58,7 @@ public abstract class Animation implements Cloneable {
     }
 
     //constructeur
-    public Animation(AbstractGameObject animatedGameObject) {
+    public Animation(GameObject animatedGameObject) {
         this.animatedGameObject = animatedGameObject;
 
     }

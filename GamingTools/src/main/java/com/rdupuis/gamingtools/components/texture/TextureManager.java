@@ -152,11 +152,13 @@ public class TextureManager {
             // texture
             // on indique GL_NEAREST pour dire que l'on doit prendre le pixel qui se
             // rapporche le plus
+
+//option possibe : GL_LINEAR ou GL_NEAREST
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
-                    GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+                    GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
 
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
-                    GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+                    GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
             // paramétrage du dépassement des coordonées de texture
             // GL_CLAMP_TO_EDGE = on étire la texture pour recouvrir la forme

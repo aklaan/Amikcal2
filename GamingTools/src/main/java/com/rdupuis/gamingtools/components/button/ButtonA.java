@@ -2,7 +2,7 @@ package com.rdupuis.gamingtools.components.button;
 
 import android.os.SystemClock;
 
-import com.rdupuis.gamingtools.components.CompositeShape;
+import com.rdupuis.gamingtools.components.GroupOfGameObject;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.texture.Texture;
@@ -12,14 +12,15 @@ import com.rdupuis.gamingtools.interfaces.Clikable;
 
 import java.util.ArrayList;
 
-public class ButtonA extends CompositeShape implements Clikable {
+public class ButtonA extends GroupOfGameObject implements Clikable {
     public enum ButtonStatus {
         UP, DOWN
     }
 
     private final String BTN__A_TAG = "BTN_A";
-    private final int RECT_A_INDX = 0;
-    private final int RECT_B_INDX = 1;
+    private Rectangle2D rectangle2D_A;
+    private Rectangle2D rectangle2D_B;
+
     public Texture textureUp;
     public Texture textureDown;
     public Texture textureBack;
@@ -40,32 +41,32 @@ public class ButtonA extends CompositeShape implements Clikable {
         this.textureBack = textureBack;
 
         //définition du premier rectangle : il s'agit du bouton sur lequel on appuie
-        Rectangle2D rectangle2D_A = new Rectangle2D(DrawingMode.FILL);
-        rectangle2D_A.textureEnabled = true;
+        this.rectangle2D_A = new Rectangle2D(DrawingMode.FILL);
+        this.rectangle2D_A.textureEnabled = true;
         //   rectangle2D_A.setTexture(this.textureUp);
 
         //il s'agit de la taille initiale. au final, elle va être propotionelle au
-        //CompositeShape.
-        rectangle2D_A.setWidth(.5f);
-        rectangle2D_A.setHeight(.5f);
-        rectangle2D_A.enableCollisions();
-        rectangle2D_A.setTagName(BTN__A_TAG + ":A");
+        //GroupOfGameObject.
+        this.rectangle2D_A.setWidth(.5f);
+        this.rectangle2D_A.setHeight(.5f);
+        this.rectangle2D_A.enableCollisions();
+        this.rectangle2D_A.setTagName(BTN__A_TAG + ":A");
 
         //Définition du second rectangle : dans ce rectangle on va afficher un cercle
         // qui va venir rétrécir au fur et à mesure que l'on laisse le doigt appuyé
         // sur le bouton.
-        Rectangle2D rectangle2D_B = new Rectangle2D(DrawingMode.FILL);
-        rectangle2D_B.textureEnabled = true;
-        rectangle2D_B.setTexture(this.textureBack);
-        rectangle2D_B.setVisibility(false);
-        rectangle2D_B.setWidth(1);
-        rectangle2D_B.setHeight(1);
-        rectangle2D_B.setAlpha(0);
-        rectangle2D_B.disableCollisions();
-        rectangle2D_B.setTagName(BTN__A_TAG + ":B");
+        this.rectangle2D_B = new Rectangle2D(DrawingMode.FILL);
+        this.rectangle2D_B.textureEnabled = true;
+        this.rectangle2D_B.setTexture(this.textureBack);
+        this.rectangle2D_B.setVisibility(false);
+        this.rectangle2D_B.setWidth(1);
+        this.rectangle2D_B.setHeight(1);
+        this.rectangle2D_B.setAlpha(0);
+        this.rectangle2D_B.disableCollisions();
+        this.rectangle2D_B.setTagName(BTN__A_TAG + ":B"+rectangle2D_B.toString());
         //on ajoute les 2 boutons dans la liste des composants.
-        this.getShapeList().add(RECT_A_INDX, rectangle2D_A);
-        this.getShapeList().add(RECT_B_INDX, rectangle2D_B);
+        this.add(rectangle2D_A);
+        this.add(rectangle2D_B);
 
         this.status = ButtonStatus.UP;
         this.setX(x);
@@ -86,8 +87,13 @@ public class ButtonA extends CompositeShape implements Clikable {
     @Override
     public void update() {
 
-        this.getShapeList().get(RECT_A_INDX).setTexture(this.textureUp);
+        //this.getGameObjectsList().get(RECT_A_INDX).setTexture(this.textureUp);
+
+        rectangle2D_A.setTexture(this.textureUp);
+
         //  Log.e("button", "on update");
+
+        /**
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
 
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
@@ -122,8 +128,10 @@ public class ButtonA extends CompositeShape implements Clikable {
         }
         //avec les nouvelle données, je check si on vient de faire un click
         this.checkClick();
-    }
 
+         */
+         }
+/**
     private void checkClick() {
         //si on est en train d'écouter ce que fait l'utilisateur
         if (this.listening) {
@@ -174,6 +182,9 @@ public class ButtonA extends CompositeShape implements Clikable {
 
 
     }
+
+
+ */
 
     /**
      * pour tous les objets qui écoutent le onClick(), on leur passe

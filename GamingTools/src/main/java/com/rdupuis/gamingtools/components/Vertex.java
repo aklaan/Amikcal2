@@ -1,5 +1,7 @@
 package com.rdupuis.gamingtools.components;
 
+import com.rdupuis.gamingtools.utils.Vector2D;
+
 public class Vertex implements Cloneable {
 
     //Coordonnée dans l'espace tridimentionel
@@ -67,7 +69,7 @@ public class Vertex implements Cloneable {
     public Vertex(float x, float y, float z, float u, float v,float r, float g, float b, float a) {
         this.setXYZ(x, y, z);
         this.setUV(u, v);
-        this.setRGBA(r,g,b,a);
+        this.setRGBA(r, g, b, a);
     }
 
     public void setXYZ(float a, float b, float c) {
@@ -81,6 +83,14 @@ public class Vertex implements Cloneable {
         v = b;
 
     }
+
+    public void setUV(Vector2D vector2D) {
+        u = vector2D.x;
+        v = vector2D.y;
+
+    }
+
+
 
     public void setRGBA(float red, float green,float blue,float alpha) {
         r = red;

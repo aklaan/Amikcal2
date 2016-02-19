@@ -1,14 +1,14 @@
 package com.rdupuis.gamingtools.animations;
 
-import com.rdupuis.gamingtools.components.AbstractGameObject;
+import com.rdupuis.gamingtools.components.GameObject;
 
 public class AnimationTurnArround extends Animation {
 
-	AbstractGameObject mCible;
+	GameObject mCible;
 	float distance;
 	float angle;
 
-	public AnimationTurnArround(AbstractGameObject parent, AbstractGameObject cible, float distance) {
+	public AnimationTurnArround(GameObject parent, GameObject cible, float distance) {
 		super(parent);
 		this.mCible = cible;
 		this.angle = 0.0f;

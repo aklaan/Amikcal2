@@ -3,13 +3,12 @@ package com.rdupuis.gamingtools.providers;
 import android.opengl.GLES20;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
-import com.rdupuis.gamingtools.components.Composite;
-import com.rdupuis.gamingtools.components.CompositeShape;
+import com.rdupuis.gamingtools.components.Composition;
 import com.rdupuis.gamingtools.components.GameObject;
-import com.rdupuis.gamingtools.components.physics.Collidable;
-import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
+import com.rdupuis.gamingtools.components.physics.Collidable;
+import com.rdupuis.gamingtools.interfaces.Drawable;
 import com.rdupuis.gamingtools.utils.CONST;
 
 import java.nio.ByteBuffer;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 public class GameObjectManager {
 
     private Scene mScene;
-    private ArrayList<GameObject> mGameObjectList;
+    private ArrayList<Composition> mGameObjectList;
     public int[] vbo;  //tableau des localisation vertex buffer
     public int[] vboi; //tableau des lovasisation d'index buffer
 
@@ -45,33 +44,67 @@ public class GameObjectManager {
         this.setScene(scene);
 
         //initialisation d'une liste d'objets vide
-        this.mGameObjectList = new ArrayList<GameObject>();
-    }
-
-    public ArrayList<GameObject> GOList() {
-        return mGameObjectList;
+        this.mGameObjectList = new ArrayList<Composition>();
     }
 
 
-    public ArrayList<Composite> getComponent() {
-        ArrayList<Composite> componentsList = new ArrayList<Composite>();
+    public ArrayList<GameObject> getGameObjects() {
+        ArrayList<GameObject> listOfGameObjects = new ArrayList<GameObject>();
+
+        for (Composition composition : this.mGameObjectList) {
+            GameObject gameObject = (GameObject) composition;
+            listOfGameObjects.add(gameObject);
+        }
+
+        return listOfGameObjects;
+
+    }
+
+    public ArrayList<Drawable> getDrawable() {
+        ArrayList<Drawable> listOfDrawable = new ArrayList<Drawable>();
+
+        for (Composition composition : this.getComponent()) {
+            if (composition instanceof Drawable) {
+                listOfDrawable.add((Drawable) composition);
+            }
+
+        }
+
+        return listOfDrawable;
+    }
+
+    public ArrayList<Collidable> getCollidable() {
+        ArrayList<Collidable> listOfCollidable = new ArrayList<Collidable>();
+
+        for (Composition composition : this.getComponent()) {
+            if (composition instanceof Collidable) {
+                listOfCollidable.add((Collidable) composition);
+            }
+        }
+        return listOfCollidable;
+    }
+
+
+    public ArrayList<Composition> getComponent() {
+        ArrayList<Composition> componentsList = new ArrayList<Composition>();
 
         //pour chaque gameObject de la scene
-        for (Composite gameObject : this.GOList()) {
+        for (Composition composition : this.mGameObjectList) {
 
-            componentsList.addAll(gameObject.getComponent());
-            }
+            componentsList.addAll(composition.getComponent());
+        }
 
         return componentsList;
     }
 
+    //
 
     public void add(GameObject gameObject) {
         this.mGameObjectList.add(gameObject);
     }
 
-    public void remove(Shape shape) {
-        this.mGameObjectList.remove(shape);
+    public void remove(GameObject gameObject) {
+        this.mGameObjectList.remove(gameObject);
     }
 
 
@@ -84,9 +117,9 @@ public class GameObjectManager {
      * client et la mémoire graphique
      * si on est obligé de mettre à jour la mémoire graphique à chaques frame, ça ne vaut pas le coup
      *
-     * @param shape
+     * @param drawable
      */
-    public void loadVBO(Shape shape) {
+    public void loadVBO(Drawable drawable) {
 
         //on crée un buffer de travail pour récupérer les informations à
         // transmettre dans la mémoire graphique
@@ -95,11 +128,11 @@ public class GameObjectManager {
         // sachant qu'un stride c'est la taille des coordonnées de vertex xyz
         // + la taille des coordonées uv de texture
         // + la taille de la couleur rgba du veertex
-        FloatBuffer tempBuffer = ByteBuffer.allocateDirect(shape.getNbvertex() * Vertex.stride * CONST.FLOAT_SIZE)
+        FloatBuffer tempBuffer = ByteBuffer.allocateDirect(drawable.getNbvertex() * Vertex.stride * CONST.FLOAT_SIZE)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
 
         int index = 0;
-        for (Vertex vertex : shape.getVertices()) {
+        for (Vertex vertex : drawable.getVertices()) {
 
             tempBuffer.rewind();
             tempBuffer.position((Vertex.stride) * index);
@@ -112,7 +145,7 @@ public class GameObjectManager {
         }
 
         //on se place sur le glbuffer assigné à l'objet
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, shape.getGlVBoId());
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, drawable.getGlVBoId());
 
         //on charge les données
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, tempBuffer.capacity() * CONST.FLOAT_SIZE,
@@ -126,9 +159,9 @@ public class GameObjectManager {
     }
 
 
-    public void loadVBOi(Shape shape) {
+    public void loadVBOi(Drawable drawable) {
         //On se place sur le GlBuffer assigné
-        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, shape.getGlVBiId());
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, drawable.getGlVBiId());
 
         //On charge les données dans la mémoire graphique
         //-------------------------------------------------------------------------------------------------
@@ -138,7 +171,7 @@ public class GameObjectManager {
         //      usage :   GL_STATIC_DRAW  : les données sont lues une fois et sont réutilisée a chaque frame
         //             ou GL_DYNAMIC_DRAW : les données sont lues a chaque frame
         //-------------------------------------------------------------------------------------------------
-        ShortBuffer wrkIndiceBuffer = shape.getIndices();
+        ShortBuffer wrkIndiceBuffer = drawable.getIndices();
         wrkIndiceBuffer.rewind();
         GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, wrkIndiceBuffer.capacity() * CONST.SHORT_SIZE,
                 wrkIndiceBuffer, GLES20.GL_STATIC_DRAW);
@@ -156,12 +189,13 @@ public class GameObjectManager {
      * @param tagName
      * @return
      */
-    public AbstractGameObject getGameObjectByTag(String tagName) {
-        AbstractGameObject result = null;
-        for (AbstractGameObject gameObject : this.mGameObjectList) {
+    public GameObject getGameObjectByTag(String tagName) {
+        GameObject result = new GameObject();
+        for (GameObject gameObject : this.getGameObjects()) {
             // Log.i("info : ", gameObject.getTagName());
+
             if (gameObject.getTagName() == tagName) {
-                result = gameObject;
+                result = (GameObject) gameObject;
             }
 
         }
@@ -174,7 +208,7 @@ public class GameObjectManager {
     public void initializeGLContext() {
 
         //on récupère le nombre d'objets
-        int nbObjects = countObjects();
+        int nbObjects = countDrawable();
 
         //on crée un tableau qui va référencer les vertex buffer
         vbo = new int[nbObjects];
@@ -194,22 +228,10 @@ public class GameObjectManager {
         //pour chaque gameObject, on lui assigne un Glbuffer
         //pour la partie vertex et la partie index
         //ensuite on charge les buffers
-        for (AbstractGameObject gameObject : this.GOList()) {
+        for (Drawable drawable : this.getDrawable()) {
 
-            //si on traite un Shape classique
-            if (Shape.class.isInstance(gameObject)) {
-                indx = loadVBs((Shape) gameObject, indx);
+            indx = loadVBs(drawable, indx);
 
-
-            }
-            //si on traite un objet composé
-            else if (CompositeShape.class.isInstance(gameObject)) {
-                CompositeShape co = (CompositeShape) gameObject;
-                for (Shape shape : co.getShapeList()) {
-                    indx = this.loadVBs(shape, indx);
-                }
-
-            }
 
         }
 
@@ -217,37 +239,20 @@ public class GameObjectManager {
     }
 
 
-    private int countObjects() {
+    private int countDrawable() {
 
-        int count = 0;
-        for (AbstractGameObject gameObject : this.GOList()) {
-
-            //si on traite un Shape classique
-            if (Shape.class.isInstance(gameObject)) {
-                count++;
-            }
-            //si on traite un objet composé
-            else if (CompositeShape.class.isInstance(gameObject)) {
-                CompositeShape co = (CompositeShape) gameObject;
-                for (Shape shape : co.getShapeList()) {
-                    count++;
-
-
-                }
-            }
-        }
-        return count;
+        return this.getDrawable().size();
     }
 
     /**
      *
      */
-    private int loadVBs(Shape shape, int index) {
-        shape.setGlVBoId(vbo[index]);
-        this.loadVBO(shape);
+    private int loadVBs(Drawable drawable, int index) {
+        drawable.setGlVBoId(vbo[index]);
+        this.loadVBO(drawable);
 
-        shape.setGlVBiId(vboi[index]);
-        this.loadVBOi(shape);
+        drawable.setGlVBiId(vboi[index]);
+        this.loadVBOi(drawable);
         index++;
         return index;
     }
@@ -257,7 +262,7 @@ public class GameObjectManager {
      *
      */
     public void update() {
-        for (AbstractGameObject gameObject : this.GOList()) {
+        for (GameObject gameObject : this.getGameObjects()) {
             gameObject.update();
             gameObject.updateModelView();
         }

@@ -6,6 +6,7 @@ import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 
+import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.animations.AnimationManager;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.inputs.UserFinger;
@@ -168,6 +169,10 @@ public class Scene implements GLSurfaceView.Renderer {
      * de créé.
      */
     private void preLoading() {
+
+        //on charge la texture de la police d'écriture
+        this.getTexManager().add(R.string.calibri);
+
         // on charge les textures necessaires à la scène
         loadTextures();
         // on initialise la liste des objets qui serront contenus dans
@@ -196,7 +201,7 @@ public class Scene implements GLSurfaceView.Renderer {
         this.getGOManager().initializeGLContext();
 
         //on initialise les boites de colision
-        this.getColliderManager().initBoxes(this.getGOManager().getComponent());
+        this.getColliderManager().initBoxes(this.getGOManager().getCollidable());
 
         // on défini la couleur de base pour initialiser le BUFFER de rendu
         // a chaque Frame, lorsque l'on fera un appel GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -412,15 +417,8 @@ public class Scene implements GLSurfaceView.Renderer {
      * @return
      */
     public UserFinger getUserFinger() {
-        Shape result = null;
-        for (AbstractGameObject gameObject : this.getGOManager().GOList()) {
 
-            if (gameObject.getTagName() == UserFinger.USER_FINGER_TAG) {
-                result = (Shape) gameObject;
-            }
-
-        }
-        return (UserFinger) result;
+        return (UserFinger) this.getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
     }
 
     /**

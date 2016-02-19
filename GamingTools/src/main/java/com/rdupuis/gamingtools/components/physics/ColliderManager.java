@@ -3,8 +3,6 @@ package com.rdupuis.gamingtools.components.physics;
 
 import android.util.Log;
 
-import com.rdupuis.gamingtools.components.Composite;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,23 +30,21 @@ public class ColliderManager {
      *
      * @param listOfComponents
      */
-    public void initBoxes(ArrayList<Composite> listOfComponents) {
+    public void initBoxes(ArrayList<Collidable> listOfComponents) {
         //on vide la liste
         mCollisionBoxList.clear();
 
         //on crée une boite de collision pour chaque objet qui en necessitent une
-        for (Composite composite : listOfComponents) {
-            Log.i("amikcal", composite.toString());
+        for (Collidable collidable : listOfComponents) {
+            Log.i("amikcal", collidable.toString());
             //gameObject, default Offset X, default Offset Y
-            if (composite instanceof Collidable) {
-                Collidable collidable = (Collidable) composite;
-                if (collidable.isCollisionEnabled()) {
-                    CollisionBox box = new CollisionBox(collidable);
-                    this.mCollisionBoxList.add(box);
-                }
-            }
 
+            if (collidable.isCollisionEnabled()) {
+                CollisionBox box = new CollisionBox(collidable);
+                this.mCollisionBoxList.add(box);
+            }
         }
+
     }
 
 

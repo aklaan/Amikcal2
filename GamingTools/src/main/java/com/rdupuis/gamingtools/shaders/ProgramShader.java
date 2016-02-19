@@ -2,10 +2,11 @@ package com.rdupuis.gamingtools.shaders;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.Date;
 
-import com.rdupuis.gamingtools.components.CompositeShape;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Vertex;
+import com.rdupuis.gamingtools.interfaces.Drawable;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -265,23 +266,23 @@ public class ProgramShader extends AbstractProgramShader {
      * nb: le shader doit être activé par le manager. c'est lui qui sait quel est le shader
      * à utiliser
      *
-     * @param shape
+     * @param drawable
      */
 
-    public void draw(Shape shape, float[] projectionMatrix) {
+    public void draw(Drawable drawable, float[] projectionMatrix) {
 
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
         //si l'objet possède une texte à utiliser  :
-        if (shape.isTextureEnabled()) {
+        if (drawable.isTextureEnabled()) {
 
             GLES20.glEnable(GLES20.GL_TEXTURE_2D);
             //on active l'unité de traitement des textures "0"
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
             // on demande à opengl d'utiliser la texture de l'objet
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, shape.getTexture().getGlBufferId());
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, drawable.getTexture().getGlBufferId());
 
             //on fait pointer  uniform_texture_location sur le buffer où est la texture
             GLES20.glUniform1i(this.uniform_texture_location, 0);
@@ -301,7 +302,7 @@ public class ProgramShader extends AbstractProgramShader {
         //--------------------------------------------
 
         //je me place sur le buffer stride qui contient x,y,z,u,v,r,g,b,a
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, shape.getGlVBoId());
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, drawable.getGlVBoId());
 
         //lecture des coordonées x,y,z:
         // plutôt que de passer des valeur au shader, on indique une position en int.
@@ -329,7 +330,7 @@ public class ProgramShader extends AbstractProgramShader {
 
         //Calcul de la matrice model-view-projection
         float[] mMvp = new float[16];
-        Matrix.multiplyMM(mMvp, 0, projectionMatrix, 0, shape.mModelView, 0);
+        Matrix.multiplyMM(mMvp, 0, projectionMatrix, 0, drawable.getModelView(), 0);
 
         // On alimente la donnée UNIFORM mAdressOf_Mvp du programme OpenGL
         // avec une matrice de 4 flotant.
@@ -337,10 +338,10 @@ public class ProgramShader extends AbstractProgramShader {
 
         //on alimente la donnée de couleur ambiante
         // la zone "compteur"  de la fonction est à 1 car on va lire seulement 1 groupe de 4 float
-        GLES20.glUniform4fv(this.uniform_ambiantColorRGBA_location, 1,shape.getAmbiantColor().getColorBuffer());
+        GLES20.glUniform4fv(this.uniform_ambiantColorRGBA_location, 1,drawable.getAmbiantColor().getColorBuffer());
 
         //je me place sur le buffer des index
-        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, shape.getGlVBiId());
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, drawable.getGlVBiId());
 
         //je dessine les vertex selon l'ordre indiqué dans l'index.
         // au lieu de fournir des valeurs on indique zéro. ce qui permet à opengl de comprendre
@@ -351,7 +352,7 @@ public class ProgramShader extends AbstractProgramShader {
         //nombre d'indices (en théorie = 6)
         //
 
-        GLES20.glDrawElements(shape.drawMode, shape.getNbIndex(),
+        GLES20.glDrawElements(drawable.getGlDrawMode(), drawable.getNbIndex(),
                 GLES20.GL_UNSIGNED_SHORT, 0);
 
         //je pointe les buffer sur "rien" pour ne pas les réutiliser par erreur

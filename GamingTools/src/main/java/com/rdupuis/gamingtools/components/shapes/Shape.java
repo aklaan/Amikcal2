@@ -5,12 +5,13 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 
-import com.rdupuis.gamingtools.components.Composite;
+import com.rdupuis.gamingtools.components.Composition;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
 import com.rdupuis.gamingtools.components.physics.Collidable;
 import com.rdupuis.gamingtools.components.texture.Texture;
+import com.rdupuis.gamingtools.interfaces.Drawable;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 
 
@@ -19,7 +20,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 
-public class Shape extends GameObject implements Cloneable, Collidable, Composite {
+public class Shape extends GameObject implements Cloneable, Collidable, Composition,Drawable {
 
     //Id du buffer Gl où se trouvent les coordonnees de vertex
     private int glVBoId;
@@ -37,7 +38,7 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
     //Top pour activer/désactiver le rendu des textures
     public Boolean textureEnabled;
 
-    public Boolean isTextureEnabled() {
+    public boolean isTextureEnabled() {
         return textureEnabled;
     }
 
@@ -169,6 +170,7 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
         this.collisonCheckingStatus = true;
     }
 
+    public int getGlDrawMode(){return this.drawMode;};
 
     /**
      * @param
