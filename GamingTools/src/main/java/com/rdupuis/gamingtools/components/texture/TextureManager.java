@@ -68,12 +68,11 @@ public class TextureManager {
     /**
      * add : Ajouter une nouvelle texture
      *
-     * @param bitmapRessourceID
+     * @param bitmapRessourceID : id de la chaine dans le fichier res/string.xml
      */
     public void add(int bitmapRessourceID) {
 
         Bitmap bitmap = null;
-
         try {
             bitmap = BitmapFactory.decodeStream(this.getActivity().getAssets().open(
                     this.getActivity().getString(bitmapRessourceID)));

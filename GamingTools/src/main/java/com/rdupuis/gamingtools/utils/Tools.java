@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.Matrix;
 
 import com.rdupuis.gamingtools.components.Vertex;
+import com.rdupuis.gamingtools.components.texture.Texture;
 
 import java.io.IOException;
 import java.io.InputStream;

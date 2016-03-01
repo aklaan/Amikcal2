@@ -46,11 +46,11 @@ public class Rectangle2D extends Shape {
     }
 
 
-    public void setTexCoord(Vector2D upLeft, Vector2D downLeft, Vector2D downRight, Vector2D upRight) {
-        mVertices.get(0).setUV(upLeft);
-        mVertices.get(1).setUV(downLeft);
-        mVertices.get(2).setUV(downRight);
-        mVertices.get(3).setUV(upRight);
+    public void setTexCoord(float[] textCoord) {
+        mVertices.get(0).setUV(textCoord[0],textCoord[1]);
+        mVertices.get(1).setUV(textCoord[2],textCoord[3]);
+        mVertices.get(2).setUV(textCoord[4],textCoord[5]);
+        mVertices.get(3).setUV(textCoord[6],textCoord[7]);
 
 
     }

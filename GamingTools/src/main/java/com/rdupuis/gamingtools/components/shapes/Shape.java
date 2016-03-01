@@ -36,7 +36,7 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
     //Actuelle texture utilisé pour rendre l'objet
     private Texture mTexture;
     //Top pour activer/désactiver le rendu des textures
-    public Boolean textureEnabled;
+    public boolean textureEnabled;
 
     public boolean isTextureEnabled() {
         return textureEnabled;
@@ -49,11 +49,11 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
 
     //Top pour activer/désactiver la gestion des colissions
     //ce flag sert à créer les BOX
-    public Boolean canCollide = false;
+    public boolean canCollide = false;
 
     //ce falg sert à savoir si on doit calculer les collisions
     //avec les autres objets de la scène
-    public Boolean collisonCheckingStatus = false;
+    public boolean collisonCheckingStatus = false;
 
     //liste des objets à écouter
     public ArrayList<Shape> mShapeToListenList;
@@ -219,6 +219,14 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
 
     public void setTexture(Texture mTexture) {
         this.mTexture = mTexture;
+    }
+
+    public void enableTexturing(){
+        this.textureEnabled = true;
+    }
+
+    public void disableTexturing(){
+        this.textureEnabled = false;
     }
 
 

@@ -10,10 +10,13 @@ import com.rdupuis.gamingtools.animations.AnimationFadeOutMoveUp;
 import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.button.ButtonA;
+import com.rdupuis.gamingtools.components.button.ButtonWithText;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.keyboard.Keyboard;
+import com.rdupuis.gamingtools.components.shapes.GlFont;
+import com.rdupuis.gamingtools.components.shapes.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
@@ -52,11 +55,25 @@ public class Scene01 extends Scene {
 
         initButtonQty();
         initButtonOk();
+
         Texture keyUp = this.getTexManager().getTextureById(R.string.calibri);
         Keyboard keyboard = new Keyboard(100, 200, 400, 400, keyUp, keyUp);
         keyboard.setTagName(TAG_KEYBORD);
-        this.addToScene(keyboard);
+        //   this.addToScene(keyboard);
 
+        //TODO : quand on crée un GlString, il faut imposer une GlFont
+        // TODO il faudrait un FontManager !
+        GlString testGlString = new GlString();
+        GlFont glFont = new GlFont();
+        glFont.setMap(this.getTexManager().getTextureById(R.string.calibri));
+
+        testGlString.setGlFont(glFont);
+
+        testGlString.setCoord(100, 100);
+        testGlString.setSize(150.f);
+        testGlString.setText("ABCD");
+
+        this.addToScene(testGlString);
     }
 
 
@@ -173,8 +190,6 @@ public class Scene01 extends Scene {
                 Log.e("Scene01", "Bouton QTY >> long click");
                 GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBORD);
                 Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOutMoveUp(keyb));
-
-
 
 
             }

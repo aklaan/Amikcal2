@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 
 import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.animations.AnimationManager;
+import com.rdupuis.gamingtools.components.shapes.GlFont;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.inputs.UserFinger;
 import com.rdupuis.gamingtools.providers.GameObjectManager;
@@ -172,6 +173,8 @@ public class Scene implements GLSurfaceView.Renderer {
 
         //on charge la texture de la police d'écriture
         this.getTexManager().add(R.string.calibri);
+        GlFont calibri = new GlFont();
+        calibri.setMap(this.getTexManager().getTextureById(R.string.calibri));
 
         // on charge les textures necessaires à la scène
         loadTextures();

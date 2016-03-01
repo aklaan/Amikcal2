@@ -9,6 +9,14 @@ import java.util.ArrayList;
  */
 public class GroupOfGameObject extends GameObject implements Composition  {
 
+    public ArrayList<Composition> getList() {
+        return mList;
+    }
+
+    public void setList(ArrayList<Composition> list) {
+        this.mList = list;
+    }
+
     private ArrayList<Composition> mList;
 
     public void add(GameObject gameObject){
@@ -21,7 +29,14 @@ public class GroupOfGameObject extends GameObject implements Composition  {
 
     @Override
     public ArrayList<Composition> getComponent() {
-        return this.mList;
+        ArrayList<Composition> result = new ArrayList<Composition>();
+
+        for (Composition composition: this.mList){
+        result.addAll(composition.getComponent());
+        }
+        return  result;
+
+
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.rdupuis.gamingtools.components.keyboard;
 
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
 import com.rdupuis.gamingtools.components.button.Button;
+import com.rdupuis.gamingtools.components.button.ButtonWithText;
 import com.rdupuis.gamingtools.components.texture.Texture;
+import com.rdupuis.gamingtools.utils.Tools;
 import com.rdupuis.gamingtools.utils.Vector2D;
 
 import java.util.ArrayList;
@@ -22,13 +24,22 @@ public class Keyboard extends GroupOfGameObject {
 
         for (int i = 0; i < nbcases; i++) {
 
+
+
+         //   ButtonWithText bt = new ButtonWithText(spaceX,spaceY,100,100,texUp,texDown);
+         //   bt.setText("A");
+            /**
+             *
+
                 //Button(float x, float y, float witdth, float height)
-                ArrayList<Vector2D> txtCoord = Compute2DCoord(texUp,3,1,57,123);
+                ArrayList<Vector2D> txtCoord = Tools.Compute2DCoord(texUp, 3, 1, 57, 123);
                 Button button = new Button(spaceX, spaceY, 57, 123, texUp, texDown);
                 button.setTexCoord(txtCoord.get(0), txtCoord.get(1), txtCoord.get(2), txtCoord.get(3));
                 button.textureEnabled = true;
                 button.setTagName("KeyB:A");
-                this.add(button);
+
+             */
+           //     this.add(bt);
 
             spaceX += offset;
         }
@@ -36,20 +47,6 @@ public class Keyboard extends GroupOfGameObject {
     }
 
 
-    private ArrayList<Vector2D> Compute2DCoord(Texture texture, int x, int y, int width, int heigth) {
-        ArrayList<Vector2D> result = new ArrayList<Vector2D>();
 
-        // il faut ajouter le cast en fload, sinon java tranforme le resultat en int car geWidth()
-        // et getHeight() retournent un int.
-        //upLeft
-        result.add(new Vector2D(x / (float)texture.getWidth(), y / (float)texture.getHeight()));
-        //downLeft
-        result.add(new Vector2D(x / (float)texture.getWidth(), (y + heigth) / (float)texture.getHeight()));
-        //downRight
-        result.add(new Vector2D((x + width) / (float)texture.getWidth(), (y + heigth) / (float)texture.getHeight()));
-        //upRight
-        result.add(new Vector2D((x + width) / (float)texture.getWidth(), y / (float)texture.getHeight()));
-        return result;
-    }
 
 }
