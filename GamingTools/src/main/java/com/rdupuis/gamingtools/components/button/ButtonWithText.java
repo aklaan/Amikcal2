@@ -2,8 +2,10 @@ package com.rdupuis.gamingtools.components.button;
 
 import android.os.SystemClock;
 
+import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
 import com.rdupuis.gamingtools.components.shapes.GlChar;
+import com.rdupuis.gamingtools.components.shapes.GlFont;
 import com.rdupuis.gamingtools.components.shapes.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.shapes.Shape;
@@ -41,15 +43,14 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
     private final ArrayList<GLButtonListener> eventListenerList = new ArrayList<GLButtonListener>();
 
-    public ButtonWithText(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown) {
+    public ButtonWithText(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown,Texture fontmap) {
 
         this.textureUp = textureUp;
         this.textureDown = textureDown;
 
         //définition du premier rectangle : il s'agit du bouton sur lequel on appuie
         this.rectangle2D_A = new Rectangle2D(DrawingMode.FILL);
-        this.rectangle2D_A.textureEnabled = true;
-        //   rectangle2D_A.setTexture(this.textureUp);
+        this.rectangle2D_A.enableTexturing();
 
         //il s'agit de la taille initiale. au final, elle va être propotionelle au
         //GroupOfGameObject.
@@ -60,6 +61,13 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
         //Définition du texte.
         this.mText = new GlString();
+
+        //font
+        GlFont glFont = new GlFont();
+        //TODO : intéger la map directement dans la font.
+        glFont.setMap(fontmap);
+        mText.setGlFont(glFont);
+
 
         //on ajoute les 2 boutons dans la liste des composants.
         this.add(rectangle2D_A);

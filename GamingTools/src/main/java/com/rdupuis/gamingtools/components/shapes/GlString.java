@@ -14,16 +14,6 @@ public class GlString extends GroupOfGameObject implements Composition {
     private String mText;
     private GlFont mGlFont;
 
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
-    }
-
-    private float size;
-
     /**
      * getter & setter
      */
@@ -34,7 +24,9 @@ public class GlString extends GroupOfGameObject implements Composition {
 
     public void setGlFont(GlFont mGlFont) {
         this.mGlFont = mGlFont;
-        this.updateFont();
+        //on a modifié la font. il faut que l'update répercute
+        // la modification sur les char
+        this.updateGlchar();
     }
 
 
@@ -65,29 +57,36 @@ public class GlString extends GroupOfGameObject implements Composition {
             mChar.setX(xPosition);
             mChar.setY(this.getY());
             this.getList().add(mChar);
-         //le prochain caratère serra après
+            //le prochain caratère serra après
             xPosition += mChar.getWidth();
         }
-        this.updateFont();
-        this.updateSize();
 
     }
 
-    private void updateFont() {
+
+    public void updateGlchar() {
+
+        float xPosition = this.getX();
+
         for (GlChar glChar : this.getGlChar()) {
             glChar.setGlFont(this.getGlFont());
+            glChar.setX(xPosition);
+            glChar.setY(this.getY());
+            xPosition += glChar.getWidth();
+
         }
+
     }
 
 
-    private void updateSize() {
-        for (GlChar glChar : this.getGlChar()) {
-            glChar.setSize(this.getSize());
-        }
+    @Override
+    public void update() {
+        this.getGlFont().setSize(this.getGlFont().getSize() + 0.1f);
+        updateGlchar();
     }
 
 
-    public void add(GlChar glChar) {
+    private void add(GlChar glChar) {
         glChar.setGlFont(this.getGlFont());
         this.getList().add(glChar);
     }

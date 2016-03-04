@@ -1,8 +1,10 @@
 package com.rdupuis.gamingtools.components.keyboard;
 
+import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
 import com.rdupuis.gamingtools.components.button.Button;
 import com.rdupuis.gamingtools.components.button.ButtonWithText;
+import com.rdupuis.gamingtools.components.shapes.GlFont;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.utils.Tools;
 import com.rdupuis.gamingtools.utils.Vector2D;
@@ -15,9 +17,9 @@ import java.util.ArrayList;
 public class Keyboard extends GroupOfGameObject {
 
 
-    public Keyboard(float x, float y, float width, float height, Texture texUp, Texture texDown) {
+    public Keyboard(float x, float y, float width, float height, Texture texUp, Texture texDown,Texture fontMap) {
         super();
-        int nbcases = 6;
+        int nbcases = 5;
         float spaceX = x;
         float spaceY = y;
         float offset = 57.f;
@@ -26,27 +28,26 @@ public class Keyboard extends GroupOfGameObject {
 
 
 
-         //   ButtonWithText bt = new ButtonWithText(spaceX,spaceY,100,100,texUp,texDown);
-         //   bt.setText("A");
+            ButtonWithText bt = new ButtonWithText(spaceX, spaceY, 100, 100, texUp, texDown, fontMap);
+
+            bt.setText("A");
             /**
              *
 
-                //Button(float x, float y, float witdth, float height)
-                ArrayList<Vector2D> txtCoord = Tools.Compute2DCoord(texUp, 3, 1, 57, 123);
-                Button button = new Button(spaceX, spaceY, 57, 123, texUp, texDown);
-                button.setTexCoord(txtCoord.get(0), txtCoord.get(1), txtCoord.get(2), txtCoord.get(3));
-                button.textureEnabled = true;
-                button.setTagName("KeyB:A");
+             //Button(float x, float y, float witdth, float height)
+             ArrayList<Vector2D> txtCoord = Tools.Compute2DCoord(texUp, 3, 1, 57, 123);
+             Button button = new Button(spaceX, spaceY, 57, 123, texUp, texDown);
+             button.setTexCoord(txtCoord.get(0), txtCoord.get(1), txtCoord.get(2), txtCoord.get(3));
+             button.textureEnabled = true;
+             button.setTagName("KeyB:A");
 
              */
-           //     this.add(bt);
+            this.add(bt);
 
             spaceX += offset;
         }
 
     }
-
-
 
 
 }

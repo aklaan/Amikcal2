@@ -57,21 +57,23 @@ public class Scene01 extends Scene {
         initButtonOk();
 
         Texture keyUp = this.getTexManager().getTextureById(R.string.calibri);
-        Keyboard keyboard = new Keyboard(100, 200, 400, 400, keyUp, keyUp);
+        Texture fontmat = this.getTexManager().getTextureById(R.string.calibri);
+        Keyboard keyboard = new Keyboard(100, 200, 400, 400, keyUp, keyUp,fontmat);
         keyboard.setTagName(TAG_KEYBORD);
-        //   this.addToScene(keyboard);
+           this.addToScene(keyboard);
 
-        //TODO : quand on crée un GlString, il faut imposer une GlFont
-        // TODO il faudrait un FontManager !
+        //TODO : quand on crée un GlString, il faut imposer une GlFont ou  en imposer un par defaut.
+
         GlString testGlString = new GlString();
         GlFont glFont = new GlFont();
+        //TODO : intéger la map directement dans la font.
         glFont.setMap(this.getTexManager().getTextureById(R.string.calibri));
 
         testGlString.setGlFont(glFont);
 
-        testGlString.setCoord(100, 100);
-        testGlString.setSize(150.f);
-        testGlString.setText("ABCD");
+        testGlString.setCoord(100, 800);
+
+        testGlString.setText("Clement");
 
         this.addToScene(testGlString);
     }

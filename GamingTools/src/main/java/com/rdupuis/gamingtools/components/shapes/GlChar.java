@@ -1,7 +1,10 @@
 package com.rdupuis.gamingtools.components.shapes;
 
+import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by rodol on 18/02/2016.
@@ -10,7 +13,6 @@ public class GlChar extends Rectangle2D {
 
     private char value;
     private GlFont mGlFont;
-    private float size;
 
     /**
      * getter & setter
@@ -24,6 +26,7 @@ public class GlChar extends Rectangle2D {
 
     public void setGlFont(GlFont mGlFont) {
         this.mGlFont = mGlFont;
+        update();
     }
 
     public char getValue() {
@@ -32,6 +35,7 @@ public class GlChar extends Rectangle2D {
 
     public void setValue(char value) {
         this.value = value;
+        update();
     }
 
     /**
@@ -44,21 +48,27 @@ public class GlChar extends Rectangle2D {
         this.value = value;
 
         this.enableTexturing();
-        this.setTexCoord(font.getTextCoord(value));
+        this.setTexCoord(font.getCharTextCoord(value));
         this.setTexture(font.getMap());
-        this.setSize(100.f);
 
         this.setX(0);
         this.setY(0);
+
     }
 
 
-    public void setSize(float size) {
-        this.setHeight(size);
-        float width = this.getGlFont().getMapRatio(this.getValue());
-        this.setWidth(size * width);
-        this.size = size;
+    @Override
+    public float getHeight() {
+        return this.getGlFont().getSize();
     }
+
+    @Override
+    public float getWidth() {
+        float ratio = this.getGlFont().getRatio(this.value);
+        return this.getGlFont().getSize() * ratio;
+
+    }
+
 
     @Override
     public Texture getTexture() {

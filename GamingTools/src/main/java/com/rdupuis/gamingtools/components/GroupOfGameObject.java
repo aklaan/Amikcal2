@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by rodol on 14/12/2015.
  */
-public class GroupOfGameObject extends GameObject implements Composition  {
+public class GroupOfGameObject extends GameObject implements Composition {
 
     public ArrayList<Composition> getList() {
         return mList;
@@ -19,22 +19,22 @@ public class GroupOfGameObject extends GameObject implements Composition  {
 
     private ArrayList<Composition> mList;
 
-    public void add(GameObject gameObject){
+    public void add(GameObject gameObject) {
         this.mList.add(gameObject);
     }
 
-    public void add(int index,GameObject gameObject){
-        this.mList.add(index,gameObject);
+    public void add(int index, GameObject gameObject) {
+        this.mList.add(index, gameObject);
     }
 
     @Override
     public ArrayList<Composition> getComponent() {
         ArrayList<Composition> result = new ArrayList<Composition>();
 
-        for (Composition composition: this.mList){
-        result.addAll(composition.getComponent());
+        for (Composition composition : this.mList) {
+            result.addAll(composition.getComponent());
         }
-        return  result;
+        return result;
 
 
     }
@@ -73,17 +73,19 @@ public class GroupOfGameObject extends GameObject implements Composition  {
      * Getter & setter
      ***************************************************************/
     public ArrayList<GameObject> getGameObjectsList() {
-        ArrayList<GameObject> result  = new ArrayList<GameObject>();
-        for (Composition composition : this.mList){
-            GameObject  gameObject = (GameObject) composition;
-        result.add(gameObject);
+        ArrayList<GameObject> result = new ArrayList<GameObject>();
+        for (Composition composition : this.mList) {
+            GameObject gameObject = (GameObject) composition;
+            result.add(gameObject);
         }
         return result;
     }
 
-    /**public void setShapeList(ArrayList<Component> shapeList) {
-        this.mShapeList = shapeList;
-    }*/
+    /**
+     * public void setShapeList(ArrayList<Component> shapeList) {
+     * this.mShapeList = shapeList;
+     * }
+     */
 
     @Override
     public void setHeight(float height) {
@@ -113,7 +115,7 @@ public class GroupOfGameObject extends GameObject implements Composition  {
         this.setAlpha(1.f);
     }
 
-
+    @Override
     public void update() {
         for (GameObject gameObject : this.getGameObjectsList()) {
             gameObject.update();

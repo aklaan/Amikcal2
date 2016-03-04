@@ -1,17 +1,39 @@
 package com.rdupuis.gamingtools.components.shapes;
 
-import com.gamingtools.rdupuis.gamingtools.R;
-import com.rdupuis.gamingtools.components.texture.Texture;
-import com.rdupuis.gamingtools.enums.DrawingMode;
-import com.rdupuis.gamingtools.utils.Tools;
-import com.rdupuis.gamingtools.utils.Vector2D;
+import android.util.Log;
+import android.util.Xml;
 
-import java.util.ArrayList;
+import com.rdupuis.gamingtools.components.texture.Texture;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by rodol on 18/02/2016.
  */
-public class GlFont  {
+public class GlFont {
+
+    private static String xmlData;
+
+
+
+    private static final String ns = null;
+    private static FrameCursor frameCursor;
+
+    public float getSize() {
+        return size;
+    }
+
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    private float size;
 
 
     private static Texture mTexture;
@@ -25,66 +47,217 @@ public class GlFont  {
     }
 
 
-    public  float getMapRatio(char charCode) {
-        float result;
-        switch (Character.getNumericValue(charCode)) {
-/**
- * pour tester le concept on utilise la map calibri en dur...a faire évoluer.!!!!!
- */
-            case 65:
-                result = 57.f/ 123.f;
-                break;
+    public GlFont() {
+        this.size = 100;//R.integer.default_font_size_in_px;
+        initXmlData();
+        this.frameCursor = new FrameCursor();
 
-            default:
-                result = 57.f/123.f;
-
-        }
-
-        return result;
     }
 
 
-    public static float[] getTextCoord(char charCode) {
-        float[] result = new float[8];
+    private FrameCursor getFrameCursor() {
+        return frameCursor;
+    }
 
+    private static void setFrameCursor(int value) {
 
-        switch (Character.getNumericValue(charCode)) {
-/**
- * pour tester le concept on utilise la map calibri en dur...a faire évoluer.!!!!!
- */
-            case 65:
-                result = getCharTextCoord(3, 1, 57, 123);
-                break;
-
-            default:
-                result = getCharTextCoord(3, 1, 57, 123);
-
+        try {
+            loadFrameCursor(value);
+        } catch (XmlPullParserException e) {
+            Log.e("problème", "Xmlpull");
+        } catch (IOException e) {
+            Log.e("problème", "IO");
         }
 
-        return result;
+
+    }
+
+    private static void loadFrameCursor(int value) throws XmlPullParserException, IOException {
+
+        InputStream in = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
+
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(in, null);
+            parser.nextTag();
+
+            parser.require(XmlPullParser.START_TAG, ns, "frame");
+
+            while (parser.next() != XmlPullParser.END_DOCUMENT) {
+
+                if (Integer.parseInt(parser.getAttributeValue(0)) == value) {
+                    frameCursor.setX(Integer.parseInt(parser.getAttributeValue(1)));
+                    frameCursor.setY(Integer.parseInt(parser.getAttributeValue(2)));
+                    frameCursor.setWidth(Integer.parseInt(parser.getAttributeValue(3)));
+                    frameCursor.setHeight(Integer.parseInt(parser.getAttributeValue(4)));
+
+                    frameCursor.setRatio((float) frameCursor.getWidth() / (float) frameCursor.getHeight());
+                break;
+                }
+            }
+        } finally {
+            in.close();
+        }
+
     }
 
 
+    public static float[] getCharTextCoord(int value) {
 
+        //on positionne le frameCursor sur la lettre voulue
+        setFrameCursor(value);
 
-    public static float[] getCharTextCoord(int x, int y, int width, int heigth) {
         float[] result = new float[8];
 
         // il faut ajouter le cast en fload, sinon java tranforme le resultat en int car geWidth()
         // et getHeight() retournent un int.
         //upLeft
-        result[0] = x / (float) mTexture.getWidth();
-        result[1] = y / (float) mTexture.getHeight();
+        result[0] = frameCursor.getX() / (float) getMap().getWidth();
+        result[1] = frameCursor.getY() / (float) getMap().getHeight();
         //downLeft
-        result[2] = x / (float) mTexture.getWidth();
-        result[3] = (y + heigth) / (float) mTexture.getHeight();
+        result[2] = frameCursor.getX() / (float) getMap().getWidth();
+        result[3] = (frameCursor.getY() + frameCursor.getHeight()) / (float) getMap().getHeight();
         //downRight
-        result[4] = (x + width) / (float) mTexture.getWidth();
-        result[5] = (y + heigth) / (float) mTexture.getHeight();
+        result[4] = (frameCursor.getX() + frameCursor.getWidth()) / (float) getMap().getWidth();
+        result[5] = (frameCursor.getY() + frameCursor.getHeight()) / (float) getMap().getHeight();
         //upRight
-        result[6] = (x + width) / (float) mTexture.getWidth();
-        result[7] = y / (float) mTexture.getHeight();
+        result[6] = (frameCursor.getX() + frameCursor.getWidth()) / (float) getMap().getWidth();
+        result[7] = frameCursor.getY() / (float) getMap().getHeight();
         return result;
+    }
+
+
+    public static float getRatio(int charValue) {
+
+        setFrameCursor(charValue);
+
+        return frameCursor.getRatio();
+    }
+
+    private void initXmlData() {
+
+        this.xmlData =
+                "<frame g=\"65\" x=\"3\" y=\"1\" w=\"57\" h=\"123\" />"
+                        +"<frame g=\"65\" x=\"3\" y=\"1\" w=\"57\" h=\"123\" />"
+                        + "<frame g=\"66\" x=\"73\" y=\"1\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"67\" x=\"139\" y=\"1\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"68\" x=\"207\" y=\"1\" w=\"61\" h=\"123\" />"
+                        + "<frame g=\"69\" x=\"285\" y=\"1\" w=\"49\" h=\"123\" />"
+                        + "<frame g=\"70\" x=\"351\" y=\"1\" w=\"46\" h=\"123\" />"
+                        + "<frame g=\"71\" x=\"408\" y=\"1\" w=\"63\" h=\"123\" />"
+                        + "<frame g=\"72\" x=\"490\" y=\"1\" w=\"62\" h=\"123\" />"
+                        + "<frame g=\"73\" x=\"573\" y=\"1\" w=\"25\" h=\"123\" />"
+                        + "<frame g=\"74\" x=\"610\" y=\"1\" w=\"32\" h=\"123\" />"
+                        + "<frame g=\"75\" x=\"663\" y=\"1\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"76\" x=\"728\" y=\"1\" w=\"42\" h=\"123\" />"
+                        + "<frame g=\"77\" x=\"782\" y=\"1\" w=\"85\" h=\"123\" />"
+                        + "<frame g=\"78\" x=\"888\" y=\"1\" w=\"64\" h=\"123\" />"
+                        + "<frame g=\"79\" x=\"969\" y=\"1\" w=\"66\" h=\"123\" />"
+                        + "<frame g=\"80\" x=\"1052\" y=\"1\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"81\" x=\"7\" y=\"124\" w=\"67\" h=\"123\" />"
+                        + "<frame g=\"82\" x=\"88\" y=\"124\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"83\" x=\"152\" y=\"124\" w=\"46\" h=\"123\" />"
+                        + "<frame g=\"84\" x=\"205\" y=\"124\" w=\"49\" h=\"123\" />"
+                        + "<frame g=\"85\" x=\"266\" y=\"124\" w=\"64\" h=\"123\" />"
+                        + "<frame g=\"86\" x=\"343\" y=\"124\" w=\"56\" h=\"123\" />"
+                        + "<frame g=\"87\" x=\"406\" y=\"124\" w=\"89\" h=\"123\" />"
+                        + "<frame g=\"88\" x=\"503\" y=\"124\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"89\" x=\"560\" y=\"124\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"90\" x=\"614\" y=\"124\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"97\" x=\"671\" y=\"124\" w=\"48\" h=\"123\" />"
+                        + "<frame g=\"98\" x=\"737\" y=\"124\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"99\" x=\"801\" y=\"124\" w=\"43\" h=\"123\" />"
+                        + "<frame g=\"100\" x=\"855\" y=\"124\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"101\" x=\"923\" y=\"124\" w=\"50\" h=\"123\" />"
+                        + "<frame g=\"102\" x=\"983\" y=\"124\" w=\"30\" h=\"123\" />"
+                        + "<frame g=\"103\" x=\"1020\" y=\"124\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"104\" x=\"10\" y=\"247\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"105\" x=\"79\" y=\"247\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"106\" x=\"114\" y=\"247\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"107\" x=\"155\" y=\"247\" w=\"45\" h=\"123\" />"
+                        + "<frame g=\"108\" x=\"213\" y=\"247\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"109\" x=\"255\" y=\"247\" w=\"80\" h=\"123\" />"
+                        + "<frame g=\"110\" x=\"353\" y=\"247\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"111\" x=\"419\" y=\"247\" w=\"53\" h=\"123\" />"
+                        + "<frame g=\"112\" x=\"487\" y=\"247\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"113\" x=\"552\" y=\"247\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"114\" x=\"623\" y=\"247\" w=\"35\" h=\"123\" />"
+                        + "<frame g=\"115\" x=\"666\" y=\"247\" w=\"39\" h=\"123\" />"
+                        + "<frame g=\"116\" x=\"713\" y=\"247\" w=\"33\" h=\"123\" />"
+                        + "<frame g=\"117\" x=\"759\" y=\"247\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"118\" x=\"824\" y=\"247\" w=\"44\" h=\"123\" />"
+                        + "<frame g=\"119\" x=\"876\" y=\"247\" w=\"70\" h=\"123\" />"
+                        + "<frame g=\"120\" x=\"954\" y=\"247\" w=\"42\" h=\"123\" />"
+                        + "<frame g=\"121\" x=\"1003\" y=\"247\" w=\"45\" h=\"123\" />"
+                        + "<frame g=\"122\" x=\"1057\" y=\"247\" w=\"40\" h=\"123\" />"
+
+                  /*
+                        + "<frame g=\"97\" x=\"7\" y=\"370\" w=\"48\" h=\"123\" />"
+                        + "<frame g=\"98\" x=\"73\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"99\" x=\"137\" y=\"370\" w=\"43\" h=\"123\" />"
+                        + "<frame g=\"100\" x=\"191\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"101\" x=\"259\" y=\"370\" w=\"50\" h=\"123\" />"
+                        + "<frame g=\"102\" x=\"319\" y=\"370\" w=\"30\" h=\"123\" />"
+                        + "<frame g=\"103\" x=\"356\" y=\"370\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"104\" x=\"417\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"105\" x=\"486\" y=\"370\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"106\" x=\"521\" y=\"370\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"107\" x=\"562\" y=\"370\" w=\"45\" h=\"123\" />"
+                        + "<frame g=\"108\" x=\"620\" y=\"370\" w=\"23\" h=\"123\" />"
+                        + "<frame g=\"109\" x=\"662\" y=\"370\" w=\"80\" h=\"123\" />"
+                        + "<frame g=\"110\" x=\"760\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"111\" x=\"826\" y=\"370\" w=\"53\" h=\"123\" />"
+                        + "<frame g=\"112\" x=\"894\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"113\" x=\"959\" y=\"370\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"114\" x=\"1030\" y=\"370\" w=\"35\" h=\"123\" />"
+                        + "<frame g=\"115\" x=\"6\" y=\"493\" w=\"39\" h=\"123\" />"
+                        + "<frame g=\"116\" x=\"53\" y=\"493\" w=\"33\" h=\"123\" />"
+                        + "<frame g=\"117\" x=\"99\" y=\"493\" w=\"52\" h=\"123\" />"
+                        + "<frame g=\"118\" x=\"164\" y=\"493\" w=\"44\" h=\"123\" />"
+                        + "<frame g=\"119\" x=\"216\" y=\"493\" w=\"70\" h=\"123\" />"
+                        + "<frame g=\"120\" x=\"294\" y=\"493\" w=\"42\" h=\"123\" />"
+                        + "<frame g=\"121\" x=\"343\" y=\"493\" w=\"45\" h=\"123\" />"
+                        + "<frame g=\"122\" x=\"397\" y=\"493\" w=\"40\" h=\"123\" />"
+                        + "<frame g=\"65\" x=\"445\" y=\"493\" w=\"57\" h=\"123\" />"
+                        + "<frame g=\"66\" x=\"515\" y=\"493\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"67\" x=\"581\" y=\"493\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"68\" x=\"649\" y=\"493\" w=\"61\" h=\"123\" />"
+                        + "<frame g=\"69\" x=\"727\" y=\"493\" w=\"49\" h=\"123\" />"
+                        + "<frame g=\"70\" x=\"793\" y=\"493\" w=\"46\" h=\"123\" />"
+                        + "<frame g=\"71\" x=\"850\" y=\"493\" w=\"63\" h=\"123\" />"
+                        + "<frame g=\"72\" x=\"932\" y=\"493\" w=\"62\" h=\"123\" />"
+                        + "<frame g=\"73\" x=\"1015\" y=\"493\" w=\"25\" h=\"123\" />"
+                        + "<frame g=\"74\" x=\"1052\" y=\"493\" w=\"32\" h=\"123\" />"
+                        + "<frame g=\"75\" x=\"11\" y=\"616\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"76\" x=\"76\" y=\"616\" w=\"42\" h=\"123\" />"
+                        + "<frame g=\"77\" x=\"130\" y=\"616\" w=\"85\" h=\"123\" />"
+                        + "<frame g=\"78\" x=\"236\" y=\"616\" w=\"64\" h=\"123\" />"
+                        + "<frame g=\"79\" x=\"317\" y=\"616\" w=\"66\" h=\"123\" />"
+                        + "<frame g=\"80\" x=\"400\" y=\"616\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"81\" x=\"464\" y=\"616\" w=\"67\" h=\"123\" />"
+                        + "<frame g=\"82\" x=\"545\" y=\"616\" w=\"54\" h=\"123\" />"
+                        + "<frame g=\"83\" x=\"609\" y=\"616\" w=\"46\" h=\"123\" />"
+                        + "<frame g=\"84\" x=\"662\" y=\"616\" w=\"49\" h=\"123\" />"
+                        + "<frame g=\"85\" x=\"723\" y=\"616\" w=\"64\" h=\"123\" />"
+                        + "<frame g=\"86\" x=\"800\" y=\"616\" w=\"56\" h=\"123\" />"
+                        + "<frame g=\"87\" x=\"863\" y=\"616\" w=\"89\" h=\"123\" />"
+                        + "<frame g=\"88\" x=\"960\" y=\"616\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"89\" x=\"1017\" y=\"616\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"90\" x=\"5\" y=\"739\" w=\"47\" h=\"123\" />"
+                        + "<frame g=\"49\" x=\"66\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"50\" x=\"131\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"51\" x=\"196\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"52\" x=\"259\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"53\" x=\"321\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"54\" x=\"386\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"55\" x=\"449\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"56\" x=\"511\" y=\"739\" w=\"51\" h=\"123\" />"
+                        + "<frame g=\"57\" x=\"573\" y=\"739\" w=\"51\" h=\"123\" />"
+
+                        */
+                        + "<frame g=\"48\" x=\"635\" y=\"739\" w=\"51\" h=\"123\" />";
+
     }
 
 

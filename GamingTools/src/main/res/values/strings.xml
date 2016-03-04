@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">GamingTools</string>
 
-    <string name="calibri">images/calibri.png</string>
+    <string name="calibri">font/calibri.png</string>
+    <string name="calibrixml">font/calibri.xml</string>
+
 
 </resources>
