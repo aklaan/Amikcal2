@@ -1,0 +1,59 @@
+//------------------------------------------------------------------------
+E000-splash screen
+
+//------------------------------------------------------------------------
+E001-écran d'accueil
+	//la première fois
+		-> Bouton: Démarrer une nouvelle quête (start new quest) -> vers acceuil nouveaux arrivants
+	
+	//après la première fois
+		-> Bouton: Continuer -> vers l'écran d'accueil de la quête
+		-> Bouton: Paramètres -> vers l'écran paramètre
+		-> Bouton: Recommencer une nouvelle quête
+		
+		
+		
+//------------------------------------------------------------------------		
+E002:Renseigner les informations de l'utilisateur
+E002-000 : Ecran choix homme/femme
+		->Bouton: Homme
+		->Bouton: Femme
+		
+
+		E002-001 : Ecran de saisie de l'âge
+		-----------------------------------
+		-> Zone de texte au format date --/--/--
+		-> Pavé numérique avec chiffres + OK + retour arrière >> le OK passe à l'écran suivant
+		-> Bouton:retour a l'écran précédent
+		
+		
+		E002-001 : Ecran de saisie de la taille
+		---------------------------------------
+		-> Zone de texte au format -.-- m (/!\ localisation US/europ)
+		-> Pavé numérique avec chiffres + OK + retour arrière >> le OK passe à l'écran suivant
+		-> Bouton:retour a l'écran précédent
+		
+		
+		E002-001 : Ecran de saisie du poids
+		-----------------------------------
+		-> Zone de texte au format ---.-- Kg (/!\ localisation US/europ)
+		-> Pavé numérique avec chiffres + OK + retour arrière >> le OK passe à l'écran suivant
+		-> Bouton:retour a l'écran précédent
+		
+
+E002:Saisir une quête
+		-> 5 boutons d'objectif de poids -1, -2, -3, -4, -5
+		-> 4 boutons d'objectif de semaine -1, -2, -3, -4,
+		-> Bouton: OK 
+		
+		
+		
+//------------------------------------------------------------------------
+E003:Ecran paramètre
+	-> Bouton: Modifier profil -> vers ecrans Renseigner informations de l'utilisateur 
+	
+	
+	
+//------------------------------------------------------------------------
+E004:Ecran accueil des nouveaux
+	-> animation qui introduit le jeu. un personnage explique le contexte (story telling)

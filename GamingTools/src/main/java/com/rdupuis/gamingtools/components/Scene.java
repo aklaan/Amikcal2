@@ -6,9 +6,9 @@ import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 
-import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.animations.AnimationManager;
-import com.rdupuis.gamingtools.components.shapes.GlFont;
+import com.rdupuis.gamingtools.components.fonts.FontConsolas;
+import com.rdupuis.gamingtools.components.fonts.GlFont;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.inputs.UserFinger;
 import com.rdupuis.gamingtools.providers.GameObjectManager;
@@ -16,6 +16,9 @@ import com.rdupuis.gamingtools.shaders.ProgramShaderManager;
 import com.rdupuis.gamingtools.components.texture.TextureManager;
 import com.rdupuis.gamingtools.components.physics.ColliderManager;
 
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -34,6 +37,8 @@ public class Scene implements GLSurfaceView.Renderer {
     private AnimationManager animationManager;
     private GameObjectManager mGameObjectManager;
     private ProgramShaderManager mProgramShaderManager;
+
+    private ArrayList<GlFont> glFontsList;
 
     public final float[] mVMatrix = new float[16];
     public final float[] mVMatrixORTH = new float[16];
@@ -142,13 +147,15 @@ public class Scene implements GLSurfaceView.Renderer {
 
         this.mActivity = activity;
         //par defaut on est en mode de vue Orthogonale
-        this.mViewMode = VIEW_MODE.ORTHO;
+        this.setViewMode(VIEW_MODE.ORTHO);
 
         setTexManager(new TextureManager(activity));
         setPSManager(new ProgramShaderManager());
         setAnimationManager(new AnimationManager());
         setGOManager(new GameObjectManager(this));
         setColliderManager(new ColliderManager());
+
+        glFontsList = new ArrayList<GlFont>();
 
         this.mCamera = new Camera();
         this.mCamera.centerZ = 100;
@@ -171,16 +178,33 @@ public class Scene implements GLSurfaceView.Renderer {
      */
     private void preLoading() {
 
-        //on charge la texture de la police d'écriture
-        this.getTexManager().add(R.string.calibri);
-        GlFont calibri = new GlFont();
-        calibri.setMap(this.getTexManager().getTextureById(R.string.calibri));
-
+        initializeFont(new FontConsolas());
         // on charge les textures necessaires à la scène
         loadTextures();
         // on initialise la liste des objets qui serront contenus dans
         // la scène.
         loadGameObjects();
+    }
+
+
+    public void initializeFont(GlFont glFont) {
+        //on charge la texture de la police d'écriture dans la liste des texture de la scène
+        // et on en profite pour initialiser la texture de la font qui est static
+
+        //on ajoute la font dans la liste des fonts de la scène
+        glFontsList.add(glFont);
+        //on mémorise la MAP de la font
+        glFont.setMap(this.getTexManager().add(glFont.getMapPathId()));
+        //on mémorise les données xml pour les coordonées de texture
+        try {
+
+            glFont.setXmlData(this.getActivity().getAssets().open(
+                    this.getActivity().getString(glFont.getXmlDataPathId())));
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -276,8 +300,11 @@ public class Scene implements GLSurfaceView.Renderer {
                 mCamera.orientX, mCamera.orientY, mCamera.orientZ);
 
         // * pour un affichage Orthogonal *********************
-        // le (0,0) est en bas � gauche.
-        Matrix.orthoM(mProjectionORTH, 0, -0, width, 0, hight, -10.f, 10.f);
+        // le point bas (0,0) du rectangle est en bas � gauche.
+        // on définit le point haut à "width","height"
+        // on définit la profondeur de rendu à +1 devant et -1 derrière
+        //
+        Matrix.orthoM(mProjectionORTH, 0, -0, width, 0, hight, -1.f, 1.f);
 
         Matrix.setIdentityM(mVMatrixORTH, 0);
 
@@ -330,7 +357,7 @@ public class Scene implements GLSurfaceView.Renderer {
          * pour éviter le problème, on ne chek pas les colissions sur la première Frame
          */
         //on check les colissions toustes les 4 frames pour économiser de la CPU
-        if (frameCounter > 0 ) {
+        if (frameCounter > 0) {
             this.getColliderManager().updateCollisionsList();
             frameCounter = 0;
         }

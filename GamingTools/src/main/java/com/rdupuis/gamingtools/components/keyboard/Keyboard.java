@@ -1,13 +1,10 @@
 package com.rdupuis.gamingtools.components.keyboard;
 
-import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
-import com.rdupuis.gamingtools.components.button.Button;
 import com.rdupuis.gamingtools.components.button.ButtonWithText;
-import com.rdupuis.gamingtools.components.shapes.GlFont;
+import com.rdupuis.gamingtools.components.button.GLKeyboardListener;
+import com.rdupuis.gamingtools.components.fonts.GlFont;
 import com.rdupuis.gamingtools.components.texture.Texture;
-import com.rdupuis.gamingtools.utils.Tools;
-import com.rdupuis.gamingtools.utils.Vector2D;
 
 import java.util.ArrayList;
 
@@ -15,22 +12,22 @@ import java.util.ArrayList;
  * Created by rodol on 04/02/2016.
  */
 public class Keyboard extends GroupOfGameObject {
+    private final ArrayList<GLKeyboardListener> eventListenerList = new ArrayList<GLKeyboardListener>();
 
 
-    public Keyboard(float x, float y, float width, float height, Texture texUp, Texture texDown,Texture fontMap) {
+    public Keyboard(float x, float y, float width, float height, Texture texUp, Texture texDown,GlFont glFont) {
         super();
-        int nbcases = 5;
+        int nbcases = 6;
         float spaceX = x;
         float spaceY = y;
-        float offset = 57.f;
+        float offset = 100.f;
 
+        String text = "ABCDEF";
         for (int i = 0; i < nbcases; i++) {
 
+            ButtonWithText bt = new ButtonWithText(spaceX, spaceY, 100, 100, texUp, texDown, glFont);
 
-
-            ButtonWithText bt = new ButtonWithText(spaceX, spaceY, 100, 100, texUp, texDown, fontMap);
-
-            bt.setText("A");
+            bt.setText(String.valueOf(text.charAt(i)));
             /**
              *
 
@@ -49,5 +46,19 @@ public class Keyboard extends GroupOfGameObject {
 
     }
 
+    public void addGLKeyboardListener(GLKeyboardListener glKeyboardListener) {
+        this.eventListenerList.add(glKeyboardListener);
+    }
+
+    /**
+     * pour tous les objets qui écoutent le onClick(), on leur passe
+     * l'info
+     */
+    public void onClick() {
+        for (GLKeyboardListener listener : eventListenerList) {
+            listener.onClick();
+
+        }
+    }
 
 }

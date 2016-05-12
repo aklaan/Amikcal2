@@ -5,7 +5,7 @@ import com.rdupuis.gamingtools.components.shapes.Shape;
 import java.util.ArrayList;
 
 
-public class GameObject  implements Composition {
+public class GameObject implements Composition {
 
     //Tag de l'objet
     private String mTagName;
@@ -20,7 +20,6 @@ public class GameObject  implements Composition {
     private ColorRGBA ambiantColor = new ColorRGBA();
 
 
-
     // coordonnées du centre de l'objet
     public float X = 0;
     public float Y = 0;
@@ -28,8 +27,6 @@ public class GameObject  implements Composition {
 
     //Taille de l'objet
     private float width;
-
-
     private float height;
 
     //liste des objets à écouter
@@ -47,6 +44,7 @@ public class GameObject  implements Composition {
     public float getHeight() {
         return height;
     }
+
     public void setHeight(float height) {
         this.height = height;
     }
@@ -54,6 +52,7 @@ public class GameObject  implements Composition {
     public float getWidth() {
         return width;
     }
+
     public void setWidth(float width) {
 
         this.width = width;
@@ -62,14 +61,15 @@ public class GameObject  implements Composition {
     public void setScene(Scene mScene) {
         this.mScene = mScene;
     }
+
     public Scene getScene() {
         return this.mScene;
     }
 
-
     public String getTagName() {
         return mTagName;
     }
+
     public void setTagName(String tagid) {
         mTagName = tagid;
     }
@@ -77,10 +77,10 @@ public class GameObject  implements Composition {
     public boolean getVisibility() {
         return mVisibility;
     }
+
     public void setVisibility(Boolean mVisibility) {
         this.mVisibility = mVisibility;
     }
-
 
     public ColorRGBA getAmbiantColor() {
         return ambiantColor;
@@ -121,17 +121,29 @@ public class GameObject  implements Composition {
         this.Z = z;
     }
 
-    public float getX() { return X; }
-    public void setX(float x) { this.X = x; }
+    public float getX() {
+        return X;
+    }
 
-    public float getY() {return Y; }
+    public void setX(float x) {
+        this.X = x;
+    }
+
+    public float getY() {
+        return Y;
+    }
+
     public void setY(float y) {
         this.Y = y;
     }
 
+    public void setZ(float z) {
+        this.Z = z;
+    }
 
-    public void setZ(float z) { this.Z = z; }
-    public float getZ() {return Z; }
+    public float getZ() {
+        return Z;
+    }
 
     /**
      * @return
@@ -152,13 +164,9 @@ public class GameObject  implements Composition {
     }
 
 
-
     public void updateModelView() {
 
     }
-
-
-
 
 
     /**
@@ -173,12 +181,11 @@ public class GameObject  implements Composition {
     }
 
 
-    public ArrayList<Composition> getComponent(){
+    public ArrayList<Composition> getComponent() {
         ArrayList<Composition> result = new ArrayList<Composition>();
         result.add(this);
         return result;
     }
-
 
 
     /**

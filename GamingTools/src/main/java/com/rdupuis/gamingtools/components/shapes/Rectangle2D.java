@@ -16,9 +16,6 @@ public class Rectangle2D extends Shape {
     private DrawingMode mDrawingMode;
     private ArrayList<Vertex> mVertices;
 
-    public Rectangle2D(){
-        super();
-    }
 
     public Rectangle2D(DrawingMode drawingMode) {
         super();
@@ -31,6 +28,7 @@ public class Rectangle2D extends Shape {
     }
 
 
+    //rectangle dont le 0,0 est au centre de la forme.
     private void initVertices() {
         mVertices.add(new Vertex(-0.5f, 0.5f, 0f, 0f, 0f, 1f, 1f, 1f, 1f));
         mVertices.add(new Vertex(-0.5f, -0.5f, 0f, 0f, 1f, 1f, 1f, 1f, 1f));
@@ -51,8 +49,6 @@ public class Rectangle2D extends Shape {
         mVertices.get(1).setUV(textCoord[2],textCoord[3]);
         mVertices.get(2).setUV(textCoord[4],textCoord[5]);
         mVertices.get(3).setUV(textCoord[6],textCoord[7]);
-
-
     }
 
     @Override

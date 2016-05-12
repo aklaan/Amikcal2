@@ -68,14 +68,14 @@ public class TextureManager {
     /**
      * add : Ajouter une nouvelle texture
      *
-     * @param bitmapRessourceID : id de la chaine dans le fichier res/string.xml
+     * @param bitmapAssetPathID : id de la chaine dans le fichier res/string.xml
      */
-    public void add(int bitmapRessourceID) {
+    public Texture add(int bitmapAssetPathID) {
 
         Bitmap bitmap = null;
         try {
             bitmap = BitmapFactory.decodeStream(this.getActivity().getAssets().open(
-                    this.getActivity().getString(bitmapRessourceID)));
+                    this.getActivity().getString(bitmapAssetPathID)));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -84,15 +84,16 @@ public class TextureManager {
         Texture texture = new Texture();
         texture.setWidth(bitmap.getWidth());
         texture.setHeight(bitmap.getHeight());
-        texture.setRessourceId(bitmapRessourceID);
+        texture.setRessourceId(bitmapAssetPathID);
 
         this.getTextureList().add(texture);
-
+        return texture;
     }
 
 
     /**
      * Recherche d'une texture via son ID dans la liste des textures
+     *
      * @param ressourceId
      * @return
      */
@@ -103,17 +104,17 @@ public class TextureManager {
         }
         //si la texture n'a pas été trouvé, on retourne null
         throw new RuntimeException("la Texture recherché n'a pas été ajouté dans la liste du TextureProvider " + String.valueOf(ressourceId));
-      //  return null;
+        //  return null;
     }
 
     /**
      * Initialisation des buffer OpenGl
      * -> pour chaques texture, on charge l'image dans le buffer OpenGl
-     *    et on mémorise l'index du buffer dans lequel on a enregistré la texture
-     *
-     *    cette initialisation ne doit se faire qu'une fois au moment du surfaceCreated
-     *    il faut donc que toutes les textures utilisées par la la scène soient référencées en amont
-     *    dans le provider.
+     * et on mémorise l'index du buffer dans lequel on a enregistré la texture
+     * <p>
+     * cette initialisation ne doit se faire qu'une fois au moment du surfaceCreated
+     * il faut donc que toutes les textures utilisées par la la scène soient référencées en amont
+     * dans le provider.
      */
     private void initGlTextureBuffer() {
 
@@ -143,8 +144,8 @@ public class TextureManager {
                 e.printStackTrace();
             }
 
-             //on se positionne sur le buffer texture sur lequel on souhaite écrire
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture.getGlBufferId());
+            //on se positionne sur le buffer texture sur lequel on souhaite écrire
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getGlBufferId());
 
             //--------------------------------------------------------------
             // définition des paramètres de magnification et minification des
@@ -172,7 +173,7 @@ public class TextureManager {
 
             //------------------------------------------------------------
             //on écrit dans le buffer
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
 
             //on supprime l'image de la mémoire
             bitmap.recycle();

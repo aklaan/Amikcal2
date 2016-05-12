@@ -2,7 +2,9 @@
     <string name="app_name">GamingTools</string>
 
     <string name="calibri">font/calibri.png</string>
-    <string name="calibrixml">font/calibri.xml</string>
 
+
+    <string name="consolas">font/consolas.png</string>
+    <string name="consolas_xml_data">font/consolas.xml</string>
 
 </resources>

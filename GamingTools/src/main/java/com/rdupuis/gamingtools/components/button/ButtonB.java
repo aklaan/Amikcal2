@@ -43,7 +43,7 @@ public class ButtonB extends Rectangle2D implements Clikable {
         this.textureDown = textureDown;
         this.enableCollisions();
 
-        this.textureEnabled = true;
+        this.enableTexturing();
         this.setVisibility(false);
         this.setAlpha(0.f);
     }

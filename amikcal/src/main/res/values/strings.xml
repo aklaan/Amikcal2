@@ -109,7 +109,8 @@
     <string name="spaceship">images/spaceship.png</string>
     <string name="bugalive">images/blue.png</string>
     <string name="bugdead">images/red.png</string>
- 
+    <string name="grille">images/grille_H_1280x720_50x50.png</string>
+
     <!-- parametrage du projet -->
     
     <string name="imagesfolder">images</string>

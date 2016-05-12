@@ -7,21 +7,18 @@ import android.util.Log;
 import com.rdupuis.amikcal2.R;
 import com.rdupuis.gamingtools.animations.AnimationFadeOut;
 import com.rdupuis.gamingtools.animations.AnimationFadeOutMoveUp;
-import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.button.ButtonA;
-import com.rdupuis.gamingtools.components.button.ButtonWithText;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
+import com.rdupuis.gamingtools.components.button.GLKeyboardListener;
+import com.rdupuis.gamingtools.components.fonts.FontConsolas;
 import com.rdupuis.gamingtools.components.keyboard.Keyboard;
-import com.rdupuis.gamingtools.components.shapes.GlFont;
-import com.rdupuis.gamingtools.components.shapes.GlString;
+import com.rdupuis.gamingtools.components.fonts.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
-import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
-import com.rdupuis.gamingtools.shaders.ProgramShader_forLines;
 import com.rdupuis.gamingtools.shaders.ProgramShader_noTexture;
 import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
 
@@ -31,7 +28,7 @@ import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
  */
 public class Scene01 extends Scene {
 
-    private final String TAG_KEYBORD = "scene1:keyboard";
+    private final String TAG_KEYBOARD = "scene1:keyboard";
     private final String TAG_BACKGROUND = "scene1:background";
     private final String TAG_BUTTON = "scene1:button";
 
@@ -47,37 +44,53 @@ public class Scene01 extends Scene {
         //BACKGROUND
         Rectangle2D background = new Rectangle2D(DrawingMode.FILL);
         background.setCoord((float) this.getWidth() / 2, (float) this.getHeight() / 2);
+        //background.setCoord(0f, 0f);
         background.setHeight((float) this.getHeight());
         background.setWidth((float) this.getWidth());
 
         background.setTagName(TAG_BACKGROUND);
+        background.setVisibility(true);
         background.disableCollisions();
+        background.enableTexturing();
+        background.setTexture(this.getTexManager().getTextureById(R.string.grille));
+        this.addToScene(background);
+
+
+        //-----------------------------------------------
 
         initButtonQty();
         initButtonOk();
 
-        Texture keyUp = this.getTexManager().getTextureById(R.string.calibri);
-        Texture fontmat = this.getTexManager().getTextureById(R.string.calibri);
-        Keyboard keyboard = new Keyboard(100, 200, 400, 400, keyUp, keyUp,fontmat);
-        keyboard.setTagName(TAG_KEYBORD);
-           this.addToScene(keyboard);
+        //-------------------------------------------------
 
-        //TODO : quand on crée un GlString, il faut imposer une GlFont ou  en imposer un par defaut.
+        Keyboard keyboard = new Keyboard(100, 200, 400, 400
+                , this.getTexManager().getTextureById(R.string.circle)
+                , this.getTexManager().getTextureById(R.string.emptycircle)
+                , new FontConsolas());
+        keyboard.setTagName(TAG_KEYBOARD);
 
-        GlString testGlString = new GlString();
-        GlFont glFont = new GlFont();
-        //TODO : intéger la map directement dans la font.
-        glFont.setMap(this.getTexManager().getTextureById(R.string.calibri));
+        this.addToScene(keyboard);
 
-        testGlString.setGlFont(glFont);
+        GlString testGlString = new GlString(new FontConsolas());
 
         testGlString.setCoord(100, 800);
+        testGlString.setTagName("matextbox");
+        testGlString.setText("C");
+        //TODO : il faut que la texBox écoute le clavier pour se mettre à jour
 
-        testGlString.setText("Clement");
+        GLKeyboardListener toto = new GLKeyboardListener() {
+            @Override
+            public void onClick() {
+                Log.e("debug", "click");
+                GlString tbox = (GlString) Scene01.this.getGOManager().getGameObjectByTag("matextbox");
+                tbox.setText("bonjour");
+            }
+        };
+
+        keyboard.addGLKeyboardListener(toto);
 
         this.addToScene(testGlString);
     }
-
 
     /*********************************************************************
      * Bouton pour les quantités
@@ -86,7 +99,6 @@ public class Scene01 extends Scene {
 
         //BUTTON
         //Button(float x, float y, float witdth, float hight, Texture textureUp, Texture textureDown)
-
 
         ButtonA button = new ButtonA(150, 600, 400, 400,
                 this.getTexManager().getTextureById(R.string.circle),
@@ -129,7 +141,7 @@ public class Scene01 extends Scene {
             @Override
             public void onLongClick() {
                 Log.e("Scene01", "Bouton QTY >> long click");
-                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBORD);
+                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBOARD);
                 Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOut(keyb));
             }
 
@@ -190,7 +202,7 @@ public class Scene01 extends Scene {
                 Log.e("debug", "long click");
 
                 Log.e("Scene01", "Bouton QTY >> long click");
-                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBORD);
+                GameObject keyb = Scene01.this.getGOManager().getGameObjectByTag(TAG_KEYBOARD);
                 Scene01.this.getAnimationManager().addAnimation(new AnimationFadeOutMoveUp(keyb));
 
 
@@ -226,6 +238,7 @@ public class Scene01 extends Scene {
         this.getTexManager().add(R.string.circle);
         this.getTexManager().add(R.string.spaceship);
         this.getTexManager().add(R.string.emptycircle);
+        this.getTexManager().add(R.string.grille);
 
     }
 

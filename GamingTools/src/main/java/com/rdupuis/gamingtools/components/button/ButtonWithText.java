@@ -2,11 +2,9 @@ package com.rdupuis.gamingtools.components.button;
 
 import android.os.SystemClock;
 
-import com.gamingtools.rdupuis.gamingtools.R;
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
-import com.rdupuis.gamingtools.components.shapes.GlChar;
-import com.rdupuis.gamingtools.components.shapes.GlFont;
-import com.rdupuis.gamingtools.components.shapes.GlString;
+import com.rdupuis.gamingtools.components.fonts.GlFont;
+import com.rdupuis.gamingtools.components.fonts.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.texture.Texture;
@@ -25,9 +23,9 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         UP, DOWN
     }
 
-    private final String BTN__A_TAG = "BTN_A";
+    private final String BTN_WTH_TXT_TAG = "BTN_WTH_TXT";
     private final String TEXT = "TEXT";
-    private Rectangle2D rectangle2D_A;
+    private Rectangle2D rectangle2D;
     private GlString mText;
 
     public Texture textureUp;
@@ -43,37 +41,34 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
     private final ArrayList<GLButtonListener> eventListenerList = new ArrayList<GLButtonListener>();
 
-    public ButtonWithText(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown,Texture fontmap) {
+    public ButtonWithText(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown, GlFont glFont) {
 
         this.textureUp = textureUp;
         this.textureDown = textureDown;
 
         //définition du premier rectangle : il s'agit du bouton sur lequel on appuie
-        this.rectangle2D_A = new Rectangle2D(DrawingMode.FILL);
-        this.rectangle2D_A.enableTexturing();
+        this.rectangle2D = new Rectangle2D(DrawingMode.FILL);
+        this.rectangle2D.enableTexturing();
 
         //il s'agit de la taille initiale. au final, elle va être propotionelle au
         //GroupOfGameObject.
-        this.rectangle2D_A.setWidth(1f);
-        this.rectangle2D_A.setHeight(1f);
-        this.rectangle2D_A.enableCollisions();
-        this.rectangle2D_A.setTagName(BTN__A_TAG + ":A");
-
-        //Définition du texte.
-        this.mText = new GlString();
-
-        //font
-        GlFont glFont = new GlFont();
-        //TODO : intéger la map directement dans la font.
-        glFont.setMap(fontmap);
-        mText.setGlFont(glFont);
+        this.rectangle2D.setWidth(1f);
+        this.rectangle2D.setHeight(1f);
+        //on active la gestion des collision
+        this.rectangle2D.enableCollisions();
+        this.rectangle2D.setTagName(BTN_WTH_TXT_TAG);
 
 
-        //on ajoute les 2 boutons dans la liste des composants.
-        this.add(rectangle2D_A);
+        //Définition du texte affiché sur le bouton.
+        this.mText = new GlString(glFont);
+
+        //on ajoute le rectangle et le texte dans la liste des composants.
+        this.add(rectangle2D);
         this.add(mText);
 
+        //par défaut le bouton est en position haute
         this.status = ButtonStatus.UP;
+
         this.setX(x);
         this.setY(y);
         this.setHeight(height);
@@ -81,37 +76,29 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
         this.listening = false;
 
-        //this.isStatic = false;
-
-    }
+            }
 
     public void addGLButtonListener(GLButtonListener glButtonListener) {
         this.eventListenerList.add(glButtonListener);
     }
 
-    public void setText(String string){
+    public void setText(String string) {
 
-                mText.setText(string);
+        mText.setText(string);
     }
 
 
     @Override
     public void update() {
-
-        //this.getGameObjectsList().get(RECT_A_INDX).setTexture(this.textureUp);
-
-        rectangle2D_A.setTexture(this.textureUp);
-
-        //  Log.e("button", "on update");
-
+        rectangle2D.setTexture(this.textureUp);
 
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
 
             Shape uf = (Shape) this.getScene().getGOManager().getGameObjectByTag(UserFinger.USER_FINGER_TAG);
 
-            if (this.getScene().getColliderManager().isCollide(uf,rectangle2D_A)) {
+            if (this.getScene().getColliderManager().isCollide(uf, rectangle2D)) {
                 //        Log.e("button", "set texture down");
-                rectangle2D_A.setTexture(this.textureDown);
+                rectangle2D.setTexture(this.textureDown);
                 this.status = ButtonStatus.DOWN;
 
                 // si je n'étais en train d'écouler, j'initialise le compteur delai
@@ -131,7 +118,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
 
             } else {
-                rectangle2D_A.setTexture(textureUp);
+                rectangle2D.setTexture(textureUp);
                 this.status = ButtonStatus.UP;
 
             }
@@ -140,12 +127,11 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         this.checkClick();
 
 
-         }
+    }
 
     private void checkClick() {
         //si on est en train d'écouter ce que fait l'utilisateur
         if (this.listening) {
-
 
 
             //si l'utilisateur a levé le doigt
@@ -177,11 +163,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         this.listening = false;
 
 
-
-
     }
-
-
 
 
     /**
