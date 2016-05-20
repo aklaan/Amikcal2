@@ -43,8 +43,8 @@ public class Scene01 extends Scene {
 
         //BACKGROUND
         Rectangle2D background = new Rectangle2D(DrawingMode.FILL);
-        background.setCoord((float) this.getWidth() / 2, (float) this.getHeight() / 2);
-        //background.setCoord(0f, 0f);
+     //   background.setCoord((float) this.getWidth() / 2, (float) this.getHeight() / 2);
+        background.setCoord(0f, 0f);
         background.setHeight((float) this.getHeight());
         background.setWidth((float) this.getWidth());
 
@@ -72,10 +72,11 @@ public class Scene01 extends Scene {
         this.addToScene(keyboard);
 
         GlString testGlString = new GlString(new FontConsolas());
-
         testGlString.setCoord(100, 800);
         testGlString.setTagName("matextbox");
-        testGlString.setText("C");
+        testGlString.setText("Clément");
+
+
         //TODO : il faut que la texBox écoute le clavier pour se mettre à jour
 
         GLKeyboardListener toto = new GLKeyboardListener() {

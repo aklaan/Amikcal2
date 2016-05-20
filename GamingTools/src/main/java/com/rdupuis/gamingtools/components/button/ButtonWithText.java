@@ -62,7 +62,9 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         //Définition du texte affiché sur le bouton.
         this.mText = new GlString(glFont);
 
+
         //on ajoute le rectangle et le texte dans la liste des composants.
+        // il faut respecter l'odre d'affichage. d'abord le bouton et ensuite le texte
         this.add(rectangle2D);
         this.add(mText);
 
@@ -74,9 +76,12 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         this.setHeight(height);
         this.setWidth(witdth);
 
+
+
+
         this.listening = false;
 
-            }
+    }
 
     public void addGLButtonListener(GLButtonListener glButtonListener) {
         this.eventListenerList.add(glButtonListener);
@@ -85,12 +90,16 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
     public void setText(String string) {
 
         mText.setText(string);
+        //on recalcule la position du texte pour le centrer
+        this.mText.setX(this.getX() + (this.getWidth() / 2f) - (mText.getWidth()/2f));
+        this.mText.setY(this.getY() + (this.getHeight() / 2f) - (mText.getHeight()/2f));
     }
 
 
     @Override
     public void update() {
         rectangle2D.setTexture(this.textureUp);
+
 
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
 

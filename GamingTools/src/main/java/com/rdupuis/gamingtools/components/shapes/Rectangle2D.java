@@ -30,10 +30,10 @@ public class Rectangle2D extends Shape {
 
     //rectangle dont le 0,0 est au centre de la forme.
     private void initVertices() {
-        mVertices.add(new Vertex(-0.5f, 0.5f, 0f, 0f, 0f, 1f, 1f, 1f, 1f));
-        mVertices.add(new Vertex(-0.5f, -0.5f, 0f, 0f, 1f, 1f, 1f, 1f, 1f));
-        mVertices.add(new Vertex(0.5f, -0.5f, 0f, 1f, 1f, 1f, 1f, 1f, 1f));
-        mVertices.add(new Vertex(0.5f, 0.5f, 0, 1f, 0f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(-0.0f, 1f, 0f, 0f, 0f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(-0.0f, -0.0f, 0f, 0f, 1f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(1f, -0f, 0f, 1f, 1f, 1f, 1f, 1f, 1f));
+        mVertices.add(new Vertex(1f, 1f, 0, 1f, 0f, 1f, 1f, 1f, 1f));
 
     }
 

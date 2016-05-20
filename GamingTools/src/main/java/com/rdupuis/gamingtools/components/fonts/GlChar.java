@@ -1,9 +1,7 @@
 package com.rdupuis.gamingtools.components.fonts;
 
 import com.rdupuis.gamingtools.components.ColorRGBA;
-import com.rdupuis.gamingtools.components.fonts.GlFont;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
-import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 
 /**
@@ -12,16 +10,65 @@ import com.rdupuis.gamingtools.enums.DrawingMode;
 public class GlChar extends Rectangle2D {
 
     private char value;
+    private float xOffset = 0;
+    private float yOffset = 0;
+    private float xSpace = 0;
+    private float mFontSize;
+    private float ratioWidthHeight;
+    private float base2HeightRatio;
 
-    public int getFontSize() {
+    public float getBase2AdvanceRatio() {
+        return base2AdvanceRatio;
+    }
+
+    public void setBase2AdvanceRatio(float base2AdvanceRatio) {
+        this.base2AdvanceRatio = base2AdvanceRatio;
+    }
+
+    private float base2AdvanceRatio;
+
+    public float getBase2HeightRatio() {return this.base2HeightRatio;}
+  public  void setBase2HeightRatio(float ratio){
+      this.base2HeightRatio = ratio;
+  }
+
+    public float getXoffset() {
+        return xOffset;
+    }
+
+    public void setXoffset(float xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public float getYoffset() {
+        return yOffset;
+    }
+
+    public void setYoffset(float yOffset) {
+        this.yOffset = yOffset;
+    }
+
+
+    public float getXspace() {
+        return this.getFontSize() * (140f / 235f);
+
+    }
+
+
+    public void setXspace(float xSpace) {
+        this.xSpace = xSpace;
+    }
+
+
+    public float getFontSize() {
         return mFontSize;
     }
 
-    public void setFontSize(int mFontSize) {
+    public void setFontSize(float mFontSize) {
         this.mFontSize = mFontSize;
     }
 
-    private int mFontSize;
+
 
     public float getRatioWidthHeight() {
         return ratioWidthHeight;
@@ -31,7 +78,7 @@ public class GlChar extends Rectangle2D {
         this.ratioWidthHeight = ratioWidthHeight;
     }
 
-    private float ratioWidthHeight;
+
 
     /**
      * getter & setter
@@ -60,18 +107,20 @@ public class GlChar extends Rectangle2D {
     public GlChar(char value, GlFont font) {
         super(DrawingMode.FILL);
         this.value = value;
-        this.mFontSize = 10; // taille d'un caractère par défaut
+        this.mFontSize = 50; // taille d'un caractère par défaut
         this.enableTexturing();
         this.setTexture(font.getMap());
         this.setTexCoord(font.getCharTextCoord(value));
         this.setRatioWidthHeight(font.getCharRatio(value));
         this.setAmbiantColor(new ColorRGBA(1f, 1f, 1f, 1f));
-
         this.setX(0);
         this.setY(0);
-
+        this.setXspace(font.getXspace(value));
+        this.setXoffset(font.getXoffset(value));
+        this.setYoffset(font.getYoffset(value));
+        this.setBase2HeightRatio(font.getBase2HeightRatio(value));
+        this.setBase2AdvanceRatio(font.getBase2AdvanceRatio(value));
     }
-
 
     public void setColor(ColorRGBA colorRGBA) {
         this.setAmbiantColor(colorRGBA);
@@ -79,14 +128,14 @@ public class GlChar extends Rectangle2D {
 
     @Override
     public float getHeight() {
-        return this.mFontSize;
-    }
+        return this.mFontSize * this.getBase2HeightRatio()   ; }
 
     @Override
     public float getWidth() {
         return this.getHeight() * getRatioWidthHeight();
-
     }
+
+
 
 
 }

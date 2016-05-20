@@ -1,4 +1,4 @@
-package com.rdupuis.gamingtools.components.shapes;
+package com.rdupuis.gamingtools.components.fonts;
 
 import android.util.Log;
 import android.util.Xml;
@@ -22,7 +22,21 @@ public class FrameCursor {
     private int y;
     private int height;
     private int width;
-    private float ratio;
+    private float xOffset;
+    private float yOffset;
+    private float xSpace;
+    private float textureRatio;
+    private float base2heightRatio ;
+
+    public float getBase2AdvanceRatio() {
+        return base2AdvanceRatio;
+    }
+
+    public void setBase2AdvanceRatio(float base2AdvanceRatio) {
+        this.base2AdvanceRatio = base2AdvanceRatio;
+    }
+
+    private float base2AdvanceRatio;
 
 
     /**
@@ -71,11 +85,24 @@ public class FrameCursor {
     }
 
     public float getRatio() {
-        return ratio;
+        return textureRatio;
     }
 
     public void setRatio(float newratio) {
-        this.ratio = newratio;
+        this.textureRatio = newratio;
+    }
+
+    public void setXoffset(float value){this.xOffset = value;}
+    public float getXoffset(){return this.xOffset;}
+
+    public void setYoffset(float value){this.yOffset = value;}
+    public float getYoffset(){return this.yOffset;}
+
+    public void setXspace(float value){this.xSpace = value;}
+    public float getXspace(){return this.xSpace;}
+
+    public float getBase2HeightRatio(){
+        return this.base2heightRatio;
     }
 
     public FrameCursor(int charValue) {
@@ -84,7 +111,7 @@ public class FrameCursor {
         this.y = 0;
         this.width = 0;
         this.height = 0;
-        this.ratio = 0.f;
+        this.textureRatio = 0.f;
     }
 
 //throws XmlPullParserException, IOException
@@ -116,7 +143,13 @@ public class FrameCursor {
                             this.setY(Integer.parseInt(parser.getAttributeValue(2)));
                             this.setWidth(Integer.parseInt(parser.getAttributeValue(3)));
                             this.setHeight(Integer.parseInt(parser.getAttributeValue(4)));
-                            this.setRatio((float) this.getWidth() / (float) this.getHeight());
+
+                            this.setXoffset(Integer.parseInt(parser.getAttributeValue(5)));
+                            this.setYoffset(Integer.parseInt(parser.getAttributeValue(6)));
+                            this.setXspace(Integer.parseInt(parser.getAttributeValue(7)));
+                            this.setRatio((float) this.getWidth() / (float) this.getHeight() );
+                            this.base2heightRatio = this.getHeight()/235f;
+                            this.setBase2AdvanceRatio(this.xSpace / 235f);
                             break;
                         }
                     }

@@ -1,7 +1,6 @@
 package com.rdupuis.gamingtools.components.fonts;
 
 import com.gamingtools.rdupuis.gamingtools.R;
-import com.rdupuis.gamingtools.components.shapes.FrameCursor;
 import com.rdupuis.gamingtools.components.texture.Texture;
 
 import java.io.InputStream;
@@ -46,6 +45,19 @@ public class FontConsolas extends GlFont {
         return R.string.consolas_xml_data;
     }
 
+    public float getXspace(int charValue) {
+        return this.getFrameCursor().getXspace();
+    }
+
+    public float getXoffset(int charValue) {
+        return this.getFrameCursor().getXoffset();
+    }
+
+    public float getYoffset(int charValue) {
+        return this.getFrameCursor().getYoffset();
+    }
+
+
     //Constructor
     public FontConsolas() {
         //je crée un frameCursor spécifique pour cette font
@@ -55,11 +67,15 @@ public class FontConsolas extends GlFont {
         }
     }
 
-    public float[] getCharTextCoord(int value){
-        return this.getFrameCursor().getCharTextCoord(value,this);
+    public float[] getCharTextCoord(int value) {
+        return this.getFrameCursor().getCharTextCoord(value, this);
     }
 
-    public float getCharRatio(int value){
-        return this.getFrameCursor().getCharRatio(value,this);
+    public float getCharRatio(int value) {
+        return this.getFrameCursor().getCharRatio(value, this);
     }
+
+    public float getBase2HeightRatio(int value){return this.getFrameCursor().getBase2HeightRatio();}
+
+    public float getBase2AdvanceRatio(int value){return this.getFrameCursor().getBase2AdvanceRatio();}
 }
