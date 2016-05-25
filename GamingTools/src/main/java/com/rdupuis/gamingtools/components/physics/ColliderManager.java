@@ -9,6 +9,10 @@ import java.util.HashMap;
 public class ColliderManager {
 
 
+    public ArrayList<CollisionBox> getCollisionBoxList() {
+        return mCollisionBoxList;
+    }
+
     //liste des boites de collision
     private ArrayList<CollisionBox> mCollisionBoxList;
 

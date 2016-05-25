@@ -12,9 +12,13 @@ import com.rdupuis.gamingtools.components.fonts.GlFont;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.inputs.UserFinger;
 import com.rdupuis.gamingtools.providers.GameObjectManager;
+import com.rdupuis.gamingtools.shaders.ProgramShader;
 import com.rdupuis.gamingtools.shaders.ProgramShaderManager;
 import com.rdupuis.gamingtools.components.texture.TextureManager;
 import com.rdupuis.gamingtools.components.physics.ColliderManager;
+import com.rdupuis.gamingtools.shaders.ProgramShader_forLines;
+import com.rdupuis.gamingtools.shaders.ProgramShader_noTexture;
+import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
 
 
 import java.io.IOException;
@@ -357,7 +361,7 @@ public class Scene implements GLSurfaceView.Renderer {
          * pour éviter le problème, on ne chek pas les colissions sur la première Frame
          */
         //on check les colissions toustes les 4 frames pour économiser de la CPU
-        if (frameCounter > 0) {
+        if (frameCounter == 0 || frameCounter > 0) {
             this.getColliderManager().updateCollisionsList();
             frameCounter = 0;
         }
@@ -409,6 +413,19 @@ public class Scene implements GLSurfaceView.Renderer {
      * Initialisation des program Shader
      */
     public void loadProgramShader() {
+
+        //chargement des shader de base
+        this.getPSManager().catalogShader.clear();
+        this.getPSManager().shaderList.clear();
+        ProgramShader ps = new ProgramShader_simple();
+        this.getPSManager().add(ps);
+
+        this.getPSManager().add(new ProgramShader_noTexture());
+        this.getPSManager().add(new ProgramShader_forLines());
+
+        //on défini le simple comme shader par defaut.
+        this.getPSManager().setDefaultSader(ps);
+
     }
 
     /**

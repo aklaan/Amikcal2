@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.rdupuis.gamingtools.components.AbstractGameObject;
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
+import com.rdupuis.gamingtools.components.physics.CollisionBox;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.interfaces.Drawable;
@@ -146,9 +147,17 @@ public class ProgramShaderManager {
 
                 //Appel au shader de l'objet s'il en requiert un en particulier.
                 //sinon on utilise le shader par defaut.
+                this.use(this.getDefaultShader());
+
                 if (this.getGameObjectShaderList().get(drawable) != null) {
                     this.use(this.getGameObjectShaderList().get(drawable));
-                } else this.use(this.getDefaultShader());
+                } ;
+
+                if (drawable instanceof CollisionBox)
+                {
+                    this.use(this.getShaderByName(ProgramShader_forLines.SHADER_FOR_LINES));
+                }
+
 
                 this.getCurrentActiveShader().draw(drawable, scene.getProjectionView());
 

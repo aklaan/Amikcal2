@@ -218,15 +218,9 @@ public class Scene01 extends Scene {
 
     @Override
     public void loadProgramShader() {
-        this.getPSManager().catalogShader.clear();
-        this.getPSManager().shaderList.clear();
-        ProgramShader ps = new ProgramShader_simple();
-        this.getPSManager().add(ps);
-        ProgramShader notext = new ProgramShader_noTexture();
-        this.getPSManager().add(notext);
+        super.loadProgramShader();
 
-        //on défini le simple comme shader par defaut.
-        this.getPSManager().setDefaultSader(ps);
+
 
 
     }

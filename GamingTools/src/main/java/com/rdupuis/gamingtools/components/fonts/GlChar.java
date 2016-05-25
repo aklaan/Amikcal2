@@ -120,6 +120,8 @@ public class GlChar extends Rectangle2D {
         this.setYoffset(font.getYoffset(value));
         this.setBase2HeightRatio(font.getBase2HeightRatio(value));
         this.setBase2AdvanceRatio(font.getBase2AdvanceRatio(value));
+        //temporaire : c'est juste pour voir comment sont tracé les caractères
+        this.enableCollisions();
     }
 
     public void setColor(ColorRGBA colorRGBA) {

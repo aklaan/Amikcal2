@@ -3,7 +3,9 @@ package com.rdupuis.gamingtools.utils;
 import android.content.Context;
 import android.opengl.Matrix;
 
+import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Vertex;
+import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.texture.Texture;
 
 import java.io.IOException;
@@ -94,6 +96,13 @@ public class Tools {
 
         return mModelViewVertices;
 
+    }
+
+// aligne la forme B sur le centre de la forme A
+    public static void allignCenter(GameObject shapeA, GameObject shapeB){
+
+        shapeB.setX(shapeA.getX() - (shapeB.getWidth() - shapeA.getWidth())/2);
+        shapeB.setY(shapeA.getY() - (shapeB.getHeight() - shapeA.getHeight())/2);
     }
 
 

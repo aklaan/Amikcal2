@@ -11,6 +11,7 @@ import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
 import com.rdupuis.gamingtools.inputs.UserFinger;
 import com.rdupuis.gamingtools.interfaces.Clikable;
+import com.rdupuis.gamingtools.utils.Tools;
 
 import java.util.ArrayList;
 
@@ -91,8 +92,10 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
 
         mText.setText(string);
         //on recalcule la position du texte pour le centrer
-        this.mText.setX(this.getX() + (this.getWidth() / 2f) - (mText.getWidth()/2f));
-        this.mText.setY(this.getY() + (this.getHeight() / 2f) - (mText.getHeight()/2f));
+     //   this.mText.setX(this.getX() + (this.getWidth() / 2f) - (mText.getWidth()/2f));
+     //   this.mText.setY(this.getY() + (this.getHeight() / 2f) - (mText.getHeight()/2f));
+
+        Tools.allignCenter(this,mText);
     }
 
 

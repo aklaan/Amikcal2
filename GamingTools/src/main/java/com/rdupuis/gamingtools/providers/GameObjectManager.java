@@ -8,6 +8,7 @@ import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
 import com.rdupuis.gamingtools.components.physics.Collidable;
+import com.rdupuis.gamingtools.components.physics.CollisionBox;
 import com.rdupuis.gamingtools.interfaces.Drawable;
 import com.rdupuis.gamingtools.utils.CONST;
 
@@ -63,11 +64,17 @@ public class GameObjectManager {
     public ArrayList<Drawable> getDrawable() {
         ArrayList<Drawable> listOfDrawable = new ArrayList<Drawable>();
 
+        //on ajoute les éléments de la scène dans la liste des objet à rendre
         for (Composition composition : this.getComponent()) {
             if (composition instanceof Drawable) {
                 listOfDrawable.add((Drawable) composition);
             }
 
+            for (CollisionBox collisionBox : this.getScene().getColliderManager().getCollisionBoxList()) {
+                if (collisionBox.getVisibility()) {
+                    listOfDrawable.add(collisionBox);
+                }
+            }
         }
 
         return listOfDrawable;

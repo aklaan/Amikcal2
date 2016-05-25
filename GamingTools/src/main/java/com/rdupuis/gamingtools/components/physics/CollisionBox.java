@@ -3,6 +3,8 @@ package com.rdupuis.gamingtools.components.physics;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.Vertex;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
+import com.rdupuis.gamingtools.enums.DrawingMode;
+import com.rdupuis.gamingtools.interfaces.Drawable;
 import com.rdupuis.gamingtools.shaders.ProgramShaderManager;
 import com.rdupuis.gamingtools.shaders.ProgramShader;
 import com.rdupuis.gamingtools.shaders.ProgramShader_forLines;
@@ -17,9 +19,9 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
-public class CollisionBox {
+public class CollisionBox extends Rectangle2D{
 
-    private final float defaultOffset = 0.1f;
+    private final float defaultOffset = 0.0f;
 
     //je pense qu'il est préférable de mémoriser l'objet plutôt
     //qu'un ID car il est fort probable que JAVA utilise un pointeur vers l'objet
@@ -27,7 +29,6 @@ public class CollisionBox {
     // la liste
     private Collidable mCollidable;
     private ArrayList<Vertex> mInnerVertices;
-    private Boolean visibility;
 
     //tableau de vertices pour les coordonées world de la boite
     public ArrayList<Vertex> mWorldVertices; // d�finition d'un tableau de vertex
@@ -36,20 +37,13 @@ public class CollisionBox {
      * getter & setter
      *****************************************************************************/
     public ArrayList<Vertex> getVertices() {
-        return mWorldVertices;
+        int a =0;
+        //return mWorldVertices;
+        return mInnerVertices;
     }
 
     public void setVertices(ArrayList<Vertex> mWorldVertices) {
         this.mWorldVertices = mWorldVertices;
-    }
-
-
-    public Boolean isVisible() {
-        return visibility;
-    }
-
-    public void setVisibility(Boolean visibility) {
-        this.visibility = visibility;
     }
 
     public ArrayList<Vertex> getInnerVertices() {
@@ -78,6 +72,7 @@ public class CollisionBox {
      * Constructor 1 : avec offset
      */
     public CollisionBox(Collidable collidable, float offsetX, float offsetY) {
+        super(DrawingMode.EMPTY);
         this.commonInitialization(collidable);
         this.initInnerVertices(offsetX, offsetX);
     }
@@ -88,6 +83,7 @@ public class CollisionBox {
      * @param collidable
      */
     public CollisionBox(Collidable collidable) {
+        super(DrawingMode.EMPTY);
         this.mInnerVertices = new ArrayList<Vertex>();
         this.commonInitialization(collidable);
         this.initInnerVertices(defaultOffset, defaultOffset);
@@ -99,7 +95,7 @@ public class CollisionBox {
      */
     private void commonInitialization(Collidable collidable) {
         //par défaut la box n'est pas visible
-        this.setVisibility(false);
+        this.setVisibility(true);
 
         //On mémorise la référence du shape "parent"
         this.setCollider(collidable);
@@ -161,8 +157,11 @@ public class CollisionBox {
         // on redéfinit les coordonées des vertices
         // pour avoir les coordonnées transformées
         this.mWorldVertices = Tools.applyModelView(this.mInnerVertices, this.getCollider().getModelView());
+    }
 
-
+    @Override
+    public  float[] getModelView(){
+        return this.getCollider().getModelView();
     }
 
     /**
@@ -198,5 +197,7 @@ public class CollisionBox {
                 GLES20.GL_UNSIGNED_SHORT, indices);
 
     }
+
+
 
 }
