@@ -111,6 +111,8 @@
     <string name="bugdead">images/red.png</string>
     <string name="grille">images/grille_H_1280x720_50x50.png</string>
 
+    <string name="texture_bouton_bleu">images/bouton_bleu.png</string>
+    <string name="texture_bouton_rouge">images/bouton_rouge.png</string>
     <!-- parametrage du projet -->
     
     <string name="imagesfolder">images</string>

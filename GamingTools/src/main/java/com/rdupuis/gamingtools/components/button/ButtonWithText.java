@@ -1,5 +1,6 @@
 package com.rdupuis.gamingtools.components.button;
 
+import android.os.Bundle;
 import android.os.SystemClock;
 
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
@@ -28,6 +29,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
     private final String TEXT = "TEXT";
     private Rectangle2D rectangle2D;
     private GlString mText;
+    public static String TEXT_VALUE = "TEXT_VALUE";
 
     public Texture textureUp;
     public Texture textureDown;
@@ -39,8 +41,11 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
     private boolean ON_CLICK_FIRE;
     private final float DELAY_BTWN_TAP = 200; //200ms
     private final float ON_LONG_CLICK_DELAY = 1000;
-
     private final ArrayList<GLButtonListener> eventListenerList = new ArrayList<GLButtonListener>();
+
+
+    public GlString getText(){return this.mText;}
+
 
     public ButtonWithText(float x, float y, float witdth, float height, Texture textureUp, Texture textureDown, GlFont glFont) {
 
@@ -55,6 +60,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
         //GroupOfGameObject.
         this.rectangle2D.setWidth(1f);
         this.rectangle2D.setHeight(1f);
+
         //on active la gestion des collision
         this.rectangle2D.enableCollisions();
         this.rectangle2D.setTagName(BTN_WTH_TXT_TAG);
@@ -102,6 +108,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
     @Override
     public void update() {
         rectangle2D.setTexture(this.textureUp);
+
 
 
         if (SystemClock.elapsedRealtime() - this.lastTap != DELAY_BTWN_TAP) {
@@ -184,7 +191,11 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
      */
     public void onClick() {
         for (GLButtonListener listener : eventListenerList) {
-            listener.onClick();
+
+            //on utilise un Bundle pour pouvoir passer toute sorte de choses
+            Bundle bundle = new Bundle();
+            bundle.putString(ButtonWithText.TEXT_VALUE,this.getText().getText());
+            listener.onClick(bundle);
 
         }
     }

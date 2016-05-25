@@ -1,5 +1,7 @@
 package com.rdupuis.gamingtools.components.button;
 
+import android.os.Bundle;
+
 import java.util.EventListener;
 
 /**
@@ -8,7 +10,7 @@ import java.util.EventListener;
 public interface GLButtonListener extends EventListener {
 
 
-public void onClick();
+    public void onClick(Bundle bundle);
 
     public void onLongClick();
 }

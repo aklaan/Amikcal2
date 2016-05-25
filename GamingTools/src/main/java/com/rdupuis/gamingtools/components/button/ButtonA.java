@@ -1,5 +1,6 @@
 package com.rdupuis.gamingtools.components.button;
 
+import android.os.Bundle;
 import android.os.SystemClock;
 
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
@@ -213,7 +214,7 @@ public class ButtonA extends GroupOfGameObject implements Clikable {
      */
     public void onClick() {
         for (GLButtonListener listener : eventListenerList) {
-            listener.onClick();
+            listener.onClick(new Bundle());
 
         }
     }

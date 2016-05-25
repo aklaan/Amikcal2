@@ -27,12 +27,12 @@ public class AnimationRightLeftOnX extends Animation {
 
 		if (elapsedTime < 2000) {
 			// offsetX += 0.5f;
-			go.X += offsetX;
+			go.setX(go.getX()+ offsetX);
 		} else {
 
 			if (elapsedTime >= 2000 && elapsedTime <= 4000) {
 				// offsetX -= 0.5f;
-				go.X -= offsetX;
+				go.setX(go.getX()- offsetX);
 			} else {
 				this.setStatus(AnimationStatus.STOPPED);
 			}

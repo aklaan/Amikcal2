@@ -1,5 +1,6 @@
 package com.rdupuis.gamingtools.components.button;
 
+import android.os.Bundle;
 import android.os.SystemClock;
 
 import com.rdupuis.gamingtools.components.shapes.Shape;
@@ -139,7 +140,7 @@ public class ButtonB extends Rectangle2D implements Clikable {
      */
     public void onClick() {
         for (GLButtonListener listener : eventListenerList) {
-            listener.onClick();
+            listener.onClick(new Bundle());
 
         }
     }

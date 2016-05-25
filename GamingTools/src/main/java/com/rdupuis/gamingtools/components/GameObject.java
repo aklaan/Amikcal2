@@ -21,9 +21,9 @@ public class GameObject implements Composition {
 
 
     // coordonnées du centre de l'objet
-    public float X = 0;
-    public float Y = 0;
-    public float Z = 0;
+    private float X = 0;
+    private float Y = 0;
+    private float Z = 0;
 
     //Taille de l'objet
     private float width;
@@ -32,9 +32,35 @@ public class GameObject implements Composition {
     //liste des objets à écouter
     public ArrayList<Shape> mShapeToListenList;
 
-    public float angleRADX = 0.0f;
-    public float angleRADY = 0.0f;
-    public float angleRADZ = 0.0f;
+    public float getAngleRADX() {
+        return angleRADX;
+    }
+
+    public void setAngleRADX(float angleRADX) {
+        this.angleRADX = angleRADX;
+    }
+
+    private float angleRADX = 0.0f;
+
+    public float getAngleRADY() {
+        return angleRADY;
+    }
+
+    public void setAngleRADY(float angleRADY) {
+        this.angleRADY = angleRADY;
+    }
+
+    private float angleRADY = 0.0f;
+
+    public float getAngleRADZ() {
+        return angleRADZ;
+    }
+
+    public void setAngleRADZ(float angleRADZ) {
+        this.angleRADZ = angleRADZ;
+    }
+
+    private float angleRADZ = 0.0f;
 
 
     /******************************************************************

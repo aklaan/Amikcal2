@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rdupuis.amikcal2.Qty.Qty_Manager;
@@ -25,6 +26,7 @@ import com.rdupuis.amikcal2.unity.Unity;
 import com.rdupuis.amikcal2.unity.Unity_Manager;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
+import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 
 import java.util.ArrayList;
 
@@ -39,12 +41,13 @@ public class Act_Food_Editor extends OpenGLActivity {
     private ListView maListViewPerso;
     private ArrayList<Component_Food> componentFoodList;
     public static final String INPUT____FOOD = "INPUT_FOOD";
+
+    public final static int GET_KEYPRESSED = 1;
+    public String input_string_data;
+
     // ! OpenGL SurfaceView
 
     private Scene mScene;
-
-
-
 
 
     /**
@@ -71,13 +74,13 @@ public class Act_Food_Editor extends OpenGLActivity {
         //définition de la scène à rendre
         mGLSurfaceView.setRenderer(new Scene01(this));
 
-           EditText editbox = new EditText(this);
+        EditText editbox = new EditText(this);
 
-            editbox.setText("hello les amis");
+        editbox.setText("hello les amis");
 
-            editbox.setTextColor(Color.WHITE);
+        editbox.setTextColor(Color.WHITE);
 
-        //     addContentView(editbox, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addContentView(editbox, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         //j'ajoute la vue par dessus
         View toto = getLayoutInflater().inflate(R.layout.view_edit_energy_food2, null);
@@ -107,12 +110,12 @@ public class Act_Food_Editor extends OpenGLActivity {
     }// fin du onCreate
 
 
-    private void initHandler(){
+    private void initHandler() {
         //je crée un Handler et je reféfini la méthose handleMessage
-        //de cette manière, je peux capter des infromations qui sont émises par d'autres
-        //thread pour pouvoireffectuer des actions dans cette scène.
+        //de cette manière, je peux capter des informations qui sont émises par d'autres
+        //thread pour pouvoir effectuer des actions dans cette scène.
         //notamemnt, la mise à jour des View (textView...etc..)
-        //seul le Thread de la scène peu mettre à jour les vue de la scène
+        //car seul le Thread de la scène peu mettre à jour les vue de la scène
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
@@ -121,6 +124,16 @@ public class Act_Food_Editor extends OpenGLActivity {
 
                 switch (inputMessage.what) {
 
+                    case GET_KEYPRESSED:
+
+                        TextView tv = (TextView)findViewById(R.id.energyview_edTxt_energy_name);
+                        String current_text = tv.getText().toString();
+                        char c = inputMessage.getData().getChar(Keyboard.KEYPRESSED);
+
+                        tv.setText(tv.getText()+String.valueOf(c));
+
+
+                        break;
                     default:
 //                        onClick_bt_amount();
 
@@ -188,6 +201,7 @@ public class Act_Food_Editor extends OpenGLActivity {
         ((CompoundButton) findViewById(R.id.rdiobt_powder)).setChecked(true);
     }
 */
+
     /*******************
      * ***********************************************************************
      * onActivityResult : on récupère les info saisies dans le pad numérique.

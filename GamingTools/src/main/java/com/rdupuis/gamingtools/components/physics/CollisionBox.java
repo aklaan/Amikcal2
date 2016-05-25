@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class CollisionBox extends Rectangle2D{
 
-    private final float defaultOffset = 0.0f;
+    private final float defaultOffset = 0.1f;
 
     //je pense qu'il est préférable de mémoriser l'objet plutôt
     //qu'un ID car il est fort probable que JAVA utilise un pointeur vers l'objet
@@ -95,7 +95,7 @@ public class CollisionBox extends Rectangle2D{
      */
     private void commonInitialization(Collidable collidable) {
         //par défaut la box n'est pas visible
-        this.setVisibility(true);
+        this.setVisibility(false);
 
         //On mémorise la référence du shape "parent"
         this.setCollider(collidable);

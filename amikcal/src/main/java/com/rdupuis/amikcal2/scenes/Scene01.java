@@ -1,10 +1,12 @@
 package com.rdupuis.amikcal2.scenes;
 
 
+import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
 import com.rdupuis.amikcal2.R;
+import com.rdupuis.amikcal2.energy.Act_Food_Editor;
 import com.rdupuis.gamingtools.animations.AnimationFadeOut;
 import com.rdupuis.gamingtools.animations.AnimationFadeOutMoveUp;
 import com.rdupuis.gamingtools.components.GameObject;
@@ -12,15 +14,12 @@ import com.rdupuis.gamingtools.components.button.ButtonA;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
-import com.rdupuis.gamingtools.components.button.GLKeyboardListener;
+import com.rdupuis.gamingtools.components.keyboard.GLKeyboardListener;
 import com.rdupuis.gamingtools.components.fonts.FontConsolas;
 import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 import com.rdupuis.gamingtools.components.fonts.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.enums.DrawingMode;
-import com.rdupuis.gamingtools.shaders.ProgramShader;
-import com.rdupuis.gamingtools.shaders.ProgramShader_noTexture;
-import com.rdupuis.gamingtools.shaders.ProgramShader_simple;
 
 
 /**
@@ -43,7 +42,7 @@ public class Scene01 extends Scene {
 
         //BACKGROUND
         Rectangle2D background = new Rectangle2D(DrawingMode.FILL);
-     //   background.setCoord((float) this.getWidth() / 2, (float) this.getHeight() / 2);
+        //   background.setCoord((float) this.getWidth() / 2, (float) this.getHeight() / 2);
         background.setCoord(0f, 0f);
         background.setHeight((float) this.getHeight());
         background.setWidth((float) this.getWidth());
@@ -63,32 +62,37 @@ public class Scene01 extends Scene {
 
         //-------------------------------------------------
 
-        Keyboard keyboard = new Keyboard(100, 200, 400, 400
-                , this.getTexManager().getTextureById(R.string.circle)
-                , this.getTexManager().getTextureById(R.string.emptycircle)
+        Keyboard keyboard = new Keyboard(0, 300, this.getWidth(), 400
+                , this.getTexManager().getTextureById(R.string.texture_bouton_bleu)
+                , this.getTexManager().getTextureById(R.string.texture_bouton_rouge)
                 , new FontConsolas());
         keyboard.setTagName(TAG_KEYBOARD);
 
         this.addToScene(keyboard);
 
         GlString testGlString = new GlString(new FontConsolas());
-        testGlString.setCoord(100, 800);
+        testGlString.setCoord(10, 900);
         testGlString.setTagName("matextbox");
-        testGlString.setText("Clément");
+        testGlString.setText("Clément & Emilie");
 
 
         //TODO : il faut que la texBox écoute le clavier pour se mettre à jour
 
-        GLKeyboardListener toto = new GLKeyboardListener() {
+        keyboard.addGLKeyboardListener(new GLKeyboardListener() {
             @Override
-            public void onClick() {
-                Log.e("debug", "click");
-                GlString tbox = (GlString) Scene01.this.getGOManager().getGameObjectByTag("matextbox");
-                tbox.setText("bonjour");
-            }
-        };
+            public void onClick(Bundle bundle) {
+                Act_Food_Editor activity = (Act_Food_Editor) Scene01.this.getActivity();
 
-        keyboard.addGLKeyboardListener(toto);
+                Message completeMessage =
+                        activity.mHandler.obtainMessage(activity.GET_KEYPRESSED);
+
+                completeMessage.setData(bundle);
+                completeMessage.sendToTarget();
+
+            }
+        })
+        ;
+
 
         this.addToScene(testGlString);
     }
@@ -111,7 +115,7 @@ public class Scene01 extends Scene {
 
         GLButtonListener toto = new GLButtonListener() {
             @Override
-            public void onClick() {
+            public void onClick(Bundle bundle) {
                 Log.e("debug", "click");
                 //       Shape bug = (Shape) Scene01.this.getGOManager().getGameObjectByTag(TAG_BUG);
                 //       Scene01.this.getAnimationManager().addAnimation(new AnimationRotate(bug));
@@ -172,13 +176,13 @@ public class Scene01 extends Scene {
 
         GLButtonListener toto = new GLButtonListener() {
             @Override
-            public void onClick() {
+            public void onClick(Bundle bundle) {
                 Log.e("debug", "click");
                 //       Shape bug = (Shape) Scene01.this.getGOManager().getGameObjectByTag(TAG_BUG);
                 //       Scene01.this.getAnimationManager().addAnimation(new AnimationRotate(bug));
 
 
-                OpenGLActivity activity = Scene01.this.getActivity();
+                Act_Food_Editor activity = (Act_Food_Editor) Scene01.this.getActivity();
 
                 //**   toto.texte = "Click:" + String.valueOf(Math.random());
 
@@ -189,12 +193,15 @@ public class Scene01 extends Scene {
                 // dont il a la gestion
 
                 Message completeMessage =
-                        activity.mHandler.obtainMessage();
+                        activity.mHandler.obtainMessage(activity.GET_KEYPRESSED);
 
                 //sendToTarget va actionner la fonction handleMessage du Handle géré par Mainactivity
                 // ici mon message n'est pas transféré via cette technique
                 // pour faire simple, j'ai géré une variable texte directement dans le MainActivity,
                 // mais c'est pas bien de faire comme ça.
+                Bundle data = new Bundle();
+                data.putChar("CHAR", 'A');
+                completeMessage.setData(data);
                 completeMessage.sendToTarget();
             }
 
@@ -221,8 +228,6 @@ public class Scene01 extends Scene {
         super.loadProgramShader();
 
 
-
-
     }
 
     @Override
@@ -234,7 +239,8 @@ public class Scene01 extends Scene {
         this.getTexManager().add(R.string.spaceship);
         this.getTexManager().add(R.string.emptycircle);
         this.getTexManager().add(R.string.grille);
-
+        this.getTexManager().add(R.string.texture_bouton_bleu);
+        this.getTexManager().add(R.string.texture_bouton_rouge);
     }
 
 

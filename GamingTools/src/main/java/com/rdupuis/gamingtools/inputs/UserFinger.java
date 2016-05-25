@@ -25,7 +25,7 @@ public class UserFinger extends Rectangle2D {
 
         // on fait exprès de définir le premier point loin de l'écran
         //pour éviter les colision au premier cycle
-        this.X = 10000;
+        this.setX(10000);
 
     }
 
@@ -103,8 +103,8 @@ public class UserFinger extends Rectangle2D {
     public float[] getHomogenicCoord() {
         float[] homCoord = new float[4];
 
-        homCoord[0] = (2.0f * this.X) / this.getScene().getWidth() - 1.0f;
-        homCoord[1] = (2.0f * this.Y) / this.getScene().getHeight() - 1.0f;
+        homCoord[0] = (2.0f * this.getX()) / this.getScene().getWidth() - 1.0f;
+        homCoord[1] = (2.0f * this.getY()) / this.getScene().getHeight() - 1.0f;
         homCoord[2] = 1.0f;
         homCoord[3] = 1.0f;
         return homCoord;

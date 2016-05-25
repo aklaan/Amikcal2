@@ -75,7 +75,7 @@ public class GlString extends GroupOfGameObject implements Composition {
             mChar.setX(xPosition);
             mChar.setY(this.getY());
             //si la taille du caratère est plus haute que la dernière connue, on redéfinie la hauteur de la chaine
-            this.maxCharHeight = (this.maxCharHeight < mChar.getHeight()) ? maxCharHeight : this.maxCharHeight;
+            this.maxCharHeight = (this.maxCharHeight < mChar.getHeight()) ? mChar.getHeight() : this.maxCharHeight;
             this.getList().add(mChar);
             //le prochain caratère serra après
             xPosition += mChar.getWidth();

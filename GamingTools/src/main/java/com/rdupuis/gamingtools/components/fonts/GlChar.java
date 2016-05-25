@@ -27,10 +27,13 @@ public class GlChar extends Rectangle2D {
 
     private float base2AdvanceRatio;
 
-    public float getBase2HeightRatio() {return this.base2HeightRatio;}
-  public  void setBase2HeightRatio(float ratio){
-      this.base2HeightRatio = ratio;
-  }
+    public float getBase2HeightRatio() {
+        return this.base2HeightRatio;
+    }
+
+    public void setBase2HeightRatio(float ratio) {
+        this.base2HeightRatio = ratio;
+    }
 
     public float getXoffset() {
         return xOffset;
@@ -69,7 +72,6 @@ public class GlChar extends Rectangle2D {
     }
 
 
-
     public float getRatioWidthHeight() {
         return ratioWidthHeight;
     }
@@ -77,7 +79,6 @@ public class GlChar extends Rectangle2D {
     public void setRatioWidthHeight(float ratioWidthHeight) {
         this.ratioWidthHeight = ratioWidthHeight;
     }
-
 
 
     /**
@@ -121,7 +122,7 @@ public class GlChar extends Rectangle2D {
         this.setBase2HeightRatio(font.getBase2HeightRatio(value));
         this.setBase2AdvanceRatio(font.getBase2AdvanceRatio(value));
         //temporaire : c'est juste pour voir comment sont tracé les caractères
-        this.enableCollisions();
+        // this.enableCollisions();
     }
 
     public void setColor(ColorRGBA colorRGBA) {
@@ -130,14 +131,13 @@ public class GlChar extends Rectangle2D {
 
     @Override
     public float getHeight() {
-        return this.mFontSize * this.getBase2HeightRatio()   ; }
+        return this.mFontSize * this.getBase2HeightRatio();
+    }
 
     @Override
     public float getWidth() {
         return this.getHeight() * getRatioWidthHeight();
     }
-
-
 
 
 }

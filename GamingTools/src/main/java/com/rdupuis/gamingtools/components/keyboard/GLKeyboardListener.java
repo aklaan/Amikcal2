@@ -1,4 +1,6 @@
-package com.rdupuis.gamingtools.components.button;
+package com.rdupuis.gamingtools.components.keyboard;
+
+import android.os.Bundle;
 
 import java.util.EventListener;
 
@@ -8,7 +10,7 @@ import java.util.EventListener;
 public interface GLKeyboardListener extends EventListener {
 
 
-    void onClick();
+    void onClick(Bundle bundle);
 
 
 }

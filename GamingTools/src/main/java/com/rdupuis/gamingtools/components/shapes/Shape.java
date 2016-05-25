@@ -254,12 +254,11 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
      */
     public void rotate(float x, float y, float anglRAD) {
 
-        X = X + (float) (Math.cos(anglRAD));
-        Y = Y + (float) (Math.sin(anglRAD));
+        this.setX(this.getX() + (float) (Math.cos(anglRAD)));
+        this.setY(this.getY() + (float) (Math.sin(anglRAD)));
         // Matrix.translateM(wrkresult, 0, x, y, 0);
-        Log.i("debug", String.valueOf(X) + " / " + String.valueOf(Y));
-
-        Log.i("debug", String.valueOf(Math.cos(anglRAD)));
+    //    Log.i("debug", String.valueOf(this.getX()) + " / " + String.valueOf(this.getY()));
+   //     Log.i("debug", String.valueOf(Math.cos(anglRAD)));
 
     }
 
@@ -613,11 +612,11 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
         Matrix.setIdentityM(modelView, 0);
 
         //on fabrique une matrice de déplacement vers les coordonnées x,y,z
-        Matrix.translateM(modelView, 0, this.X, this.Y, this.Z);
+        Matrix.translateM(modelView, 0, this.getX(), this.getY(), this.getZ());
 
         //on fabrique une matrice de rotation
-        Matrix.setRotateEulerM(wrkRotationMatrix, 0, this.angleRADX,
-                this.angleRADY, this.angleRADZ);
+        Matrix.setRotateEulerM(wrkRotationMatrix, 0, this.getAngleRADX(),
+                this.getAngleRADY(), this.getAngleRADZ());
 
         //Calcul de la matrice ModelView
         Matrix.multiplyMM(this.mModelView, 0, modelView, 0,
