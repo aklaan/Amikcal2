@@ -16,7 +16,6 @@ public class Rectangle2D extends Shape {
     private DrawingMode mDrawingMode;
     private ArrayList<Vertex> mVertices;
 
-
     public Rectangle2D(DrawingMode drawingMode) {
         super();
         this.mVertices = new ArrayList<Vertex>();
@@ -45,10 +44,10 @@ public class Rectangle2D extends Shape {
 
 
     public void setTexCoord(float[] textCoord) {
-        mVertices.get(0).setUV(textCoord[0],textCoord[1]);
-        mVertices.get(1).setUV(textCoord[2],textCoord[3]);
-        mVertices.get(2).setUV(textCoord[4],textCoord[5]);
-        mVertices.get(3).setUV(textCoord[6],textCoord[7]);
+        mVertices.get(0).setUV(textCoord[0], textCoord[1]);
+        mVertices.get(1).setUV(textCoord[2], textCoord[3]);
+        mVertices.get(2).setUV(textCoord[4], textCoord[5]);
+        mVertices.get(3).setUV(textCoord[6], textCoord[7]);
     }
 
     @Override
@@ -57,17 +56,13 @@ public class Rectangle2D extends Shape {
         ShortBuffer result = null;
 
         switch (this.mDrawingMode) {
-            // on dessine que les lignes de contour
+            // on ne dessine que les lignes de contour
             case EMPTY:
                 result = getIndicesForEmptyRec();
                 break;
             // on dessine des triangles plein
             case FILL:
-
                 result = getIndicesForFillRec();
-
-                // on indique l'ordre dans lequel on doit afficher les vertex
-                // pour dessiner les 2 triangles qui vont former le carré.
 
         }
         result.rewind();
@@ -91,7 +86,8 @@ public class Rectangle2D extends Shape {
 
     }
 
-
+    // on indique l'ordre dans lequel on doit afficher les vertex
+    // pour dessiner les 2 triangles qui vont former le carré.
     public static ShortBuffer getIndicesForFillRec() {
         ShortBuffer indices;
         indices = ByteBuffer.allocateDirect(6 * CONST.SHORT_SIZE)

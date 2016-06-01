@@ -125,8 +125,8 @@ public class GlString extends GroupOfGameObject implements Composition {
 
     @Override
     public void update() {
-        setFontSize(getFontSize() + 0.1f);
-        updateGlchar();
+     //   setFontSize(getFontSize() + 0.1f);
+     //   updateGlchar();
     }
 
 

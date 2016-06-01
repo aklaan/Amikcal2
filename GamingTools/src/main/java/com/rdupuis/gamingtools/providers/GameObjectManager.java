@@ -238,11 +238,7 @@ public class GameObjectManager {
         for (Drawable drawable : this.getDrawable()) {
 
             indx = loadVBs(drawable, indx);
-
-
         }
-
-
     }
 
 

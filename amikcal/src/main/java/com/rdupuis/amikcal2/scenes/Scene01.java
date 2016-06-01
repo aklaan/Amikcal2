@@ -74,7 +74,7 @@ public class Scene01 extends Scene {
         testGlString.setCoord(10, 900);
         testGlString.setTagName("matextbox");
         testGlString.setText("Clément & Emilie");
-
+        this.addToScene(testGlString);
 
         //TODO : il faut que la texBox écoute le clavier pour se mettre à jour
 
@@ -94,7 +94,7 @@ public class Scene01 extends Scene {
         ;
 
 
-        this.addToScene(testGlString);
+
     }
 
     /*********************************************************************
@@ -222,14 +222,14 @@ public class Scene01 extends Scene {
 
     }
 
-
+ /**
     @Override
     public void loadProgramShader() {
         super.loadProgramShader();
 
 
     }
-
+*/
     @Override
     public void loadTextures() {
 

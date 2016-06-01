@@ -113,6 +113,10 @@
 
     <string name="texture_bouton_bleu">images/bouton_bleu.png</string>
     <string name="texture_bouton_rouge">images/bouton_rouge.png</string>
+
+    <string name="splashscreen">images/splash_land_1280x720.png</string>
+    <string name="menuprincipal">images/menuprincipal_land_1280x720.png</string>
+
     <!-- parametrage du projet -->
     
     <string name="imagesfolder">images</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.Matrix;
 
 import com.rdupuis.gamingtools.components.GameObject;
+import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.Vertex;
 import com.rdupuis.gamingtools.components.shapes.Shape;
 import com.rdupuis.gamingtools.components.texture.Texture;
@@ -105,5 +106,22 @@ public class Tools {
         shapeB.setY(shapeA.getY() - (shapeB.getHeight() - shapeA.getHeight())/2);
     }
 
+
+    // aligne la forme B sur le centre de la scène A
+    public static void allignOnCenterScene(Scene scene,GameObject shapeB ){
+
+        shapeB.setX((shapeB.getWidth() - scene.getWidth())/2);
+        shapeB.setY((shapeB.getHeight() - scene.getHeight())/2);
+    }
+
+    // aligne la forme B sur le centre de la scène A
+    public static void horizontalAllignOnScene(Scene scene,GameObject shapeB ){
+        shapeB.setX((scene.getWidth()/2)-(shapeB.getWidth()/2));
+    }
+
+    // aligne la forme B sur le centre de la scène A
+    public static void verticalAllignOnScene(Scene scene,GameObject shapeB ){
+        shapeB.setY((scene.getHeight()/2) - (shapeB.getHeight()/2));
+    }
 
 }

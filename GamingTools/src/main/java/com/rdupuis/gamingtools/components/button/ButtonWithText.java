@@ -31,6 +31,7 @@ public class ButtonWithText extends GroupOfGameObject implements Clikable {
     private GlString mText;
     public static String TEXT_VALUE = "TEXT_VALUE";
 
+
     public Texture textureUp;
     public Texture textureDown;
 

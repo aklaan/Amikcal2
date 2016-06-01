@@ -18,12 +18,13 @@
         android:allowBackup="true"
         android:icon="@drawable/logo_amikcal"
         android:label="@string/app_name"
-      android:theme="@android:style/Theme.Holo.Light" >
+      android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
 
         <activity
-            android:name="MainActivity"
+            android:name="MainActivity2"
             android:label="@string/app_name"
-            android:launchMode="standard" >
+            android:launchMode="standard"
+            android:screenOrientation = "landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
  
@@ -33,6 +34,8 @@
         <activity android:name="Act_Main" >
         </activity>
         <activity android:name="com.rdupuis.amikcal2.commons.MultipleItemsActivityList" >
+        </activity>
+        <activity android:name="com.rdupuis.amikcal2.MainActivity" >
         </activity>
         <activity android:name="com.rdupuis.amikcal2.commons.numericpad.Act_NumericPad" >
         </activity>
@@ -63,11 +66,14 @@
         <activity android:name="com.rdupuis.amikcal2.energy.Act_Food_Editor" >
         </activity>
         
-        <activity android:name="com.rdupuis.amikcal2.energy.Act_EnergyList" >
+        <activity android:name="com.rdupuis.amikcal2.energy.Act_Energy_List" >
         </activity>
         <activity android:name="com.rdupuis.amikcal2.energy.Act_Energy_Food_List" >
         </activity>
         <activity android:name="com.rdupuis.amikcal2.opengl.testOpenGl2es" >
+        </activity>
+
+        <activity android:name="com.rdupuis.amikcal2.MainMenu" >
         </activity>
 
         <provider
