@@ -1,26 +1,11 @@
 package com.rdupuis.amikcal2.scenes;
 
 
-import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
-
 import com.rdupuis.amikcal2.R;
-import com.rdupuis.amikcal2.energy.Act_Food_Editor;
-import com.rdupuis.gamingtools.animations.AnimationFadeOut;
-import com.rdupuis.gamingtools.animations.AnimationFadeOutMoveUp;
-import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
-import com.rdupuis.gamingtools.components.button.ButtonA;
-import com.rdupuis.gamingtools.components.button.GLButtonListener;
-import com.rdupuis.gamingtools.components.fonts.FontConsolas;
-import com.rdupuis.gamingtools.components.fonts.GlString;
-import com.rdupuis.gamingtools.components.keyboard.GLKeyboardListener;
-import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.enums.DrawingMode;
-import com.rdupuis.gamingtools.utils.Tools;
 
 
 /**

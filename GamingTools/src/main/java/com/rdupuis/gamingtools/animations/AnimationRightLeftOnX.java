@@ -14,8 +14,8 @@ public class AnimationRightLeftOnX extends Animation {
 	}
 
 	@Override
-	public void start() {
-		super.start();
+	public void launch() {
+		super.launch();
 		offsetX = 3.0f;
 	}
 

@@ -9,7 +9,7 @@ public class AnimationFadeOutMoveUp extends Animation {
     public AnimationFadeOutMoveUp(GameObject animatedGameObject) {
         super(animatedGameObject);
         this.setSpeed(0.01f);
-        start();
+        launch();
 
     }
 

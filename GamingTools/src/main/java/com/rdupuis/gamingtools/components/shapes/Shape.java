@@ -589,10 +589,7 @@ public class Shape extends GameObject implements Cloneable, Collidable, Composit
         return gameobject;
     }
 
-    public void setAlpha(float alpha) {
 
-        this.getAmbiantColor().setAlpha(alpha);
-    }
 
 
     /**

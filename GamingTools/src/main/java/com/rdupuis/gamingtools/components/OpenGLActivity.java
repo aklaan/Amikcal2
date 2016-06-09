@@ -7,22 +7,40 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ConfigurationInfo;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 public class OpenGLActivity extends Activity {
 
+    public static final byte UPDATE_FPS = 1;
     public static float DEFAULT_ZOOM_FACTOR = 2.f;
     // ! OpenGL SurfaceView
     public MySurfaceView mGLSurfaceView;
-    public Handler mHandler;
+    private int fpsTv_Id;
 
+    public Handler getFpsHandler() {
+        return mFpsHandler;
+    }
 
+    private Handler mFpsHandler;
 
+    public void setHandler(Handler mHandler) {
+        this.mHandler = mHandler;
+    }
+
+    public Handler getHandler() {
+        return mHandler;
+    }
+
+    private Handler mHandler;
 
     public MySurfaceView getSurfaceView() {
         return this.mGLSurfaceView;
@@ -53,7 +71,15 @@ public class OpenGLActivity extends Activity {
 
         setContentView(mGLSurfaceView);
 
+        //------------------
+        TextView tv = new TextView(this);
+        fpsTv_Id = View.generateViewId();
+        tv.setId(fpsTv_Id);
+        tv.setText("...");
+        tv.setTextColor(Color.RED);
+        addContentView(tv, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        initFpsHandler();
     }
 
     @Override
@@ -93,5 +119,33 @@ public class OpenGLActivity extends Activity {
         alert.show();
     }
 
+    private void initFpsHandler() {
+        //je crée un Handler et je reféfini la méthose handleMessage
+        //de cette manière, je peux capter des informations qui sont émises par d'autres
+        //thread pour pouvoir effectuer des actions dans cette scène.
+        //notamemnt, la mise à jour des View (textView...etc..)
+        //car seul le Thread de la scène peu mettre à jour les vue de la scène
+        this.mFpsHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message inputMessage) {
+                // Gets the image task from the incoming Message object.
+                //PhotoTask photoTask = (PhotoTask) inputMessage.obj;
 
+                switch (inputMessage.what) {
+
+                    case UPDATE_FPS:
+                        TextView tv = (TextView) findViewById(fpsTv_Id);
+                        int value = inputMessage.getData().getInt(Scene.BUNDLE_FPS_VALUE);
+
+                        tv.setText("FPS: " + String.valueOf(value));
+                        break;
+
+
+                }
+            }
+
+            ;
+        };
+
+    }
 }

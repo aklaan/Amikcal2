@@ -16,11 +16,7 @@ public class AnimationTurnArround extends Animation {
 		this.distance = distance;
 	}
 
-	@Override
-	public void start() {
-		super.start();
 
-	}
 
 	@Override
 	public void play() {

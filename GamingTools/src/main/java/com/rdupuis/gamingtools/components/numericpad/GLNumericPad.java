@@ -1,10 +1,9 @@
-package com.rdupuis.gamingtools.components.keyboard;
+package com.rdupuis.gamingtools.components.numericpad;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import com.rdupuis.gamingtools.components.GroupOfGameObject;
-import com.rdupuis.gamingtools.components.button.Button;
 import com.rdupuis.gamingtools.components.button.ButtonWithText;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.fonts.GlFont;
@@ -15,15 +14,15 @@ import java.util.ArrayList;
 /**
  * Created by rodol on 04/02/2016.
  */
-public class Keyboard extends GroupOfGameObject {
-    private final ArrayList<GLKeyboardListener> eventListenerList = new ArrayList<GLKeyboardListener>();
-    public static String KEYPRESSED = "KEYPRESSED";
+public class GLNumericPad extends GroupOfGameObject {
+    private final ArrayList<GLNumericPadListener> eventListenerList = new ArrayList<GLNumericPadListener>();
+    public static String KEY_PRESSED = "KEY";
     private Texture mTextureUP;
     private Texture mTextureDown;
     private GlFont mGlFont;
-private static final char SPACE=' ';
 
-    public Keyboard(float x, float y, float width, float height, Texture texUp, Texture texDown, GlFont glFont) {
+
+    public GLNumericPad(float x, float y, float width, float height, Texture texUp, Texture texDown, GlFont glFont) {
         super();
         //initialisation de base pour le clavier
         this.setX(x);
@@ -38,43 +37,54 @@ private static final char SPACE=' ';
         float spaceX = this.getX();
         float spaceY = this.getY();
 
-        String text = "AZERTYUIOP";
-        float button_size = width / text.length();
+        float button_size = width/3;
 
+        //première ligne du bas
+        addOkButton(spaceX,spaceY,button_size);
+
+        //seconde ligne
+        spaceY += button_size;
+        String text = "0.";
         for (int i = 0; i < text.length(); i++) {
             this.addCharKey(text.charAt(i), spaceX, spaceY, button_size);
             spaceX += button_size;
         }
 
+        addClearButton(spaceX,spaceY,button_size);
+
+        //seconde ligne
         spaceX = this.getX();
-        spaceY -= button_size;
-        text = "QSDFGHJKLM";
+        spaceY += button_size;
+        text = "123";
         for (int i = 0; i < text.length(); i++) {
             this.addCharKey(text.charAt(i), spaceX, spaceY, button_size);
             spaceX += button_size;
         }
 
-
+        //Troisième  ligne
         spaceX = this.getX();
-        spaceY -= button_size;
-        text = "WXCVBN'";
+        spaceY += button_size;
+        text = "456";
         for (int i = 0; i < text.length(); i++) {
             this.addCharKey(text.charAt(i), spaceX, spaceY, button_size);
             spaceX += button_size;
         }
 
-
+        //Quatrième ligne
         spaceX = this.getX();
-        spaceY -= button_size;
-        this.addSpace(spaceX, spaceY, button_size);
-
+        spaceY += button_size;
+        text = "789";
+        for (int i = 0; i < text.length(); i++) {
+            this.addCharKey(text.charAt(i), spaceX, spaceY, button_size);
+            spaceX += button_size;
+        }
 
 
     }
 
 
-    public void addGLKeyboardListener(GLKeyboardListener glKeyboardListener) {
-        this.eventListenerList.add(glKeyboardListener);
+    public void addGLNumericPadListener(GLNumericPadListener glNumericPadListener) {
+        this.eventListenerList.add(glNumericPadListener);
     }
 
 
@@ -94,11 +104,11 @@ private static final char SPACE=' ';
                 //comme ce texte est censé être seulement une lettre, je ne garde que cette
                 //lettre en char et j'appelle le onClick pour avertir
                 //tous les listeners avec la lettre en paramètre.
-                Keyboard.this.onClick(button_Value.charAt(0));
+                GLNumericPad.this.onClick(button_Value.charAt(0));
             }
 
             public void onLongClick() {
-                Log.e("debug", "Longclick");
+                //Nothing to do
             }
 
         });
@@ -110,27 +120,21 @@ private static final char SPACE=' ';
     }
 
 
-    private void addSpace(float spaceX, float spaceY, float buttonSize) {
+    private void addOkButton(float spaceX, float spaceY, float buttonSize) {
 
-        ButtonWithText bt = new ButtonWithText(spaceX, spaceY, buttonSize*5, buttonSize, this.mTextureUP, this.mTextureDown, this.mGlFont);
-        bt.setText("espace");
+        ButtonWithText bt = new ButtonWithText(spaceX, spaceY, buttonSize*3, buttonSize, this.mTextureUP, this.mTextureDown, this.mGlFont);
+        bt.setText("OK");
 
         //ajout d'un listener sur le bouton
         bt.addGLButtonListener(new GLButtonListener() {
             @Override
             public void onClick(Bundle bundle) {
 
-                //je récupère le texte du bouton qui est présent dans le Bundle
-                String button_Value = bundle.getString(ButtonWithText.TEXT_VALUE);
-
-                //comme ce texte est censé être seulement une lettre, je ne garde que cette
-                //lettre en char et j'appelle le onClick pour avertir
-                //tous les listeners avec la lettre en paramètre.
-                Keyboard.this.onClick(SPACE);
+                GLNumericPad.this.onClickOk();
             }
 
             public void onLongClick() {
-                Log.e("debug", "Longclick");
+                //Nothing to do
             }
 
         });
@@ -143,15 +147,54 @@ private static final char SPACE=' ';
 
 
 
+    private void addClearButton(float spaceX, float spaceY, float buttonSize) {
+
+        ButtonWithText bt = new ButtonWithText(spaceX, spaceY, buttonSize , buttonSize, this.mTextureUP, this.mTextureDown, this.mGlFont);
+        bt.setText("C");
+
+        //ajout d'un listener sur le bouton
+        bt.addGLButtonListener(new GLButtonListener() {
+            @Override
+            public void onClick(Bundle bundle) {
+
+                GLNumericPad.this.onClickClear();;
+            }
+
+            public void onLongClick() {
+                //Nothing to do
+            }
+
+        });
+
+
+        this.add(bt);
+
+
+    }
+
     /**
      * pour tous les objets qui écoutent le onClick(), on leur passe
      * l'info
      */
     public void onClick(char value) {
-        for (GLKeyboardListener listener : eventListenerList) {
+        for (GLNumericPadListener listener : eventListenerList) {
             Bundle bundle = new Bundle();
-            bundle.putChar(Keyboard.KEYPRESSED, value);
+            bundle.putChar(GLNumericPad.KEY_PRESSED, value);
             listener.onClick(bundle);
+
+        }
+    }
+
+    public void onClickOk() {
+        for (GLNumericPadListener listener : eventListenerList) {
+            listener.onClickOk();
+
+        }
+    }
+
+    public void onClickClear() {
+        for (GLNumericPadListener listener : eventListenerList) {
+            listener.onClickClear();
 
         }
     }

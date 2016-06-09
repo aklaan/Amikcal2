@@ -39,6 +39,7 @@ public class GlString extends GroupOfGameObject implements Composition {
 
     public void setFontSize(float mFontSize) {
         this.mFontSize = mFontSize;
+        updateGlchar();
     }
 
     //on redéfini l'obtention de la hauteur de la chaine

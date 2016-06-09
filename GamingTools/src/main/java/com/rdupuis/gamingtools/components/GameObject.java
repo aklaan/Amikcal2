@@ -1,5 +1,7 @@
 package com.rdupuis.gamingtools.components;
 
+import android.util.Log;
+
 import com.rdupuis.gamingtools.components.shapes.Shape;
 
 import java.util.ArrayList;
@@ -9,6 +11,17 @@ public class GameObject implements Composition {
 
     //Tag de l'objet
     private String mTagName;
+
+    //Id de l'objet dans la scène
+    private long mIdOnScene;
+
+    public long getIdOnScene() {
+        return mIdOnScene;
+    }
+
+    public void setIdOnScene(Scene scene) {
+        this.mIdOnScene = scene.generateGameObjectId();
+    }
 
     //top pour activer/désactiver le rendu de l'objet
     public Boolean mVisibility;
@@ -32,6 +45,8 @@ public class GameObject implements Composition {
     //liste des objets à écouter
     public ArrayList<Shape> mShapeToListenList;
 
+    private float angleRADX = 0.0f;
+
     public float getAngleRADX() {
         return angleRADX;
     }
@@ -40,7 +55,7 @@ public class GameObject implements Composition {
         this.angleRADX = angleRADX;
     }
 
-    private float angleRADX = 0.0f;
+    private float angleRADY = 0.0f;
 
     public float getAngleRADY() {
         return angleRADY;
@@ -50,7 +65,7 @@ public class GameObject implements Composition {
         this.angleRADY = angleRADY;
     }
 
-    private float angleRADY = 0.0f;
+    private float angleRADZ = 0.0f;
 
     public float getAngleRADZ() {
         return angleRADZ;
@@ -60,7 +75,6 @@ public class GameObject implements Composition {
         this.angleRADZ = angleRADZ;
     }
 
-    private float angleRADZ = 0.0f;
 
 
     /******************************************************************

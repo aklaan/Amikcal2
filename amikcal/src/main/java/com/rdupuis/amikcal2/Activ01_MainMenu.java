@@ -6,14 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemClock;
-import android.widget.TextView;
 
-import com.rdupuis.amikcal2.energy.Act_Food_Editor;
-import com.rdupuis.amikcal2.scenes.Scene00_SplashScreen;
 import com.rdupuis.amikcal2.scenes.Scene01_MainMenu;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
-import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 
 
 /**
@@ -49,7 +44,7 @@ import com.rdupuis.gamingtools.components.keyboard.Keyboard;
  * overlay on top of the current content.
  * </p>
  */
-public class MainMenu extends OpenGLActivity {
+public class Activ01_MainMenu extends OpenGLActivity {
 
 	public static final int LAUNCH_XX = 1;
 	
@@ -71,7 +66,7 @@ public class MainMenu extends OpenGLActivity {
 		//thread pour pouvoir effectuer des actions dans cette scène.
 		//notamemnt, la mise à jour des View (textView...etc..)
 		//car seul le Thread de la scène peu mettre à jour les vue de la scène
-		mHandler = new Handler(Looper.getMainLooper()) {
+		setHandler(new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(Message inputMessage) {
 				// Gets the image task from the incoming Message object.
@@ -91,7 +86,7 @@ public class MainMenu extends OpenGLActivity {
 				}
 
 			}
-		};
+		});
 
 	}
 
@@ -99,7 +94,7 @@ public class MainMenu extends OpenGLActivity {
 
 	private void callMenu() {
 		Intent intent = new Intent(this,
-				MainActivity.class);
+				Activ02_EditUser.class);
 		if (intent.resolveActivity(getPackageManager()) != null) {
 			startActivity(intent);
 		}

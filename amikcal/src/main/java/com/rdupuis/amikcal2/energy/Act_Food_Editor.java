@@ -26,7 +26,7 @@ import com.rdupuis.amikcal2.unity.Unity;
 import com.rdupuis.amikcal2.unity.Unity_Manager;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
-import com.rdupuis.gamingtools.components.keyboard.Keyboard;
+import com.rdupuis.gamingtools.components.keyboard.GLKeyboard;
 
 import java.util.ArrayList;
 
@@ -116,7 +116,7 @@ public class Act_Food_Editor extends OpenGLActivity {
         //thread pour pouvoir effectuer des actions dans cette scène.
         //notamemnt, la mise à jour des View (textView...etc..)
         //car seul le Thread de la scène peu mettre à jour les vue de la scène
-        mHandler = new Handler(Looper.getMainLooper()) {
+        setHandler(new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
                 // Gets the image task from the incoming Message object.
@@ -128,7 +128,7 @@ public class Act_Food_Editor extends OpenGLActivity {
 
                         TextView tv = (TextView)findViewById(R.id.energyview_edTxt_energy_name);
                         String current_text = tv.getText().toString();
-                        char c = inputMessage.getData().getChar(Keyboard.KEYPRESSED);
+                        char c = inputMessage.getData().getChar(GLKeyboard.KEYPRESSED);
 
                         tv.setText(tv.getText()+String.valueOf(c));
 
@@ -140,7 +140,7 @@ public class Act_Food_Editor extends OpenGLActivity {
                 }
 
             }
-        };
+        });
 
     }
 

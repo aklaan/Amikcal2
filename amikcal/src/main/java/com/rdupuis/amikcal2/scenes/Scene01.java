@@ -16,7 +16,7 @@ import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.keyboard.GLKeyboardListener;
 import com.rdupuis.gamingtools.components.fonts.FontConsolas;
-import com.rdupuis.gamingtools.components.keyboard.Keyboard;
+import com.rdupuis.gamingtools.components.keyboard.GLKeyboard;
 import com.rdupuis.gamingtools.components.fonts.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.enums.DrawingMode;
@@ -62,13 +62,13 @@ public class Scene01 extends Scene {
 
         //-------------------------------------------------
 
-        Keyboard keyboard = new Keyboard(0, 300, this.getWidth(), 400
+        GLKeyboard GLKeyboard = new GLKeyboard(0, 300, this.getWidth(), 400
                 , this.getTexManager().getTextureById(R.string.texture_bouton_bleu)
                 , this.getTexManager().getTextureById(R.string.texture_bouton_rouge)
                 , new FontConsolas());
-        keyboard.setTagName(TAG_KEYBOARD);
+        GLKeyboard.setTagName(TAG_KEYBOARD);
 
-        this.addToScene(keyboard);
+        this.addToScene(GLKeyboard);
 
         GlString testGlString = new GlString(new FontConsolas());
         testGlString.setCoord(10, 900);
@@ -78,13 +78,13 @@ public class Scene01 extends Scene {
 
         //TODO : il faut que la texBox écoute le clavier pour se mettre à jour
 
-        keyboard.addGLKeyboardListener(new GLKeyboardListener() {
+        GLKeyboard.addGLKeyboardListener(new GLKeyboardListener() {
             @Override
             public void onClick(Bundle bundle) {
                 Act_Food_Editor activity = (Act_Food_Editor) Scene01.this.getActivity();
 
                 Message completeMessage =
-                        activity.mHandler.obtainMessage(activity.GET_KEYPRESSED);
+                        activity.getHandler().obtainMessage(activity.GET_KEYPRESSED);
 
                 completeMessage.setData(bundle);
                 completeMessage.sendToTarget();
@@ -132,7 +132,7 @@ public class Scene01 extends Scene {
                 // dont il a la gestion
 
                 Message completeMessage =
-                        activity.mHandler.obtainMessage();
+                        activity.getHandler().obtainMessage();
 
                 //sendToTarget va actionner la fonction handleMessage du Handle géré par Mainactivity
                 // ici mon message n'est pas transféré via cette technique
@@ -193,7 +193,7 @@ public class Scene01 extends Scene {
                 // dont il a la gestion
 
                 Message completeMessage =
-                        activity.mHandler.obtainMessage(activity.GET_KEYPRESSED);
+                        activity.getHandler().obtainMessage(activity.GET_KEYPRESSED);
 
                 //sendToTarget va actionner la fonction handleMessage du Handle géré par Mainactivity
                 // ici mon message n'est pas transféré via cette technique

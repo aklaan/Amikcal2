@@ -3,6 +3,8 @@ package com.rdupuis.gamingtools.components;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Bundle;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 
@@ -28,8 +30,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class Scene implements GLSurfaceView.Renderer {
+
+    public static final String BUNDLE_FPS_VALUE = "BUNDLE_FPS";
+    private long startDrawingTime = 0;
+    private long startFpsTimeCounting=0;
     public enum VIEW_MODE {ORTHO, CAMERA}
 
+    private long gameObjectIdCounter=0;
     public final static String TAG_ERROR = "CRITICAL ERROR";
 
     private VIEW_MODE mViewMode;
@@ -175,7 +182,10 @@ public class Scene implements GLSurfaceView.Renderer {
 
     }
 
-
+public long generateGameObjectId(){
+    this.gameObjectIdCounter++;
+    return this.gameObjectIdCounter;
+}
     /**
      * on préchage les éléménts qui ne nécéssitent pas d'avoir un contexte openGl
      * de créé.
@@ -237,7 +247,7 @@ public class Scene implements GLSurfaceView.Renderer {
         // on défini la couleur de base pour initialiser le BUFFER de rendu
         // a chaque Frame, lorsque l'on fera un appel GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         // on va remplir le back buffer avec la couleur pré-définie ici
-        GLES20.glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Activattion de la gestion de l'Alpha
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -329,6 +339,21 @@ public class Scene implements GLSurfaceView.Renderer {
         /*********************************************************************************
          * Début du cycle de rendu
          ********************************************************************************/
+        //on incrémente le compteur de frame traité
+        frameCounter += 1;
+
+        if ((startFpsTimeCounting-SystemClock.elapsedRealtime() ) < -1000) {
+            Message completeMessage =
+                    this.getActivity().getFpsHandler().obtainMessage(OpenGLActivity.UPDATE_FPS);
+            Bundle bundle = new Bundle();
+            bundle.putInt(Scene.BUNDLE_FPS_VALUE, frameCounter);
+            completeMessage.setData(bundle);
+            completeMessage.sendToTarget();
+            startFpsTimeCounting = SystemClock.elapsedRealtime();
+            frameCounter = 0;
+        }
+
+
         //on mémorise le moment où on commence le cycle
         float startDrawingTime = SystemClock.currentThreadTimeMillis();
 
@@ -360,6 +385,7 @@ public class Scene implements GLSurfaceView.Renderer {
          * du coup tout le monde est en colision.
          * pour éviter le problème, on ne chek pas les colissions sur la première Frame
          */
+
         //on check les colissions toustes les 4 frames pour économiser de la CPU
         if (frameCounter == 0 || frameCounter > 0) {
             this.getColliderManager().updateCollisionsList();
@@ -441,7 +467,6 @@ public class Scene implements GLSurfaceView.Renderer {
      * @param gameobject
      */
     public void addToScene(GameObject gameobject) {
-        gameobject.setScene(this);
         this.getGOManager().add(gameobject);
 
     }

@@ -1,6 +1,6 @@
     <char id="0" x="2029" y="0" width="0" height="1" xoffset="0" yoffset="298" xadvance="140" page="0" chnl="15" />
     <char id="13" x="2028" y="0" width="0" height="1" xoffset="0" yoffset="298" xadvance="0" page="0" chnl="15" />
-    <char id="32" x="2027" y="0" width="0" height="1" xoffset="0" yoffset="298" xadvance="140" page="0" chnl="15" />
+    <char id="32" x="2027" y="0" width="5" height="1" xoffset="0" yoffset="298" xadvance="140" page="0" chnl="15" />
     <char id="33" x="1990" y="0" width="35" height="181" xoffset="53" yoffset="57" xadvance="140" page="0" chnl="15" />
     <char id="34" x="1040" y="1647" width="78" height="61" xoffset="31" yoffset="57" xadvance="140" page="0" chnl="15" />
     <char id="35" x="1147" y="1182" width="132" height="165" xoffset="4" yoffset="71" xadvance="140" page="0" chnl="15" />

@@ -7,15 +7,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-import android.widget.TextView;
 
-import com.rdupuis.amikcal2.energy.Act_Food_Editor;
-import com.rdupuis.amikcal2.equivalence.Act_EquivalenceList;
 import com.rdupuis.amikcal2.scenes.Scene00_SplashScreen;
-import com.rdupuis.amikcal2.scenes.Scene01_MainMenu;
-import com.rdupuis.gamingtools.components.MySurfaceView;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
-import com.rdupuis.gamingtools.components.keyboard.Keyboard;
 
 
 /**
@@ -51,7 +45,7 @@ import com.rdupuis.gamingtools.components.keyboard.Keyboard;
  * overlay on top of the current content.
  * </p>
  */
-public class MainActivity2 extends OpenGLActivity {
+public class Activ00_Splashscreen extends OpenGLActivity {
 
 
     public final static int CALL_MAIN_MENU = 1;
@@ -72,7 +66,7 @@ public class MainActivity2 extends OpenGLActivity {
                 //dans x secondes, je vais envoyer un message à cette activité pour
                 //lui demander le menu principal
                 Message completeMessage =
-                        MainActivity2.this.mHandler.obtainMessage(MainActivity2.CALL_MAIN_MENU);
+                        Activ00_Splashscreen.this.getHandler().obtainMessage(Activ00_Splashscreen.CALL_MAIN_MENU);
                 completeMessage.sendToTarget();
             }
         }).start();
@@ -85,7 +79,7 @@ public class MainActivity2 extends OpenGLActivity {
         //thread pour pouvoir effectuer des actions dans cette scène.
         //notamemnt, la mise à jour des View (textView...etc..)
         //car seul le Thread de la scène peu mettre à jour les vue de la scène
-        mHandler = new Handler(Looper.getMainLooper()) {
+        setHandler(new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message inputMessage) {
                 // Gets the image task from the incoming Message object.
@@ -104,14 +98,14 @@ public class MainActivity2 extends OpenGLActivity {
                 }
 
             }
-        };
+        });
 
     }
 
 
     private void callMenu() {
         Intent intent = new Intent(this,
-                MainMenu.class);
+                Activ01_MainMenu.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }

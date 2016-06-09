@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public interface Composition  {
 
-         ArrayList<Composition> getComponent();
-
+        ArrayList<Composition> getComponent();
+        long getIdOnScene();
 
         }

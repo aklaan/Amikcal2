@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
-import com.rdupuis.amikcal2.MainActivity;
-import com.rdupuis.amikcal2.MainMenu;
+import com.rdupuis.amikcal2.Activ01_MainMenu;
 import com.rdupuis.amikcal2.R;
-import com.rdupuis.gamingtools.animations.AnimationFadeOut;
 import com.rdupuis.gamingtools.components.ColorRGBA;
-import com.rdupuis.gamingtools.components.GameObject;
 import com.rdupuis.gamingtools.components.OpenGLActivity;
 import com.rdupuis.gamingtools.components.Scene;
 import com.rdupuis.gamingtools.components.button.ButtonWithText;
 import com.rdupuis.gamingtools.components.button.GLButtonListener;
 import com.rdupuis.gamingtools.components.fonts.FontConsolas;
-import com.rdupuis.gamingtools.components.fonts.GlString;
 import com.rdupuis.gamingtools.components.shapes.Rectangle2D;
 import com.rdupuis.gamingtools.components.texture.Texture;
 import com.rdupuis.gamingtools.enums.DrawingMode;
@@ -95,7 +91,7 @@ public class Scene01_MainMenu extends Scene {
                 // dont il a la gestion
 
                 Message completeMessage =
-                        Scene01_MainMenu.this.getActivity().mHandler.obtainMessage(MainMenu.LAUNCH_XX);
+                        Scene01_MainMenu.this.getActivity().getHandler().obtainMessage(Activ01_MainMenu.LAUNCH_XX);
 
                 //sendToTarget va actionner la fonction handleMessage du Handle géré par l'activity
                 completeMessage.sendToTarget();

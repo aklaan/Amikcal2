@@ -104,9 +104,13 @@ public class GameObjectManager {
         return componentsList;
     }
 
-    //
-
+    /**
+     * Ajouter un GameObject dans la liste des éléments de la scène
+     * @param gameObject
+     */
     public void add(GameObject gameObject) {
+        gameObject.setScene(this.getScene());
+        gameObject.setIdOnScene(this.getScene());
         this.mGameObjectList.add(gameObject);
     }
 
@@ -209,6 +213,23 @@ public class GameObjectManager {
         return result;
     }
 
+
+    /**
+     *
+     * @param idOnScene
+     * @return
+     */
+
+    public GameObject getGameObjectById(Long idOnScene) {
+        GameObject result = null;
+        for (GameObject gameObject : this.getGameObjects()) {
+            if (gameObject.getIdOnScene() == idOnScene) {
+                result = (GameObject) gameObject;
+            }
+
+        }
+        return result;
+    }
     /**
      * initialisation du contexte OpenGL : on va charger les objets dans la mémoire graphique
      */

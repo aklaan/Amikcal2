@@ -18,10 +18,10 @@
         android:allowBackup="true"
         android:icon="@drawable/logo_amikcal"
         android:label="@string/app_name"
-      android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
+      android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
 
         <activity
-            android:name="MainActivity2"
+            android:name=".Activ00_Splashscreen"
             android:label="@string/app_name"
             android:launchMode="standard"
             android:screenOrientation = "landscape">
@@ -37,6 +37,7 @@
         </activity>
         <activity android:name="com.rdupuis.amikcal2.MainActivity" >
         </activity>
+        <activity android:name=".Activ02_EditUser"></activity>
         <activity android:name="com.rdupuis.amikcal2.commons.numericpad.Act_NumericPad" >
         </activity>
         <activity android:name="com.rdupuis.amikcal2.commons.numericpad.Frag_NumericPad" >
@@ -73,7 +74,7 @@
         <activity android:name="com.rdupuis.amikcal2.opengl.testOpenGl2es" >
         </activity>
 
-        <activity android:name="com.rdupuis.amikcal2.MainMenu" >
+        <activity android:name=".Activ01_MainMenu" >
         </activity>
 
         <provider

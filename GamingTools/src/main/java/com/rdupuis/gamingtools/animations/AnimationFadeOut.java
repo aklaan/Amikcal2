@@ -6,12 +6,12 @@ public class AnimationFadeOut extends Animation {
 
     public AnimationFadeOut(GameObject animatedGameObject) {
         super(animatedGameObject);
-        start();
+        launch();
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void launch() {
+        super.launch();
         this.setStatus(AnimationStatus.PLAYING);
         this.setSpeed(0.01f);
 

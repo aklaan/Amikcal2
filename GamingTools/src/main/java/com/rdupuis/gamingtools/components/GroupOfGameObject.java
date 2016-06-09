@@ -1,5 +1,7 @@
 package com.rdupuis.gamingtools.components;
 
+import android.util.Log;
+
 import com.rdupuis.gamingtools.components.shapes.Shape;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class GroupOfGameObject extends GameObject implements Composition {
     private ArrayList<Composition> mList;
 
     public void add(GameObject gameObject) {
-        this.mList.add(gameObject);
+          this.mList.add(gameObject);
     }
 
     public void add(int index, GameObject gameObject) {
@@ -56,10 +58,19 @@ public class GroupOfGameObject extends GameObject implements Composition {
         super.setY(y);
     }
 
+    @Override
+    public void setAngleRADZ(float radz) {
+        float offsetRadZ = radz - this.getAngleRADZ();
+        this.updateAngleZ(offsetRadZ);
+        super.setY(radz);
+    }
+
+
+    @Override
     public void setAlpha(float alpha) {
         float ratio = alpha / getAlpha();
         this.updateAlpha(ratio);
-        this.getAmbiantColor().setAlpha(alpha);
+        super.setAlpha(alpha);
     }
 
     @Override
@@ -81,6 +92,17 @@ public class GroupOfGameObject extends GameObject implements Composition {
         return result;
     }
 
+
+    @Override
+    public void setIdOnScene(Scene scene){
+       //on met à jour l'ID de l'objet "Groupe"
+        super.setIdOnScene(scene);
+        //on met à jour les ID des composants
+               for (GameObject gameObject : this.getGameObjectsList()) {
+            gameObject.setIdOnScene(scene);
+
+        }
+    }
     /**
      * public void setShapeList(ArrayList<Component> shapeList) {
      * this.mShapeList = shapeList;
@@ -142,6 +164,17 @@ public class GroupOfGameObject extends GameObject implements Composition {
         }
     }
 
+
+    public void updateAngleZ(float offsetRadZ) {
+        //TODO pur chaque objet on applique le ratio necessaire
+
+        for (GameObject gameObject : this.getGameObjectsList()) {
+            float radZ = gameObject.getAngleRADZ() + offsetRadZ;
+            gameObject.setAngleRADZ(radZ);
+        }
+    }
+
+
     public void updateWidth(float ratio) {
         //TODO pur chaque objet on applique le ratio necessaire
 
@@ -161,9 +194,12 @@ public class GroupOfGameObject extends GameObject implements Composition {
 
     public void updateAlpha(float ratio) {
         //TODO pur chaque objet on applique le ratio necessaire
+        //     Log.e("GrpOfGameobj:updAlpha:", String.valueOf(ratio));
         for (GameObject gameObject : this.getGameObjectsList()) {
             float newAlpha = gameObject.getAlpha() * ratio;
+            //       Log.e("GrpOfGameobj:getAlpha:", String.valueOf(gameObject.getAlpha()));
             gameObject.setAlpha(newAlpha);
+
         }
     }
 
@@ -201,4 +237,20 @@ public class GroupOfGameObject extends GameObject implements Composition {
     }
 
 
+    public Composition getComponentById(Long searchedId) {
+
+        Composition result = null;
+
+        for (Composition composition : this.mList) {
+
+            if (composition.getIdOnScene() == searchedId) {
+                result = composition;
+            }
+        }
+        return result;
+
+
+    }
 }
+
+

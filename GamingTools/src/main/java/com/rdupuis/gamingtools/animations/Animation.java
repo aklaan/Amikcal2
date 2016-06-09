@@ -7,9 +7,38 @@ import android.os.SystemClock;
 
 public abstract class Animation implements Cloneable {
 
-    float startTime;
-    float endTime;
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    long startTime;
+    long endTime;
+
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    private long elapsedTime;
     private float speed;
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    //durée de l'animation en ms
+    private long duration;
 
     public static enum playingMode {
         NONE, ONCE, REPEAT_N, LOOP
@@ -63,9 +92,9 @@ public abstract class Animation implements Cloneable {
 
     }
 
-    public void start() {
+    public void launch() {
         if (this.status != AnimationStatus.PLAYING) {
-            startTime = SystemClock.elapsedRealtime();
+            startTime = -1;
             this.status = AnimationStatus.PLAYING;
         }
     }
@@ -73,6 +102,7 @@ public abstract class Animation implements Cloneable {
     public void stop() {
         this.status = AnimationStatus.STOPPED;
         endTime = SystemClock.elapsedRealtime();
+        startTime = -1;
     }
 
     public void play() {

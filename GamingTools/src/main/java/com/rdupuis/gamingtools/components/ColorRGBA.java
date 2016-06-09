@@ -71,7 +71,10 @@ public class ColorRGBA {
 
     private float checkValue(float colorValue) {
         colorValue = (colorValue > 1) ? 1f : colorValue;
-        colorValue = (colorValue < 0) ? 0f : colorValue;
+        //je force l'alpha à une valeur très petite pour éviter d'avoir zéro.
+        //sinon ça risque de poser problème de division par zéro dans les ratio de
+        //group og gameobject
+        colorValue = (colorValue <= 0) ? 0.0001f : colorValue;
 
         return colorValue;
     }
