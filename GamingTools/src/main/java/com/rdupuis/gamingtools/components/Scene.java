@@ -340,7 +340,7 @@ public long generateGameObjectId(){
          * Début du cycle de rendu
          ********************************************************************************/
         //on incrémente le compteur de frame traité
-        frameCounter += 1;
+        frameCounter ++;
 
         if ((startFpsTimeCounting-SystemClock.elapsedRealtime() ) < -1000) {
             Message completeMessage =
@@ -350,7 +350,7 @@ public long generateGameObjectId(){
             completeMessage.setData(bundle);
             completeMessage.sendToTarget();
             startFpsTimeCounting = SystemClock.elapsedRealtime();
-            frameCounter = 0;
+           frameCounter = 0;
         }
 
 
@@ -387,11 +387,11 @@ public long generateGameObjectId(){
          */
 
         //on check les colissions toustes les 4 frames pour économiser de la CPU
-        if (frameCounter == 0 || frameCounter > 0) {
+        //if (frameCounter == 0 || frameCounter > 0) {
             this.getColliderManager().updateCollisionsList();
-            frameCounter = 0;
-        }
-        frameCounter++;
+        //    frameCounter = 0;
+        //}
+      //frameCounter++;
 
         /** Mise à jour des objets*/
         this.getGOManager().update();
@@ -416,8 +416,8 @@ public long generateGameObjectId(){
 
         //Si le temps de rendu est inférieur à 1/60 de seconde
         //on attend le temps restant à faire pour atteindre les 60 FPS
-        if (drawTimeElaps < (1000 / 60)) {
-            SystemClock.sleep((long) ((1000 / 60) - drawTimeElaps));
+        if (drawTimeElaps < (16)) {
+            SystemClock.sleep((long) ((16) - drawTimeElaps));
         }
 
         /**
